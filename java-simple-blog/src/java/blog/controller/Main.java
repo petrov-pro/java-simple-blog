@@ -35,7 +35,11 @@ public class Main extends HttpServlet {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String servletPath = request.getServletPath();
+		if (servletPath.equals("/")) {
+			servletPath = "Main";
+		}
 		String path = "blog.model.";
+
 
 		String class_name = Url.normalizeUrl(servletPath);
 		String class_name_path = path + class_name;
@@ -57,7 +61,7 @@ public class Main extends HttpServlet {
 		ModelIntf base = (ModelIntf) obj;
 		response.setContentType("text/html;charset=UTF-8");
 		request.setAttribute("Data", base.getData());
-		request.getRequestDispatcher("/WEB-INF/views/" + base.getView() + ".jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/template.jsp").forward(request, response);
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -22,7 +22,7 @@ public class Article extends Model implements ModelIntf {
 
 	@Override
 	public String getView() {
-		return "/article/article";
+		return "../views/article/article.jsp";
 	}
 	
 	@Override
