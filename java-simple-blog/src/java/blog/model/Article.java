@@ -11,6 +11,7 @@ import blog.system.Model;
  *
  * @author petroff
  */
+
 public class Article extends Model {
 
     public Article() {
