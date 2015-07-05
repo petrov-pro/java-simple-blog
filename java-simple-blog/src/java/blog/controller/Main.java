@@ -4,16 +4,17 @@
  */
 package blog.controller;
 
-import blog.model.Url;
+import blog.tools.Url;
 import blog.system.intf.ModelIntf;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -53,8 +54,10 @@ public class Main extends HttpServlet {
 		} catch (IllegalAccessException il) {
 			return;
 		}
-
+                HttpSession session = request.getSession();
 		ModelIntf base = (ModelIntf) obj;
+         
+                base.init(request);
 		response.setContentType("text/html;charset=UTF-8");
 		request.setAttribute("Data", base.getData());
 		request.getRequestDispatcher("/WEB-INF/views/" + base.getView() + ".jsp").forward(request, response);

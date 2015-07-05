@@ -1,18 +1,24 @@
-<%-- 
-    Document   : article
-    Created on : May 29, 2015, 11:06:39 AM
-    Author     : petroff
---%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>HW!!</h1>
-		${Data.getView()}
-    </body>
-</html>
+<t:template title="My page">
+    
+    <jsp:attribute name="navigator_area">
+      <t:navigator navigator="${Data.getNavigator()}"/> 
+    </jsp:attribute>
+
+    <jsp:attribute name="head_area">
+        
+        <script>
+            function hello() {
+                alert("Hello World");
+            }
+        </script>
+    </jsp:attribute>
+
+    <jsp:attribute name="body_area">
+        <div>
+            <button onclick="hello();">${Data.getView()}</button>
+        </div>
+    </jsp:attribute>
+
+</t:template>

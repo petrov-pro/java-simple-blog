@@ -4,12 +4,34 @@
  */
 package blog.system;
 
+import blog.tools.Navigator;
+import blog.system.intf.ModelIntf;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  *
  * @author petroff
  */
-public class Model {
-	
-	
-	
+public abstract class Model implements ModelIntf {
+
+    public Navigator navigator;
+
+    public HttpServletRequest request;
+
+    public ResourceBundle bundle;
+
+    @Override
+    public void setNavigator(Navigator navigator) {
+        this.navigator = navigator;
+    }
+
+    @Override
+    public void init(HttpServletRequest r) {
+        this.request = r;
+        Locale locale = this.request.getLocale();
+        this.bundle = ResourceBundle.getBundle("blog.messages.messages", locale);
+    }
+
 }

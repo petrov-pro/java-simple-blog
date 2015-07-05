@@ -4,29 +4,38 @@
  */
 package blog.model;
 
+import blog.tools.Navigator;
 import blog.system.Model;
-import blog.system.intf.ModelIntf;
 
 /**
  *
  * @author petroff
  */
-public class Article extends Model implements ModelIntf {
+public class Article extends Model {
 
-	public Article() {
-	}
+    public Article() {
+        Navigator nav = new Navigator();
+        super.setNavigator(nav);
+    }
 
-	public String getArticle() {
-		return "Article";
-	}
+    public String getArticle() {
+        return "Article";
+    }
 
-	@Override
-	public String getView() {
-		return "/article/article";
-	}
-	
-	@Override
-	public Article getData(){
-		return this;
-	}
+    @Override
+    public String getView() {
+        return "/article/article";
+    }
+
+    @Override
+    public Article getData() {
+        
+        return this;
+    }
+
+    @Override
+    public Navigator getNavigator() {
+        return this.navigator;
+    }
+
 }
