@@ -4,31 +4,38 @@
  */
 package blog.dao;
 
-import blog.dao.impl.*;
+import java.sql.Connection;
+import javax.servlet.ServletContext;
 
 /**
  *
  * @author petroff
  */
 public class DaoFactory {
-	
-	static final String implPath = "blog.dao.impl.";
 
-	public static Object getDao(String class_name) {
-		
+    private static final String implPath = "blog.dao.impl.";
+    private static Connection connection;
 
-		Class c = null;
-		try {
-			c = Class.forName(implPath + class_name);
-		} catch (ClassNotFoundException cN) {
-		}
-		Object obj = null;
-		try {
-			obj = c.newInstance();
-		} catch (InstantiationException ie) {
-		} catch (IllegalAccessException il) {
-		}
-		return obj;
+    public static void setConnection(ServletContext context) {
+        connection = (Connection) context.getAttribute("db_connection");
+    }
 
-	}
+    public static DaoGeneric getDao(String class_name) {
+
+        Class c = null;
+        try {
+            c = Class.forName(implPath + class_name);
+        } catch (ClassNotFoundException cN) {
+        }
+        Object obj = null;
+        try {
+            obj = c.newInstance();
+        } catch (InstantiationException ie) {
+        } catch (IllegalAccessException il) {
+        }
+        DaoGeneric DG = (DaoGeneric) obj;
+        DG.setConnection(connection);
+        return DG;
+
+    }
 }

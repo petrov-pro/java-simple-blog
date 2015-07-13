@@ -13,7 +13,9 @@
     </head>
     <body>
         <jsp:invoke fragment="navigator_area"/>
-        
+
         <jsp:invoke fragment="body_area"/>
+
     </body>
+
 </html>

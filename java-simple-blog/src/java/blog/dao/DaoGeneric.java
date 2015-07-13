@@ -6,6 +6,7 @@
 package blog.dao;
 
 import blog.system.exception.PersistException;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -14,7 +15,9 @@ import java.util.List;
  */
 public interface DaoGeneric<T> {
 
-	public T findByPk(int id) throws PersistException;
+    public T findByPk(int id) throws PersistException;
 
-	public List<T> findAll() throws PersistException;
+    public List<T> findAll() throws PersistException;
+
+    public void setConnection(Connection connection);
 }
