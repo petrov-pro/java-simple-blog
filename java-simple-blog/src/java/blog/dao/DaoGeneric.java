@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.system.intf;
+package blog.dao;
 
 import blog.system.exception.PersistException;
+import java.util.List;
 
 /**
  *
@@ -13,6 +14,7 @@ import blog.system.exception.PersistException;
  */
 public interface DaoGeneric<T> {
 
-    public T findByPk(int id) throws PersistException ;
+	public T findByPk(int id) throws PersistException;
 
+	public List<T> findAll() throws PersistException;
 }

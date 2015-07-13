@@ -5,7 +5,7 @@
 package blog.controller;
 
 import blog.tools.Url;
-import blog.system.intf.ModelIntf;
+import blog.system.ModelIntf;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -22,6 +22,8 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "Main", loadOnStartup = 1, urlPatterns = {"/"})
 public class Main extends HttpServlet {
+	
+	final String modelPrefix = "Model";
 
 	/**
 	 * Processes requests for both HTTP
@@ -43,7 +45,7 @@ public class Main extends HttpServlet {
 
 
 		String class_name = Url.normalizeUrl(servletPath);
-		String class_name_path = path + class_name;
+		String class_name_path = path + class_name + modelPrefix;
 		Class c;
 		try {
 			c = Class.forName(class_name_path);

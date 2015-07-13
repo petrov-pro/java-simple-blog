@@ -5,7 +5,6 @@
 package blog.system;
 
 import blog.tools.Navigator;
-import blog.system.intf.ModelIntf;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
