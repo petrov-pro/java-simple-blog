@@ -58,7 +58,7 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
         } catch (Exception e) {
             throw new PersistException(e);
         }
-        if (list == null || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         return list;

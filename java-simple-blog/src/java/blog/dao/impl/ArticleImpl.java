@@ -20,7 +20,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 
 	@Override
 	protected String queryFindAll() throws PersistException {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return "SELECT * FROM blogj.article;";
 	}
 
 	@Override

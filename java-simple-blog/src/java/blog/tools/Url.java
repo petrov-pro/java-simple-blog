@@ -14,7 +14,7 @@ public class Url {
 
     static public String normalizeUrl(String input) {
         if (!input.equals("")) {
-            input = input.substring(0, 0) + input.substring(1);
+            //input = input.substring(0, 0) + input.substring(1);
             String output = "";//все слова с заглавной буквы.
             String[] words = input.split(" ");//разделяем на массив из слов
             for (String word : words) {

@@ -9,6 +9,8 @@ import blog.dao.impl.ArticleImpl;
 import blog.entity.Article;
 import blog.tools.Navigator;
 import blog.system.Model;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,36 +19,52 @@ import blog.system.Model;
 //test
 public class ArticleModel extends Model {
 
-    private Article article;
+	private Article article;
+	private List<Article> articles;
 
-    public ArticleModel() {
-        Navigator nav = new Navigator();
-        super.setNavigator(nav);
-    }
+	public ArticleModel() {
+		Navigator nav = new Navigator();
+		super.setNavigator(nav);
+	}
 
-    public Article getArticle() {
-        return article;
-    }
+	public Article getArticle() {
+		return article;
+	}
 
-    @Override
-    public String getView() {
-        return "/article/article.jsp";
-    }
+	@Override
+	public String getView() {
+		return "/article/article.jsp";
+	}
 
-    @Override
-    public ArticleModel getData() {
-        ArticleImpl a = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-        try {
-            article = a.findByPk(1);
-        } catch (Exception e) {
-            System.out.print("Error");
-        }
+	@Override
+	public ArticleModel getData() {
+		ArticleImpl a = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		try {
+			article = a.findByPk(1);
+		} catch (Exception e) {
+			System.out.print("Error");
+		}
 
-        return this;
-    }
 
-    @Override
-    public Navigator getNavigator() {
-        return this.navigator;
-    }
+		try {
+			articles = a.findAll();
+		} catch (Exception e) {
+			System.out.print("Error");
+		}
+
+		return this;
+	}
+
+	@Override
+	public Navigator getNavigator() {
+		return this.navigator;
+	}
+
+	public ArticleModel test(String i, String i2) {
+		return this;
+	}
+
+	public ArticleModel test() {
+		return this;
+	}
 }
