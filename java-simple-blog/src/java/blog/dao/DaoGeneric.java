@@ -7,6 +7,8 @@ package blog.dao;
 
 import blog.system.exception.PersistException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -15,9 +17,31 @@ import java.util.List;
  */
 public interface DaoGeneric<T> {
 
-    public T findByPk(int id) throws PersistException;
+	public T findByPk(int id) throws PersistException;
 
-    public List<T> findAll() throws PersistException;
+	public List<T> findAll() throws PersistException;
 
-    public void setConnection(Connection connection);
+	public void setConnection(Connection connection);
+
+	public boolean update(T entity) throws PersistException;
+
+	public int insert(T entity) throws PersistException;
+
+	public boolean delete(int Id) throws PersistException;
+
+	public String queryFindByPk() throws PersistException;
+
+	public String queryFindAll() throws PersistException;
+
+	public String queryUpdate() throws PersistException;
+
+	public String queryInsert() throws PersistException;
+
+	public String queryDelete() throws PersistException;
+
+	public List<T> parseResultSet(ResultSet rs) throws PersistException;
+
+	public void prepareQuery(PreparedStatement statement, int pid) throws PersistException;
+
+	public void prepareQuery(PreparedStatement statement, T entity) throws PersistException;
 }

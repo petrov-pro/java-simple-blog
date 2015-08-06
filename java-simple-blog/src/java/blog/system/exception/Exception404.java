@@ -12,7 +12,7 @@ package blog.system.exception;
 public class Exception404 extends Exception {
 
     public Exception404() {
-		System.out.println("er");
+		System.out.println("error 404");
     }
 
     public Exception404(String message) {

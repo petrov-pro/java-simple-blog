@@ -4,12 +4,9 @@
  */
 package blog.controller;
 
+import blog.entity.Article;
+import blog.model.ArticleModel;
 import blog.system.ControllerImpl;
-import blog.system.exception.Exception404;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -23,6 +20,9 @@ public class ArticleController extends ControllerImpl<ArticleController> {
 
 	@Override
 	public ArticleController index() {
+		ArticleModel AModel = new ArticleModel();
+		AModel = AModel.getData();
+		super.request.setAttribute("Data", AModel);
 		super.getView("/article/article.jsp");
 		return this;
 	}

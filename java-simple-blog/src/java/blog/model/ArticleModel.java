@@ -42,7 +42,7 @@ public class ArticleModel extends Model {
 		try {
 			article = a.findByPk(1);
 		} catch (Exception e) {
-			System.out.print("Error");
+			System.out.print("Error " + e.toString());
 		}
 
 

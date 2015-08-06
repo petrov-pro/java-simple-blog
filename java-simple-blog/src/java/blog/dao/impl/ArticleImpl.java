@@ -19,12 +19,12 @@ import java.util.List;
 public class ArticleImpl extends AbstractDaoImpl<Article> {
 
 	@Override
-	protected String queryFindAll() throws PersistException {
+	public String queryFindAll() throws PersistException {
 		return "SELECT * FROM blogj.article;";
 	}
 
 	@Override
-	protected void prepareQuery(PreparedStatement statement, int pid) throws PersistException {
+	public void prepareQuery(PreparedStatement statement, int pid) throws PersistException {
 		try {
 			statement.setInt(1, pid);
 		} catch (Exception e) {
@@ -33,7 +33,16 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 	}
 
 	@Override
-	protected List<Article> parseResultSet(ResultSet rs) throws PersistException {
+	public void prepareQuery(PreparedStatement statement, Article a) throws PersistException {
+		try {
+			//statement.setInt(1, pid);
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+	}
+
+	@Override
+	public List<Article> parseResultSet(ResultSet rs) throws PersistException {
 		List<Article> listArticles = new ArrayList();
 		Article article = new Article();
 		try {
@@ -50,7 +59,23 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 	}
 
 	@Override
-	protected String queryFindByPk() throws PersistException {
-		return "SELECT * FROM blogj.article WHERE id = ?";
+	public String queryFindByPk() throws PersistException {
+		return "qSELECT * FROM blogj.article WHERE id = ?";
 	}
+
+	@Override
+	public String queryUpdate() throws PersistException {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public String queryInsert() throws PersistException {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public String queryDelete() throws PersistException {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }

@@ -17,56 +17,98 @@ import java.util.List;
  */
 public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
 
-    private Connection connection;
+	private Connection connection;
 
-    protected abstract String queryFindByPk() throws PersistException;
+	@Override
+	public T findByPk(int id) throws PersistException {
+		List<T> list;
+		String sql = queryFindByPk();
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			prepareQuery(statement, id);
+			ResultSet rs = statement.executeQuery();
+			list = parseResultSet(rs);
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+		if (list == null || list.size() == 0) {
+			return null;
+		}
+		if (list.size() > 1) {
+			throw new PersistException("Received more than one record.");
+		}
+		return list.iterator().next();
+	}
 
-    protected abstract String queryFindAll() throws PersistException;
+	@Override
+	public List<T> findAll() throws PersistException {
+		List<T> list;
+		String sql = queryFindAll();
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
-    protected abstract List<T> parseResultSet(ResultSet rs) throws PersistException;
+			ResultSet rs = statement.executeQuery();
+			list = parseResultSet(rs);
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+		if (list == null || list.isEmpty()) {
+			return null;
+		}
+		return list;
+	}
 
-    protected abstract void prepareQuery(PreparedStatement statement, int pid) throws PersistException;
+	@Override
+	public void setConnection(Connection connection) {
+		this.connection = connection;
+	}
 
-    @Override
-    public T findByPk(int id) throws PersistException {
-        List<T> list;
-        String sql = queryFindByPk();
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            prepareQuery(statement, id);
-            ResultSet rs = statement.executeQuery();
-            list = parseResultSet(rs);
-        } catch (Exception e) {
-            throw new PersistException(e);
-        }
-        if (list == null || list.size() == 0) {
-            return null;
-        }
-        if (list.size() > 1) {
-            throw new PersistException("Received more than one record.");
-        }
-        return list.iterator().next();
-    }
+	@Override
+	public boolean update(T entity) throws PersistException {
+		String sql = queryUpdate();
+		int rs;
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			prepareQuery(statement, entity);
+			rs = statement.executeUpdate();
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
 
-    @Override
-    public List<T> findAll() throws PersistException {
-        List<T> list;
-        String sql = queryFindAll();
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		if (rs > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-            ResultSet rs = statement.executeQuery();
-            list = parseResultSet(rs);
-        } catch (Exception e) {
-            throw new PersistException(e);
-        }
-        if (list == null || list.isEmpty()) {
-            return null;
-        }
-        return list;
-    }
+	@Override
+	public int insert(T entity) throws PersistException {
+		String sql = queryInsert();
+		int insert_id;
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			prepareQuery(statement, entity);
+			ResultSet rs = statement.executeQuery();
+			insert_id = rs.getInt(1);
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+		return insert_id;
+	}
 
-    @Override
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
+	@Override
+	public boolean delete(int id) throws PersistException {
+		String sql = queryDelete();
+		int rs;
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			prepareQuery(statement, id);
+			rs = statement.executeUpdate();
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+
+		if (rs > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

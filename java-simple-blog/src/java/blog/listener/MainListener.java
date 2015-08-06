@@ -9,6 +9,7 @@ package blog.listener;
  *
  * @author petroff
  */
+import blog.dao.DaoFactory;
 import blog.tools.DbManager;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -49,6 +50,7 @@ public class MainListener implements ServletRequestListener {
         String DbConnectorName = context.getInitParameter("DbConnectorName");
         Connection dbConnection = DbManager.getConnection(DbConnectorName);
         context.setAttribute("db_connection", dbConnection);
+		DaoFactory.setConnection(context);
     }
 
 }
