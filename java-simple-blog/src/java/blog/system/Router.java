@@ -2,15 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.controller;
+package blog.system;
 
-import blog.system.ControllerIntf;
+import blog.system.annotation.Get;
+import blog.system.annotation.Post;
 import blog.system.exception.Exception404;
 import blog.tools.ParseUrl;
 import blog.tools.ErrorPage;
+import blog.tools.Logger;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,18 +24,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author petroff
  */
-@WebServlet(name = "Main", loadOnStartup = 1, urlPatterns = {"/"})
-public class Main extends HttpServlet {
+
+
+@WebServlet(name = "Router", loadOnStartup = 1, urlPatterns = {"/"})
+public class Router extends HttpServlet {
 
 	protected ErrorPage errorPage;
 	final String modelPrefix = "Controller";
 	final String path = "blog.controller.";
-	final String mainServlet = "Main";
+	final String mainServlet = "Router";
 
 	/**
-	 * Processes requests for both HTTP
-	 * <code>GET</code> and
-	 * <code>POST</code> methods.
+	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+	 * methods.
 	 *
 	 * @param request servlet request
 	 * @param response servlet response
@@ -66,8 +70,15 @@ public class Main extends HttpServlet {
 
 		if (parseUrl.getMethodUrl() != null) {
 			try {
+				Method method_t = c.getMethod("login", null);
 				Method method = c.getMethod(parseUrl.getMethodUrl(), parseUrl.getParamTypesUrl());
-				method.invoke(obj, parseUrl.getParamsUrl());
+				if (method.isAnnotationPresent(Get.class)) {
+					Logger.write("Get");
+				} else if (method.isAnnotationPresent(Post.class)) {
+					Logger.write("Post");
+				} else {
+					method.invoke(obj, parseUrl.getParamsUrl());
+				}
 			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 				throw new Exception404();
 			}
@@ -80,8 +91,7 @@ public class Main extends HttpServlet {
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 	/**
-	 * Handles the HTTP
-	 * <code>GET</code> method.
+	 * Handles the HTTP <code>GET</code> method.
 	 *
 	 * @param request servlet request
 	 * @param response servlet response
@@ -104,8 +114,7 @@ public class Main extends HttpServlet {
 	}
 
 	/**
-	 * Handles the HTTP
-	 * <code>POST</code> method.
+	 * Handles the HTTP <code>POST</code> method.
 	 *
 	 * @param request servlet request
 	 * @param response servlet response

@@ -60,7 +60,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 
 	@Override
 	public String queryFindByPk() throws PersistException {
-		return "qSELECT * FROM blogj.article WHERE id = ?";
+		return "SELECT * FROM blogj.article WHERE id = ?";
 	}
 
 	@Override

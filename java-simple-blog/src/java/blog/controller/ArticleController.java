@@ -21,8 +21,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
 	@Override
 	public ArticleController index() {
 		ArticleModel AModel = new ArticleModel();
-		AModel = AModel.getData();
-		super.request.setAttribute("Data", AModel);
+		super.request.setAttribute("Data", AModel.getData());
 		super.getView("/article/article.jsp");
 		return this;
 	}
