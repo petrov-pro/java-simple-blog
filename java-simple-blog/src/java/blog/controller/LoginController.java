@@ -19,10 +19,19 @@ public class LoginController extends ControllerImpl<LoginController> {
 		return this;
 	}
 
-	@Get
-	public void login(int i) {
+
+	public void login() {
 
 	}
 
+	@Post
+	public void login(blog.system.Post post) {
+
+	}
+	
+	@Get
+	public void login(blog.system.Get get) {
+
+	}
 
 }

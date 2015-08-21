@@ -9,23 +9,20 @@ import blog.system.annotation.Post;
 import blog.system.exception.Exception404;
 import blog.tools.ParseUrl;
 import blog.tools.ErrorPage;
-import blog.tools.Logger;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
  * @author petroff
  */
-
-
 @WebServlet(name = "Router", loadOnStartup = 1, urlPatterns = {"/"})
 public class Router extends HttpServlet {
 
@@ -70,15 +67,7 @@ public class Router extends HttpServlet {
 
 		if (parseUrl.getMethodUrl() != null) {
 			try {
-				Method method_t = c.getMethod("login", null);
-				Method method = c.getMethod(parseUrl.getMethodUrl(), parseUrl.getParamTypesUrl());
-				if (method.isAnnotationPresent(Get.class)) {
-					Logger.write("Get");
-				} else if (method.isAnnotationPresent(Post.class)) {
-					Logger.write("Post");
-				} else {
-					method.invoke(obj, parseUrl.getParamsUrl());
-				}
+				checkMethod(c, parseUrl, request, obj);
 			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 				throw new Exception404();
 			}
@@ -87,6 +76,36 @@ public class Router extends HttpServlet {
 			base.index();
 		}
 
+	}
+
+	protected void checkMethod(Class c, ParseUrl parseUrl, HttpServletRequest request, Object obj) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+		Method methodContr = null;
+		Object[] args = null;
+		for (Method method : c.getMethods()) {
+			if (parseUrl.getMethodUrl().equals(method.getName()) && method.isAnnotationPresent(Get.class) && request.getMethod().equals("GET")) {
+				blog.system.Get get = new blog.system.Get();
+				Object[] arg1 = new Object[1];
+				arg1[0] = get;
+				args = ArrayUtils.addAll(arg1, parseUrl.getParamsUrl());
+				methodContr = method;
+				break;
+			} else if (parseUrl.getMethodUrl().equals(method.getName()) && method.isAnnotationPresent(Post.class) && request.getMethod().equals("POST")) {
+				blog.system.Get get = new blog.system.Get();
+				Object[] arg1 = new Object[1];
+				arg1[0] = get;
+				args = ArrayUtils.addAll(arg1, parseUrl.getParamsUrl());
+				methodContr = method;
+				break;
+			} else if (parseUrl.getMethodUrl().equals(method.getName())) {
+				args = parseUrl.getParamsUrl();
+				methodContr = method;
+			}
+		}
+		if (methodContr != null) {
+			methodContr.invoke(obj, args);
+		} else {
+			throw new NoSuchMethodException();
+		}
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -144,4 +163,5 @@ public class Router extends HttpServlet {
 	public String getServletInfo() {
 		return "Main controller router";
 	}// </editor-fold>
+
 }
