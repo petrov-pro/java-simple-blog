@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.system;
+package blog.system.tools;
 
 /**
  *
  * @author petroff
  */
-public class Get {
-	
+public class Navigator {
+    
+    
+    
+    
+    
 }

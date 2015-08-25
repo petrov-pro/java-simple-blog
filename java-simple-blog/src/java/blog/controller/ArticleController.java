@@ -5,8 +5,8 @@
 package blog.controller;
 
 import blog.entity.Article;
-import blog.model.ArticleModel;
-import blog.system.ControllerImpl;
+import blog.model.article.ArticleModel;
+import blog.system.controller.ControllerImpl;
 
 /**
  *

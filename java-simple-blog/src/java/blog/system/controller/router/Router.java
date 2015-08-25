@@ -2,13 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.system;
+package blog.system.controller.router;
 
+import blog.system.controller.ControllerIntf;
 import blog.system.annotation.Get;
 import blog.system.annotation.Post;
 import blog.system.exception.Exception404;
-import blog.tools.ParseUrl;
-import blog.tools.ErrorPage;
+import blog.system.loader.Load;
+import blog.system.tools.ParseUrl;
+import blog.system.tools.ErrorPage;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -64,7 +66,6 @@ public class Router extends HttpServlet {
 
 		ControllerIntf base = (ControllerIntf) obj;
 		base.init(request, response, errorPage);
-
 		if (parseUrl.getMethodUrl() != null) {
 			try {
 				checkMethod(c, parseUrl, request, obj);
@@ -83,16 +84,16 @@ public class Router extends HttpServlet {
 		Object[] args = null;
 		for (Method method : c.getMethods()) {
 			if (parseUrl.getMethodUrl().equals(method.getName()) && method.isAnnotationPresent(Get.class) && request.getMethod().equals("GET")) {
-				blog.system.Get get = new blog.system.Get();
+				blog.system.environment.Get get = new blog.system.environment.Get(request);
 				Object[] arg1 = new Object[1];
 				arg1[0] = get;
 				args = ArrayUtils.addAll(arg1, parseUrl.getParamsUrl());
 				methodContr = method;
 				break;
 			} else if (parseUrl.getMethodUrl().equals(method.getName()) && method.isAnnotationPresent(Post.class) && request.getMethod().equals("POST")) {
-				blog.system.Get get = new blog.system.Get();
+				blog.system.environment.Post post = new blog.system.environment.Post(request);
 				Object[] arg1 = new Object[1];
-				arg1[0] = get;
+				arg1[0] = post;
 				args = ArrayUtils.addAll(arg1, parseUrl.getParamsUrl());
 				methodContr = method;
 				break;

@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.tools;
+package blog.system.tools;
 
-import blog.system.Model;
+import blog.system.model.Model;
 
 /**
  *

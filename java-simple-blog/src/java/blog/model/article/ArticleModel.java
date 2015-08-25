@@ -2,13 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.model;
+package blog.model.article;
 
-import blog.dao.DaoFactory;
+import blog.system.dao.DaoFactory;
 import blog.dao.impl.ArticleImpl;
 import blog.entity.Article;
-import blog.tools.Navigator;
-import blog.system.Model;
+import blog.system.tools.Navigator;
+import blog.system.model.Model;
 import java.util.ArrayList;
 import java.util.List;
 

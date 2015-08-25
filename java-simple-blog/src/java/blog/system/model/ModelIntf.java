@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.system;
+package blog.system.model;
 
-import blog.tools.Navigator;
+import blog.system.tools.Navigator;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -22,4 +22,6 @@ public interface ModelIntf<T> {
 	public T getNavigator();
 
 	public void init(HttpServletRequest r);
+	
+	public void init(Object[] params);
 }

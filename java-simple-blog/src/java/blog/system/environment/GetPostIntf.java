@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.tools;
+package blog.system.environment;
 
 /**
  *
  * @author petroff
  */
-public class Navigator {
-    
-    
-    
-    
-    
+public interface GetPostIntf {
+	
+	public String getParameter(String s);
+	public String getJson();
+	
 }

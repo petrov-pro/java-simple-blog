@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.listener;
+package blog.system.listener;
 
 /**
  *
  * @author petroff
  */
-import blog.dao.DaoFactory;
-import blog.tools.DbManager;
+import blog.system.dao.DaoFactory;
+import blog.system.tools.DbManager;
 import java.sql.Connection;
 import java.sql.SQLException;
 

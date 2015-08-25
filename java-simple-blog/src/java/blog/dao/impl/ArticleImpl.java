@@ -4,7 +4,7 @@
  */
 package blog.dao.impl;
 
-import blog.dao.AbstractDaoImpl;
+import blog.system.dao.AbstractDaoImpl;
 import blog.entity.Article;
 import blog.system.exception.PersistException;
 import java.sql.PreparedStatement;
