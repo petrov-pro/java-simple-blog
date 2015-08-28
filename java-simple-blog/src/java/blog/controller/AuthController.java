@@ -31,7 +31,8 @@ public class AuthController extends ControllerImpl<AuthController> {
 
 	@Get
 	public void login(blog.system.environment.Get get) {
-		Load.view.name("/auth/login.jsp");
+		
+		//Load.view.name("/auth/login.jsp");
 	}
 
 }

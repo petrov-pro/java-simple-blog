@@ -14,19 +14,19 @@ import java.util.List;
  * @author petroff
  */
 public class Model<T> {
-
+	
 	private final String modelPrefix = "Model";
 	private static final String path = "blog.model.";
 	private List<blog.system.model.Model> models = new ArrayList<blog.system.model.Model>();
-
+	
 	public blog.system.model.Model name(String name) {
 		return this.loadModel(name, null);
 	}
-
+	
 	public blog.system.model.Model name(String name, Object[] params) {
 		return this.loadModel(name, params);
 	}
-
+	
 	private blog.system.model.Model loadModel(String name, Object[] params) {
 		int pos = models.indexOf(name);
 		if (pos != -1) {
@@ -42,6 +42,7 @@ public class Model<T> {
 					blog.system.model.Model model;
 					if (params == null) {
 						model = (blog.system.model.Model) obj;
+						model.init(Load.request);
 					} else {
 						model = (blog.system.model.Model) obj;
 						model.init(params);
@@ -55,8 +56,8 @@ public class Model<T> {
 				new Exception404();
 			}
 			return null;
-
+			
 		}
 	}
-
+	
 }

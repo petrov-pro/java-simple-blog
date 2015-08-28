@@ -10,6 +10,9 @@ package blog.system.tools;
  * @author petroff
  */
 public class Navigator {
+
+	public Navigator() {
+	}
     
     
     

@@ -6,19 +6,44 @@
 		<param-value>jdbc/mysql</param-value>
 	</context-param>
 	
-	 <servlet>
-        <servlet-name>DefaultServlet</servlet-name>
-        <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DefaultServlet</servlet-name>
-        <url-pattern>/static/*</url-pattern>
-    </servlet-mapping>
+	<servlet>
+		<servlet-name>DefaultServlet</servlet-name>
+		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DefaultServlet</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+	</servlet-mapping>
   
 	<session-config>
 		<session-timeout>
 			30
 		</session-timeout>
 	</session-config>
+	
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>auth</web-resource-name>
+			<url-pattern>/auth/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>MANAGER</role-name>
+		</auth-constraint>
+	</security-constraint>
+ 
+	<security-role>
+		<role-name>MANAGER</role-name>
+	</security-role>
+	
+	<login-config>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+        <form-login-page>/WEB-INF/views/auth/login.jsp</form-login-page>
+        <form-error-page>/WEB-INF/views/auth/error.jsp</form-error-page>
+    </form-login-config>
+</login-config>
    
 </web-app>

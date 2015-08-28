@@ -24,7 +24,6 @@ public abstract class ControllerImpl<T> extends HttpServlet implements Controlle
 		this.request = request;
 		this.response = response;
 		this.errorPage = errorPage;
-		Load.init(request, response, errorPage);
 	}
 	
 	@Override

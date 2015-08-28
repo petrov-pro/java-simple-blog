@@ -4,6 +4,7 @@
  */
 package blog.system.model;
 
+import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -29,8 +30,7 @@ public abstract class Model implements ModelIntf {
 	@Override
 	public void init(HttpServletRequest r) {
 		this.request = r;
-		Locale locale = this.request.getLocale();
-		this.bundle = ResourceBundle.getBundle("blog.messages.messages", locale);
+		this.bundle = Load.bundle;
 	}
 
 	@Override

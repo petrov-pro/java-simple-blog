@@ -44,8 +44,8 @@ public class Router extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception404 {
-		errorPage = new ErrorPage(request, response);
 
+		errorPage = Load.errorPage;
 		String servletPath = request.getServletPath();
 		ParseUrl parseUrl = new ParseUrl(servletPath);
 
@@ -65,7 +65,7 @@ public class Router extends HttpServlet {
 		}
 
 		ControllerIntf base = (ControllerIntf) obj;
-		base.init(request, response, errorPage);
+		base.init(Load.request, Load.response, errorPage);
 		if (parseUrl.getMethodUrl() != null) {
 			try {
 				checkMethod(c, parseUrl, request, obj);

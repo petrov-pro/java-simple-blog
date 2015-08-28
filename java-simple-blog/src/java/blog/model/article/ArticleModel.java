@@ -11,6 +11,7 @@ import blog.system.tools.Navigator;
 import blog.system.model.Model;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -30,6 +31,16 @@ public class ArticleModel extends Model {
 	public Article getArticle() {
 		return article;
 	}
+
+	public ResourceBundle getBundle() {
+		return bundle;
+	}
+
+	public void setBundle(ResourceBundle bundle) {
+		this.bundle = bundle;
+	}
+	
+	
 
 	@Override
 	public String getView() {
@@ -51,7 +62,6 @@ public class ArticleModel extends Model {
 		} catch (Exception e) {
 			System.out.print("Error");
 		}
-
 		return this;
 	}
 

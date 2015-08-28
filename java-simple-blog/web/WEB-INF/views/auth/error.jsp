@@ -1,36 +1,25 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
-
-
-
-<t:template title="${Data.bundle.nav_main}">
+<t:template title="My page">
 
     <jsp:attribute name="navigator_area">
         <t:navigator navigator="${Data.getNavigator()}"/> 
     </jsp:attribute>
 
     <jsp:attribute name="head_area">
-
-        <script>
-			function hello() {
-				alert("Hello World");
-			}
-        </script>
     </jsp:attribute>
 
     <jsp:attribute name="body_area">
+		<h1>Error</h1>
+        <form name="login" action="/auth/login" method="POST">
+			<input name="login" value=""/>
+			<input name="password" value="" type="password"/>
+			<input name="send" value="Log In" type="submit" />
+		</form>
+    </jsp:attribute>
 
-
-        <div>
-            <button onclick="hello();">${Data.article.getBody()}</button>
-        </div>   
-		<img src="/static/test.jpg"
-
-		</jsp:attribute>
-
-	</t:template>
+</t:template>
 
 
 

@@ -6,6 +6,9 @@
 package blog.system.loader;
 
 import blog.system.tools.ErrorPage;
+import java.util.ResourceBundle;
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,13 +24,26 @@ public class Load {
 
 	public static Model model;
 	public static View view;
+	public static ResourceBundle bundle;
 
-	public static void init(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
+	public static ResourceBundle getBundle(HttpServletRequest request) {
+		return bundle;
+	}
+
+	public static void setBundle(ResourceBundle bundle) {
+		Load.bundle = bundle;
+	}
+
+	public Load(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
 		Load.request = request;
 		Load.response = response;
 		Load.errorPage = errorPage;
 		model = new Model();
 		view = new View();
+		Bundle bundle = new Bundle();
+		Load.bundle = bundle.getBundle(request);
 	}
+
+
 
 }
