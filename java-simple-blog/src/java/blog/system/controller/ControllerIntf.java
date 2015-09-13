@@ -5,6 +5,8 @@
 package blog.system.controller;
 
 import blog.system.tools.ErrorPage;
+import java.io.IOException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,5 +21,5 @@ public interface ControllerIntf<T> {
 
 	public void init(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage);
 
-	public T index();
+	public void index()throws ServletException, IOException;
 }

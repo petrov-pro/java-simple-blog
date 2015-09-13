@@ -4,6 +4,7 @@
  */
 package blog.system.model;
 
+import blog.model.auth.AuthModel;
 import blog.system.tools.Navigator;
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,4 +25,5 @@ public interface ModelIntf<T> {
 	public void init(HttpServletRequest r);
 	
 	public void init(Object[] params);
+        
 }

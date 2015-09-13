@@ -15,11 +15,11 @@
     <jsp:attribute name="body_area">
 
         <form action="j_security_check" method="post">
-			${Load:getBundle(pageContext.request).getString("auth_login_i")}:<br>
+			${Load:getBundleStatic().getString("auth_login_i")}:<br>
 			<input name="j_username" type="text"><br>
-			${Load:getBundle(pageContext.request).getString("auth_password_i")}:<br>
+			${Load:getBundleStatic().getString("auth_password_i")}:<br>
 			<input name="j_password" type="password"><br>
-			<input type="submit" value="${Load:getBundle(pageContext.request).getString("auth_auth")}">
+			<input type="submit" value="${Load:getBundleStatic().getString("auth_auth")}">
 		</form>
     </jsp:attribute>
 

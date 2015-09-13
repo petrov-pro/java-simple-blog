@@ -20,6 +20,7 @@ public abstract class ControllerImpl<T> extends HttpServlet implements Controlle
 	protected HttpServletResponse response;
 	protected ErrorPage errorPage;
 	
+        @Override
 	public void init(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
 		this.request = request;
 		this.response = response;

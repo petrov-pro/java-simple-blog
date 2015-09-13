@@ -5,9 +5,9 @@
     <uri>/WEB-INF/tlds/bundle</uri>
 
     <function>
-        <name>getBundle</name>
+        <name>getBundleStatic</name>
         <function-class>blog.system.loader.Load</function-class>
-        <function-signature>ResourceBundle getBundle(javax.servlet.http.HttpServletRequest)</function-signature>
+        <function-signature>ResourceBundle getBundleStatic()</function-signature>
     </function>
 
 </taglib>

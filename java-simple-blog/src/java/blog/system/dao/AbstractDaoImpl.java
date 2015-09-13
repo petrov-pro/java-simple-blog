@@ -17,7 +17,7 @@ import java.util.List;
  */
 public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
 
-	private Connection connection;
+	public Connection connection;
 
 	@Override
 	public T findByPk(int id) throws PersistException {

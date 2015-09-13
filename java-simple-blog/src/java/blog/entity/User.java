@@ -6,6 +6,7 @@
 package blog.entity;
 
 import java.util.Set;
+import javax.persistence.Id;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -16,24 +17,61 @@ import javax.validation.constraints.NotNull;
  */
 public class User {
 
-	@NotNull
-	public String login;
+    public int id;
 
-	@NotNull
-	public String password;
+    @NotNull
+    public String email;
 
-	public static void validate(Object object, Validator validator) {
-		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+    @NotNull
+    public String user_name;
 
-		System.out.println(object);
-		System.out.println(String.format("Кол-во ошибок: %d",
-				constraintViolations.size()));
+    @NotNull
+    public String password;
 
-		for (ConstraintViolation<Object> cv : constraintViolations) {
-			System.out.println(String.format(
-					"Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
-					cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
-		}
-	}
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public static void validate(Object object, Validator validator) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+
+        System.out.println(object);
+        System.out.println(String.format("Кол-во ошибок: %d",
+                constraintViolations.size()));
+
+        for (ConstraintViolation<Object> cv : constraintViolations) {
+            System.out.println(String.format(
+                    "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
+                    cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
+        }
+    }
 
 }

@@ -21,7 +21,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="body_area">
-
+${Load.bundle.getString("auth_password_i")}
 
         <div>
             <button onclick="hello();">${Data.article.getBody()}</button>

@@ -4,11 +4,8 @@
  */
 package blog.controller;
 
-import blog.entity.Article;
 import blog.model.article.ArticleModel;
 import blog.system.controller.ControllerImpl;
-import blog.system.loader.Load;
-import java.util.ResourceBundle;
 
 /**
  *
@@ -21,11 +18,10 @@ public class ArticleController extends ControllerImpl<ArticleController> {
 	}
 
 	@Override
-	public ArticleController index() {
+	public void index() {
 		ArticleModel AModel = new ArticleModel();
 		AModel.init(request);
 		super.request.setAttribute("Data", AModel.getData());
 		super.getView("/article/article.jsp");
-		return this;
 	}
 }
