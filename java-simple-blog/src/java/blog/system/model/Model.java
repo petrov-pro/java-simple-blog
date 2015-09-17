@@ -40,4 +40,9 @@ public abstract class Model implements ModelIntf {
     public Model() {
     }
 
+    @Override
+    public boolean checkUnique(String name) {
+        return false;
+    }
+
 }

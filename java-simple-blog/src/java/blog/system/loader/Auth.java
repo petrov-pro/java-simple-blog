@@ -15,15 +15,23 @@ public class Auth {
 
     public boolean isAuth() {
         HttpSession session = Load.request.getSession();
-        Integer user_id = (Integer) session.getAttribute("user_id");
-        if (user_id == null) {
+        if (session == null) {
             return false;
         } else {
-            return true;
+            Integer user_id = (Integer) session.getAttribute("user_id");
+            if (user_id == null) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
     public String getUserName() {
         return (String) Load.request.getSession().getAttribute("user_name");
+    }
+
+    public Integer getUserId() {
+        return (Integer) Load.request.getSession().getAttribute("user_id");
     }
 }

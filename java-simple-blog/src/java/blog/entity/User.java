@@ -5,8 +5,12 @@
  */
 package blog.entity;
 
+import blog.system.annotation.Bind;
+import blog.system.loader.Load;
+import blog.system.tools.Md5;
+import blog.validation.annotation.Confirm;
+import blog.validation.annotation.Unique;
 import java.util.Set;
-import javax.persistence.Id;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -15,18 +19,50 @@ import javax.validation.constraints.NotNull;
  *
  * @author petroff
  */
+@Confirm(pass = "password", confirm = "confirm")
 public class User {
+
+    private static String errorMessage;
 
     public int id;
 
+    @Bind
     @NotNull
     public String email;
 
+    @Bind
     @NotNull
+    @Unique(model_name = "User")
     public String user_name;
 
+    @Bind
     @NotNull
     public String password;
+
+    @Bind
+    @NotNull
+
+    public String confirm;
+
+    public User() {
+        errorMessage = "";
+    }
+
+    public static String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public static void setErrorMessage(String errorMessage) {
+        User.errorMessage = errorMessage;
+    }
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
 
     public int getId() {
         return id;
@@ -60,18 +96,25 @@ public class User {
         this.password = password;
     }
 
-    public static void validate(Object object, Validator validator) {
+    public static boolean validate(Object object, Validator validator) {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
 
-        System.out.println(object);
-        System.out.println(String.format("Кол-во ошибок: %d",
-                constraintViolations.size()));
-
-        for (ConstraintViolation<Object> cv : constraintViolations) {
-            System.out.println(String.format(
-                    "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
-                    cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
+        if (constraintViolations.isEmpty()) {
+            return true;
+        } else {
+            for (ConstraintViolation<Object> cv : constraintViolations) {
+                errorMessage = errorMessage + String.format(
+                        Load.bundle.getString("user_registration_error"),
+                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
+            }
+            return false;
         }
+
+    }
+
+    public String getPasswordHash() {
+        String md5Hash = Md5.md5Custom(password);
+        return md5Hash;
     }
 
 }

@@ -30,6 +30,7 @@
             <web-resource-name>auth</web-resource-name>
             <description/>
             <url-pattern>/auth/*</url-pattern>
+            <url-pattern>/user/privat/</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
         </web-resource-collection>

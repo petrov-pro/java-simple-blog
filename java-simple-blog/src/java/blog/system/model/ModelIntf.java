@@ -14,16 +14,18 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ModelIntf<T> {
 
-	public String getView();
+    public String getView();
 
-	public T getData();
+    public T getData();
 
-	public void setNavigator(Navigator navigator);
+    public void setNavigator(Navigator navigator);
 
-	public T getNavigator();
+    public T getNavigator();
 
-	public void init(HttpServletRequest r);
-	
-	public void init(Object[] params);
-        
+    public void init(HttpServletRequest r);
+
+    public void init(Object[] params);
+
+    public boolean checkUnique(String name);
+
 }

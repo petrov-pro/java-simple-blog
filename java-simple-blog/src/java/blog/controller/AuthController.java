@@ -8,6 +8,7 @@ import blog.system.controller.ControllerImpl;
 import blog.system.annotation.Get;
 import blog.system.annotation.Post;
 import blog.system.loader.Load;
+import blog.system.tools.Http;
 import java.io.IOException;
 import java.net.URI;
 import javax.servlet.RequestDispatcher;
@@ -21,38 +22,28 @@ public class AuthController extends ControllerImpl<AuthController> {
 
     @Override
     public void index() throws ServletException, IOException {
-        reidrect();
+        Http.redirect("/main/");
     }
 
     public void login() throws ServletException, IOException {
-        reidrect();
+        Http.redirect("/main/");
     }
 
     @Post
     public void login(blog.system.environment.Post post) throws ServletException, IOException {
-        reidrect();
+        Http.redirect("/main/");
     }
 
     @Get
     public void login(blog.system.environment.Get get) throws ServletException, IOException {
-        reidrect();
+        Http.redirect("/main/");
     }
 
     public void logout() throws ServletException, IOException {
         Load.request.getSession().invalidate();
         Load.request.logout();
-        reidrect();
+        Http.redirect("/main/");
     }
-
-    private void reidrect() throws ServletException, IOException {
-        String url = Load.request.getHeader("referer");
-        if (url == null) {
-            url = Load.config.urlDefault;
-        }
-
-        String urlWithSessionID = Load.response.encodeRedirectURL(url);
-        Load.response.sendRedirect(urlWithSessionID);
-
-    }
+    
 
 }

@@ -19,6 +19,18 @@ import java.util.List;
  */
 public class UserImpl extends AbstractDaoImpl<User> {
 
+    private String strUpdate;
+    private String strUpdateWithoutPass = "UPDATE blogj.users SET email = ? WHERE id = ?;";
+    private String strUpdateWithPass = "UPDATE blogj.users SET email = ?, password = ? WHERE id = ?;";//test
+
+    public void setStrUpdateWithoutPass() {
+        strUpdate = strUpdateWithoutPass;
+    }
+
+    public void setStrUpdateWithPass() {
+        strUpdate = strUpdateWithPass;
+    }
+
     @Override
     public String queryFindAll() throws PersistException {
         return "SELECT * FROM blogj.users;";
@@ -34,9 +46,28 @@ public class UserImpl extends AbstractDaoImpl<User> {
     }
 
     @Override
-    public void prepareQuery(PreparedStatement statement, User a) throws PersistException {
+    public void prepareQuery(PreparedStatement statement, User u) throws PersistException {
         try {
-            //statement.setInt(1, pid);
+            statement.setString(1, u.getUser_name());
+            statement.setString(2, u.getEmail());
+
+            statement.setString(3, u.getPasswordHash());
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+    }
+
+    @Override
+    public void prepareQueryUpdate(PreparedStatement statement, User u) throws PersistException {
+        try {
+            statement.setString(1, u.getEmail());
+
+            if (!u.getPassword().isEmpty()) {
+                statement.setString(2, u.getPasswordHash());
+                statement.setInt(3, u.getId());
+            } else {
+                statement.setInt(2, u.getId());
+            }
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -65,12 +96,12 @@ public class UserImpl extends AbstractDaoImpl<User> {
 
     @Override
     public String queryUpdate() throws PersistException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return strUpdate;
     }
 
     @Override
     public String queryInsert() throws PersistException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "INSERT blogj.users (user_name, email, password) VALUE(?, ?, ?);";
     }
 
     @Override
@@ -95,6 +126,7 @@ public class UserImpl extends AbstractDaoImpl<User> {
             user.setEmail(rs.getString("email"));
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
+            return null;
         }
         return user;
     }

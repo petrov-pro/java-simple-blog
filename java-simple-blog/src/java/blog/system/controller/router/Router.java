@@ -55,13 +55,13 @@ public class Router extends HttpServlet {
         try {
             c = Class.forName(class_name_path);
         } catch (ClassNotFoundException cN) {
-            throw new Exception404();
+            throw new Exception404(cN);
         }
         Object obj;
         try {
             obj = c.newInstance();
         } catch (InstantiationException | IllegalAccessException ie) {
-            throw new Exception404();
+            throw new Exception404(ie);
         }
 
         ControllerIntf base = (ControllerIntf) obj;
@@ -70,14 +70,14 @@ public class Router extends HttpServlet {
             try {
                 checkMethod(c, parseUrl, request, obj);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new Exception404();
+                throw new Exception404(e);
             }
 
         } else {
             try {
                 base.index();
             } catch (ServletException e) {
-                throw new Exception404();
+                throw new Exception404(e);
             }
         }
 

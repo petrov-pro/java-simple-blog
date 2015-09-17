@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@tag description="Template" pageEncoding="UTF-8"%>
-
+<%@taglib prefix="a" tagdir="/WEB-INF/tags/" %>
 <%@attribute name="title"%>
 <%@attribute name="head_area" fragment="true" %>
 <%@attribute name="body_area" fragment="true" %>
@@ -13,9 +13,8 @@
         <jsp:invoke fragment="head_area"/>
     </head>
     <body>
+        <a:auth auth="${Load}"/>
         <jsp:invoke fragment="navigator_area"/>
-        <jsp:invoke fragment="auth_area"/>
-
         <jsp:invoke fragment="body_area"/>
 
     </body>

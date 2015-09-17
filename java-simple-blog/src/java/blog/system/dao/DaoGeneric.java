@@ -25,7 +25,7 @@ public interface DaoGeneric<T> {
 
 	public boolean update(T entity) throws PersistException;
 
-	public int insert(T entity) throws PersistException;
+	public Long insert(T entity) throws PersistException;
 
 	public boolean delete(int Id) throws PersistException;
 
@@ -44,4 +44,5 @@ public interface DaoGeneric<T> {
 	public void prepareQuery(PreparedStatement statement, int pid) throws PersistException;
 
 	public void prepareQuery(PreparedStatement statement, T entity) throws PersistException;
+        public void prepareQueryUpdate(PreparedStatement statement, T entity) throws PersistException;
 }
