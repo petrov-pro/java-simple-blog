@@ -45,5 +45,9 @@ public class AuthController extends ControllerImpl<AuthController> {
         Http.redirect("/main/");
     }
     
+    public void test(){
+        
+    }
+    
 
 }

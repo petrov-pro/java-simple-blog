@@ -76,13 +76,15 @@ public class UserImpl extends AbstractDaoImpl<User> {
     @Override
     public List<User> parseResultSet(ResultSet rs) throws PersistException {
         List<User> listUsers = new ArrayList();
-        User user = new User();
+        User user;
         try {
-            rs.next();
-            user.setId(rs.getInt("id"));
-            user.setUser_name(rs.getString("user_name"));
-            user.setEmail(rs.getString("email"));
-            listUsers.add(user);
+            while (rs.next()) {
+                user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUser_name(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                listUsers.add(user);
+            }
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -106,7 +108,7 @@ public class UserImpl extends AbstractDaoImpl<User> {
 
     @Override
     public String queryDelete() throws PersistException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "DELETE FROM blogj.users WHERE id = ?;";
     }
 
     public String queryFindByName() throws PersistException {
