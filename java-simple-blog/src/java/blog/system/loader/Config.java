@@ -10,7 +10,9 @@ package blog.system.loader;
  * @author petroff
  */
 public class Config {
-    
+
     public final String urlDefault = "/main/";
-    
+    public final String userGroup = "USERS";
+    public final String userDecriptor = "default";
+
 }

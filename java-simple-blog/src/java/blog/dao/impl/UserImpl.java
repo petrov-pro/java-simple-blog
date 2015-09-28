@@ -7,6 +7,7 @@ package blog.dao.impl;
 import blog.system.dao.AbstractDaoImpl;
 import blog.entity.User;
 import blog.system.exception.PersistException;
+import blog.system.loader.Load;
 import blog.system.tools.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -126,11 +127,52 @@ public class UserImpl extends AbstractDaoImpl<User> {
             user.setId(rs.getInt("id"));
             user.setUser_name(rs.getString("user_name"));
             user.setEmail(rs.getString("email"));
+            rs.close();
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
             return null;
         }
         return user;
+    }
+
+    public Long insertAdv(User user) throws PersistException {
+        Long res;
+        super.startTransaction();
+        res = super.insert(user);
+        try {
+            if (res != null) {
+                if (!insertGroup(user.getUser_name())) {
+                    throw new PersistException();
+                }
+            }
+            super.endTransaction();
+        } catch (PersistException p) {
+            super.rollbackTransaction();
+            return null;
+        }
+        return res;
+    }
+
+    public boolean insertGroup(String user_name) {
+        String sql = "INSERT INTO blogj.groups  (group_name, descriptor, user_name) VALUE(?,?,?);";
+        int rs;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, Load.config.userGroup);
+            statement.setString(2, Load.config.userDecriptor);
+            statement.setString(3, user_name);
+            rs = statement.executeUpdate();
+            statement.close();
+        } catch (Exception e) {
+            Logger.write("error findByUserName" + e.toString());
+            return false;
+        }
+
+        if (rs > 0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

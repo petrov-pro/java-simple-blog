@@ -70,7 +70,7 @@ public class UserModel extends Model {
             UserImpl ui = (UserImpl) DaoFactory.getDao("UserImpl");
             Long result;
             try {
-                result = ui.insert(user);
+                result = ui.insertAdv(user);
             } catch (PersistException p) {
                 result = null;
             }

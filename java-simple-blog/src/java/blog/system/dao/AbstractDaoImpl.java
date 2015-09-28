@@ -121,4 +121,33 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
         }
     }
 
+    @Override
+    public void startTransaction() throws PersistException {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException s) {
+            throw new PersistException(s);
+        }
+    }
+
+    @Override
+    public void endTransaction() throws PersistException {
+        try {
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException s) {
+            throw new PersistException(s);
+        }
+
+    }
+
+    @Override
+    public void rollbackTransaction() throws PersistException {
+        try {
+            connection.rollback();
+        } catch (SQLException s) {
+            throw new PersistException(s);
+        }
+    }
+
 }
