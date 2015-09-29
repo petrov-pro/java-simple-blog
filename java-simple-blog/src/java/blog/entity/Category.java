@@ -6,115 +6,82 @@
 package blog.entity;
 
 import blog.system.annotation.Bind;
-import blog.system.loader.Load;
-import blog.system.tools.Md5;
-import blog.validation.annotation.Confirm;
 import blog.validation.annotation.Unique;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author petroff
  */
-@Confirm(pass = "password", confirm = "confirm")
 public class Category {
 
-    private static String errorMessage;
+	private static String errorMessage = "";
 
-    public int id;
+	public int id;
 
-    @Bind
-    @NotNull
-    public String email;
+	@Bind
+	@NotNull
+	public Boolean enable;
 
-    @Bind
-    @NotNull
-    @Unique(model_name = "User")
-    public String user_name;
+	@Bind
+	@NotNull
+	@Unique(model_name = "Category")
+	public String alias;
 
-    @Bind
-    @NotNull
-    public String password;
+	@Bind
+	@NotNull
+	public Integer weight;
 
-    @Bind
-    @NotNull
+	@Bind
+	@NotNull
+	public Integer title_id;
 
-    public String confirm;
+	public static String getErrorMessage() {
+		return errorMessage;
+	}
 
-    public Category() {
-        errorMessage = "";
-    }
+	public static void setErrorMessage(String errorMessage) {
+		Category.errorMessage = errorMessage;
+	}
 
-    public static String getErrorMessage() {
-        return errorMessage;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public static void setErrorMessage(String errorMessage) {
-        Category.errorMessage = errorMessage;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getConfirm() {
-        return confirm;
-    }
+	public Boolean getEnable() {
+		return enable;
+	}
 
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
-    }
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public String getAlias() {
+		return alias;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Integer getWeight() {
+		return weight;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
 
-    public String getUser_name() {
-        return user_name;
-    }
+	public Integer getTitle_id() {
+		return title_id;
+	}
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public static boolean validate(Object object, Validator validator) {
-        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
-
-        if (constraintViolations.isEmpty()) {
-            return true;
-        } else {
-            for (ConstraintViolation<Object> cv : constraintViolations) {
-                errorMessage = errorMessage + String.format(
-                        Load.bundle.getString("user_registration_error"),
-                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
-            }
-            return false;
-        }
-
-    }
-
-    public String getPasswordHash() {
-        String md5Hash = Md5.md5Custom(password);
-        return md5Hash;
-    }
+	public void setTitle_id(Integer title_id) {
+		this.title_id = title_id;
+	}
 
 }

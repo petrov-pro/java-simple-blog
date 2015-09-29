@@ -20,34 +20,29 @@ import javax.servlet.ServletException;
  */
 public class AuthController extends ControllerImpl<AuthController> {
 
-    @Override
-    public void index() throws ServletException, IOException {
-        Http.redirect("/main/");
-    }
+	@Override
+	public void index() throws ServletException, IOException {
+		Http.redirect("/main/");
+	}
 
-    public void login() throws ServletException, IOException {
-        Http.redirect("/main/");
-    }
+	public void login() throws ServletException, IOException {
+		Http.redirect("/main/");
+	}
 
-    @Post
-    public void login(blog.system.environment.Post post) throws ServletException, IOException {
-        Http.redirect("/main/");
-    }
+	@Post
+	public void login(blog.system.environment.Post post) throws ServletException, IOException {
+		Http.redirect("/main/");
+	}
 
-    @Get
-    public void login(blog.system.environment.Get get) throws ServletException, IOException {
-        Http.redirect("/main/");
-    }
+	@Get
+	public void login(blog.system.environment.Get get) throws ServletException, IOException {
+		Http.redirect("/main/");
+	}
 
-    public void logout() throws ServletException, IOException {
-        Load.request.getSession().invalidate();
-        Load.request.logout();
-        Http.redirect("/main/");
-    }
-    
-    public void test(){
-        
-    }
-    
+	public void logout() throws ServletException, IOException {
+		Load.request.getSession().invalidate();
+		Load.request.logout();
+		Http.redirect("/main/");
+	}
 
 }
