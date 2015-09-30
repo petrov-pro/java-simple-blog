@@ -10,8 +10,6 @@ import blog.system.annotation.Post;
 import blog.system.loader.Load;
 import blog.system.tools.Http;
 import java.io.IOException;
-import java.net.URI;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 
 /**

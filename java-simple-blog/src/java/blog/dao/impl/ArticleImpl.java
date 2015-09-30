@@ -47,10 +47,10 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
         Article article = new Article();
         try {
             rs.next();
-            article.setId(rs.getInt("id"));
-            article.setTitle(rs.getString("title"));
-            article.setBody(rs.getString("body"));
-            article.setLang(rs.getString("lang"));
+//            article.setId(rs.getInt("id"));
+//            article.(rs.getString("title"));
+//            article.setBody(rs.getString("body"));
+//            article.setLang(rs.getString("lang"));
             listArticles.add(article);
         } catch (Exception e) {
             throw new PersistException(e);
