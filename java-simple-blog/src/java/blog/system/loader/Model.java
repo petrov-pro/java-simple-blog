@@ -32,7 +32,7 @@ public class Model<T> {
         if (pos != -1) {
             return models.get(pos);
         } else {
-            String class_name_path = path + name.toLowerCase() + "." + name + modelPrefix;
+            String class_name_path = path + name + modelPrefix;
             Class c;
             Object obj;
             try {

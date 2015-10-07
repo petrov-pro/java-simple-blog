@@ -8,6 +8,10 @@ package blog.system.tools;
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import java.lang.reflect.Field;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import javax.servlet.ServletRequest;
 
 /**
  *
@@ -17,18 +21,36 @@ public class BindParams {
 
     public static Object bind(Object obj) {
         Class c = obj.getClass();
-        Field[] publicFields = c.getFields();
+
+        Field[] publicFields = c.getDeclaredFields();
         for (Field field : publicFields) {
+
             Class fieldType = field.getType();
             Bind bind = field.getAnnotation(Bind.class);
             if (bind != null) {
                 try {
                     String param_name = field.getName();
-                    String param = Load.request.getParameter(param_name);
-                    if (param == null || param.isEmpty()) {
-                        param = null;
+                    String param_raw = Load.request.getParameter(param_name);
+                    String param;
+                    if (param_raw == null) {
+                        param = "";
+                    } else {
+                        param = param_raw.trim();
                     }
-                    field.set(obj, param);
+                    field.setAccessible(true);
+                    if (field.getType().equals(int.class)) {
+                        try {
+                            int p = Integer.parseInt(param);
+                            field.setInt(obj, p);
+                        } catch (NumberFormatException nfe) {
+                            Logger.write(nfe.toString());
+                        }
+                    } else if (field.getType().equals(boolean.class)) {
+                        field.setBoolean(obj, Boolean.parseBoolean(param));
+                    } else {
+                        field.set(obj, param);
+                    }
+
                 } catch (java.lang.Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -36,6 +58,21 @@ public class BindParams {
 
         }
         return obj;
+    }
+
+    public static Map<String, String> getParameterMap(ServletRequest request, String mapName) {
+
+        Map<String, String> result = new HashMap();
+
+        Enumeration<String> names = request.getParameterNames();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            if (name.startsWith(mapName + "[") && name.endsWith("]")) {
+                result.put(name.substring(name.indexOf("[") + 1, name.indexOf("]")), request.getParameter(name));
+            }
+        }
+
+        return result;
     }
 
 }

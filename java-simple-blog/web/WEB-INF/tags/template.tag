@@ -10,15 +10,23 @@
 
 <html>
     <head>
-		<script src="/static/js/jquery-2.1.4.min.js" type="text/javascript" encoding="UTF-8"></script>
+        <script src="/static/js/jquery-2.1.4.min.js" type="text/javascript" encoding="UTF-8"></script>
         <script src="/static/js/common.js" type="text/javascript" encoding="UTF-8"></script>
+        <!-- Bootstrap -->
+        <link href="/static/b/css/bootstrap.min.css" rel="stylesheet">
+        <script src="/static/b/js/bootstrap.min.js"></script>
+
         <title>${title}</title>
         <jsp:invoke fragment="head_area"/>
     </head>
     <body>
-        <a:auth auth="${Load}"/>
-		<a:i18n />
-
+        
+        
+        <div class="row">
+            <div class="col-md-2"><a:auth auth="${Load}"/></div>
+            <div class="col-md-1"><a:i18n /></div>
+        </div>
+        
         <jsp:invoke fragment="navigator_area"/>
         <jsp:invoke fragment="body_area"/>
 

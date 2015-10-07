@@ -4,7 +4,7 @@
  */
 package blog.system.model;
 
-import blog.model.auth.AuthModel;
+import blog.model.AuthModel;
 import blog.system.tools.Navigator;
 import javax.servlet.http.HttpServletRequest;
 

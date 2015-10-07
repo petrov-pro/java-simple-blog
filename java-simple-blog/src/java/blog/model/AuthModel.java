@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.model.auth;
+package blog.model;
 
 import blog.dao.impl.UserImpl;
 import blog.entity.User;

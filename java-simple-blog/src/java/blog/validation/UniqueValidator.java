@@ -26,12 +26,6 @@ public class UniqueValidator implements ConstraintValidator<Unique, String> {
         errorMessagename = constraintAnnotation.message();
     }
 
-    /**
-     * 1. The address should not be null. 2. The address should have all the
-     * data values specified. 3. Pin code in the address should be of atleast 6
-     * characters. 4. The country in the address should be of atleast 4
-     * characters.
-     */
     @Override
     public boolean isValid(String uniue, ConstraintValidatorContext context) {
         Model model = (Model) Load.model.name(model_name);

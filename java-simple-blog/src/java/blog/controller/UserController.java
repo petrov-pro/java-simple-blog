@@ -4,7 +4,7 @@
  */
 package blog.controller;
 
-import blog.model.user.UserModel;
+import blog.model.UserModel;
 import blog.system.annotation.Get;
 import blog.system.annotation.Post;
 import blog.system.controller.ControllerImpl;

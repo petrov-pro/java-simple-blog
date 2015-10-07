@@ -20,6 +20,8 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
 
     public Connection connection;
 
+    public ResultSet res;
+
     @Override
     public T findByPk(int id) throws PersistException {
         List<T> list;
@@ -88,14 +90,23 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
             prepareQuery(statement, entity);
             affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
+                statement.close();
+                throw new PersistException("Creating user failed, no rows affected.");
+            }
+
+            try {
+                res = statement.getResultSet();
+            } catch (Exception e) {
+                throw new PersistException(e);
             }
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
+                    statement.close();
                     return generatedKeys.getLong(1);
                 } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
+                    statement.close();
+                    throw new PersistException("Creating user failed, no ID obtained.");
                 }
             }
         } catch (Exception e) {

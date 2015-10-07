@@ -18,9 +18,7 @@ import javax.validation.Payload;
  *
  * @author petroff
  */
-//Linking the validator I had shown above.
 @Constraint(validatedBy = {UniqueValidator.class})
-//This constraint annotation can be used only on fields and method parameters.
 @Target({ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Documented

@@ -127,7 +127,6 @@ public class UserImpl extends AbstractDaoImpl<User> {
             user.setId(rs.getInt("id"));
             user.setUser_name(rs.getString("user_name"));
             user.setEmail(rs.getString("email"));
-            rs.close();
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
             return null;
@@ -161,7 +160,6 @@ public class UserImpl extends AbstractDaoImpl<User> {
             statement.setString(2, Load.config.userDecriptor);
             statement.setString(3, user_name);
             rs = statement.executeUpdate();
-            statement.close();
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
             return false;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package blog.model.article;
+package blog.model;
 
 import blog.system.dao.DaoFactory;
 import blog.dao.impl.ArticleImpl;

@@ -28,12 +28,6 @@ public class ConfirmValidator implements ConstraintValidator<Confirm, Object> {
         errorMessagename = constraintAnnotation.message();
     }
 
-    /**
-     * 1. The address should not be null. 2. The address should have all the
-     * data values specified. 3. Pin code in the address should be of atleast 6
-     * characters. 4. The country in the address should be of atleast 4
-     * characters.
-     */
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
         Class c = obj.getClass();

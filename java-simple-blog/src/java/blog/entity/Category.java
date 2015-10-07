@@ -6,7 +6,12 @@
 package blog.entity;
 
 import blog.system.annotation.Bind;
-import blog.validation.annotation.Unique;
+import blog.system.loader.Load;
+import blog.validation.annotation.Internatinolaization;
+import java.util.HashMap;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -15,73 +20,102 @@ import javax.validation.constraints.NotNull;
  */
 public class Category {
 
-	private static String errorMessage = "";
+    private static String errorMessage = "";
 
-	public int id;
+    private int id;
 
-	@Bind
-	@NotNull
-	public Boolean enable;
+    @Bind
+    private boolean enable;
 
-	@Bind
-	@NotNull
-	@Unique(model_name = "Category")
-	public String alias;
+    @Bind
+    @NotNull
+    //@Unique(model_name = "Category")
+    private String alias;
 
-	@Bind
-	@NotNull
-	public Integer weight;
+    @Bind
+    @NotNull
+    private int weight;
 
-	@Bind
-	@NotNull
-	public Integer title_id;
+    private int title_id;
 
-	public static String getErrorMessage() {
-		return errorMessage;
-	}
+    @NotNull
+    @Internatinolaization
+    public HashMap<String, String> translate;
 
-	public static void setErrorMessage(String errorMessage) {
-		Category.errorMessage = errorMessage;
-	}
+    public Category() {
+        this.translate = new HashMap();
+    }
 
-	public int getId() {
-		return id;
-	}
+    public static String getErrorMessage() {
+        return errorMessage;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public static void setErrorMessage(String errorMessage) {
+        Category.errorMessage = errorMessage;
+    }
 
-	public Boolean getEnable() {
-		return enable;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setEnable(Boolean enable) {
-		this.enable = enable;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getAlias() {
-		return alias;
-	}
+    public boolean isEnable() {
+        return enable;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
-	public Integer getWeight() {
-		return weight;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public Integer getTitle_id() {
-		return title_id;
-	}
+    public int getWeight() {
+        return weight;
+    }
 
-	public void setTitle_id(Integer title_id) {
-		this.title_id = title_id;
-	}
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getTitle_id() {
+        return title_id;
+    }
+
+    public void setTitle_id(int title_id) {
+        this.title_id = title_id;
+    }
+
+    public HashMap getTranslate() {
+        return translate;
+    }
+
+    public void setTranslate(HashMap translate) {
+        this.translate = translate;
+    }
+
+    public static boolean validate(Object object, Validator validator) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+
+        if (constraintViolations.isEmpty()) {
+            return true;
+        } else {
+            for (ConstraintViolation<Object> cv : constraintViolations) {
+                errorMessage = errorMessage + String.format(
+                        Load.bundle.getString("user_registration_error"),
+                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
+            }
+            return false;
+        }
+
+    }
 
 }

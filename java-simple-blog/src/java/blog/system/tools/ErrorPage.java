@@ -15,29 +15,34 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ErrorPage {
 
-	private String path404 = "/WEB-INF/views/404.jsp";
-	private HttpServletRequest request;
-	private HttpServletResponse response;
+    private String path404 = "/WEB-INF/views/404.jsp";
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
-	public ErrorPage(HttpServletRequest request, HttpServletResponse response) {
-		this.request = request;
-		this.response = response;
-	}
+    public ErrorPage(HttpServletRequest request, HttpServletResponse response) {
+        this.request = request;
+        this.response = response;
+    }
 
-	public void show404(Exception e) {
-		try {
-			request.setAttribute("Error", e);
-			request.getRequestDispatcher(path404).forward(request, response);
-		} catch (ServletException | IOException eg) {
-		}
+    public void show404(Exception e) {
+        if (request != null) {
+            try {
+                request.setAttribute("Error", e);
+                request.getRequestDispatcher(path404).forward(request, response);
+            } catch (ServletException | IOException eg) {
+                Logger.write(eg.toString());
+            }
+        } else {
+            Logger.write(e.toString());
+        }
 
-	}
+    }
 
-	public String getPath404() {
-		return path404;
-	}
+    public String getPath404() {
+        return path404;
+    }
 
-	public void setPath404(String path404) {
-		this.path404 = path404;
-	}
+    public void setPath404(String path404) {
+        this.path404 = path404;
+    }
 }

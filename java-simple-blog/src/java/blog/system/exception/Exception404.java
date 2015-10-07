@@ -5,6 +5,8 @@
  */
 package blog.system.exception;
 
+import blog.system.tools.Logger;
+
 /**
  *
  * @author petroff
@@ -12,22 +14,27 @@ package blog.system.exception;
 public class Exception404 extends Exception {
 
     public Exception404() {
-		System.out.println("error 404");
+        Logger.write("404");
     }
 
     public Exception404(String message) {
         super(message);
+        Logger.write(message);
     }
 
     public Exception404(String message, Throwable cause) {
         super(message, cause);
+        Logger.write(message + " " + cause.toString());
     }
 
     public Exception404(Throwable cause) {
         super(cause);
+        Logger.write(cause.toString());
     }
 
     public Exception404(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+        Logger.write(message + " " + cause.toString());
     }
+
 }

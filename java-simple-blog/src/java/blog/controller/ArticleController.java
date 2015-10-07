@@ -4,7 +4,7 @@
  */
 package blog.controller;
 
-import blog.model.article.ArticleModel;
+import blog.model.ArticleModel;
 import blog.system.controller.ControllerImpl;
 
 /**

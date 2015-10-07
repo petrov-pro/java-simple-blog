@@ -4,11 +4,11 @@
  */
 package blog.controller;
 
-import blog.model.admin.AdminModel;
 import blog.system.controller.ControllerImpl;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
 import blog.system.tools.Http;
+import blog.model.AdminModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 

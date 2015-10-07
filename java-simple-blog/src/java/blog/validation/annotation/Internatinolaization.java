@@ -5,7 +5,7 @@
  */
 package blog.validation.annotation;
 
-import blog.validation.ConfirmValidator;
+import blog.validation.InternatinolaizationValidator;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,19 +18,16 @@ import javax.validation.Payload;
  *
  * @author petroff
  */
-@Constraint(validatedBy = {ConfirmValidator.class})
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+
+@Constraint(validatedBy = {InternatinolaizationValidator.class})
+@Target({ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Documented
-public @interface Confirm {
+public @interface Internatinolaization {
 
-    String pass() default "";
-
-    String confirm() default "";
-
-    String message() default "Invalid Confirm";
-
-    Class<?>[] groups() default {};
+    String message() default "Internatinolaization field must be fill";
+    
+        Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 

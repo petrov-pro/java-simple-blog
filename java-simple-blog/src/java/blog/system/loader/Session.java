@@ -5,17 +5,31 @@
  */
 package blog.system.loader;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author petroff
  */
 public class Session {
 
-	public String get(String key) {
-		return (String) Load.request.getSession().getAttribute(key);
-	}
+    private HttpSession getSession() {
+        return Load.request.getSession();
+    }
 
-	public void set(String key, String value) {
-		Load.request.getSession().setAttribute(key, value);
-	}
+    public String get(String key) {
+        HttpSession hs = this.getSession();
+        if (hs != null) {
+            return (String) hs.getAttribute(key);
+        } else {
+            return null;
+        }
+    }
+
+    public void set(String key, String value) {
+        HttpSession hs = this.getSession();
+        if (hs != null) {
+            hs.setAttribute(key, value);
+        }
+    }
 }

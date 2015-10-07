@@ -5,7 +5,7 @@
  */
 package blog.system.filter;
 
-import blog.model.auth.AuthModel;
+import blog.model.AuthModel;
 import blog.system.loader.Load;
 import blog.system.tools.ErrorPage;
 import java.io.IOException;
