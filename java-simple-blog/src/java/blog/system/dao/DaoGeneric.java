@@ -25,7 +25,7 @@ public interface DaoGeneric<T> {
 
     public boolean update(T entity) throws PersistException;
 
-    public Long insert(T entity) throws PersistException;
+    public Integer insert(T entity) throws PersistException;
 
     public boolean delete(int Id) throws PersistException;
 

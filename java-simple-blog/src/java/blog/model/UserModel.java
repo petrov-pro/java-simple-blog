@@ -68,7 +68,7 @@ public class UserModel extends Model {
 		BindParams.bind(user);
 		if (User.validate(user, validator)) {
 			UserImpl ui = (UserImpl) DaoFactory.getDao("UserImpl");
-			Long result;
+			Integer result;
 			try {
 				result = ui.insertAdv(user);
 			} catch (PersistException p) {

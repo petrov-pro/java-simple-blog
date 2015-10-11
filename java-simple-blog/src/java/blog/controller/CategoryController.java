@@ -26,7 +26,7 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 
     @Get
     public void create(blog.system.environment.Get get) throws ServletException, IOException {
-        Load.view.name("/category/create.jsp");
+        Load.view.name("/category/save.jsp");
     }
 
     @Post
@@ -34,12 +34,44 @@ public class CategoryController extends ControllerImpl<CategoryController> {
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
 
         if (categoryModel.create()) {
-            Http.redirect("/category/done");
+            Http.redirect("/main/done");
         } else {
             super.request.setAttribute("Data", categoryModel);
-            Load.view.name("/category/create.jsp");
+            Load.view.name("/category/save.jsp");
         }
 
+    }
+
+    @Get
+    public void update(blog.system.environment.Get get, String category_id) throws ServletException, IOException {
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        categoryModel.findAllForPk(Integer.parseInt(category_id));
+        Load.view.name("/category/save.jsp", categoryModel);
+    }
+
+    @Post
+    public void update(blog.system.environment.Post post, String category_id) throws ServletException, IOException {
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+
+        if (categoryModel.update(category_id)) {
+            Http.redirect("/main/done");
+        } else {
+            super.request.setAttribute("Data", categoryModel);
+            Load.view.name("/category/save.jsp");
+        }
+
+    }
+
+    public void list() {
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        categoryModel.findAll();
+        Load.view.name("/category/list.jsp", categoryModel);
+    }
+
+    public void del(String category_id) throws IOException {
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        String str = categoryModel.del(Integer.parseInt(category_id));
+        Load.view.out(str);
     }
 
 }

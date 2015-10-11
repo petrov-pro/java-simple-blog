@@ -24,9 +24,7 @@ public class UserController extends ControllerImpl<UserController> {
         Http.redirect();
     }
 
-    public void done() {
-        Load.view.name("/user/done.jsp");
-    }
+    
 
     public void registration() {
         Load.view.name("/user/registration.jsp");
@@ -41,7 +39,7 @@ public class UserController extends ControllerImpl<UserController> {
     public void registration(blog.system.environment.Post post) throws ServletException, IOException {
         UserModel userModel = (UserModel) Load.model.name("User");
         if (userModel.create()) {
-            Http.redirect("/user/done");
+            Http.redirect("/mian/done");
         } else {
             super.request.setAttribute("Data", userModel);
             Load.view.name("/user/registration.jsp");

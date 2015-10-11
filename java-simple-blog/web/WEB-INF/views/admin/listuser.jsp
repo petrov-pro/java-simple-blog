@@ -28,7 +28,7 @@
 
     <jsp:attribute name="body_area">
         <h1>Users</h1>
-        <table>
+        <table class="table">
             <tr>
                 <td>
                     ${Load.bundle.admin_user_list_id}

@@ -127,15 +127,17 @@ public class UserImpl extends AbstractDaoImpl<User> {
             user.setId(rs.getInt("id"));
             user.setUser_name(rs.getString("user_name"));
             user.setEmail(rs.getString("email"));
+            rs.close();
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
             return null;
         }
+
         return user;
     }
 
-    public Long insertAdv(User user) throws PersistException {
-        Long res;
+    public Integer insertAdv(User user) throws PersistException {
+        Integer res;
         super.startTransaction();
         res = super.insert(user);
         try {
@@ -147,12 +149,12 @@ public class UserImpl extends AbstractDaoImpl<User> {
             super.endTransaction();
         } catch (PersistException p) {
             super.rollbackTransaction();
-            return null;
+            throw p;
         }
         return res;
     }
 
-    public boolean insertGroup(String user_name) {
+    public boolean insertGroup(String user_name) throws PersistException {
         String sql = "INSERT INTO blogj.groups  (group_name, descriptor, user_name) VALUE(?,?,?);";
         int rs;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -160,9 +162,9 @@ public class UserImpl extends AbstractDaoImpl<User> {
             statement.setString(2, Load.config.userDecriptor);
             statement.setString(3, user_name);
             rs = statement.executeUpdate();
+            statement.close();
         } catch (Exception e) {
-            Logger.write("error findByUserName" + e.toString());
-            return false;
+            throw new PersistException(e);
         }
 
         if (rs > 0) {

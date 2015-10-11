@@ -32,6 +32,12 @@ public class Auth {
     }
 
     public Integer getUserId() {
-        return (Integer) Load.request.getSession().getAttribute("user_id");
+        HttpSession session = Load.request.getSession();
+        if (session == null) {
+            return null;
+        } else {
+            Integer user_id = (Integer) session.getAttribute("user_id");
+            return user_id;
+        }
     }
 }

@@ -35,9 +35,7 @@ CREATE TABLE `article` (
   KEY `article_body_id_idx` (`body_id`),
   KEY `fk_article_id` (`user_id`),
   KEY `fk_tag_title_id` (`title_id`),
-  CONSTRAINT `fk_tag_body_id` FOREIGN KEY (`body_id`) REFERENCES `content` (`id`),
-  CONSTRAINT `fk_article_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `fk_tag_title_id` FOREIGN KEY (`title_id`) REFERENCES `content` (`id`)
+  CONSTRAINT `fk_article_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,17 +82,14 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title_id` int(11) DEFAULT NULL,
   `enable` tinyint(1) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `weight` int(11) DEFAULT '1',
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_category_id` (`user_id`),
-  KEY `fk_category_title_id` (`title_id`),
-  CONSTRAINT `fk_category_title_id` FOREIGN KEY (`title_id`) REFERENCES `content` (`id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,6 +98,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES (24,1,'test',100,1),(27,1,'test1',100,1);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,8 +142,12 @@ CREATE TABLE `content` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` text,
   `lang` varchar(3) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `object_id` int(11) NOT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `content_object_id_idx` (`object_id`),
+  KEY `content_type_idx` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,6 +156,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
+INSERT INTO `content` VALUES (1,'test en','en',24,'category'),(2,'test ru','ru',24,'category'),(7,'test en1','en',27,'category'),(8,'test ru1','ru',27,'category');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +173,7 @@ CREATE TABLE `groups` (
   `descriptor` text,
   `user_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +182,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'ADMINS','Admin site','petroff'),(2,'USERS','User customer','test'),(4,'USERS','default','test1');
+INSERT INTO `groups` VALUES (1,'ADMINS','Admin site','petroff');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +201,6 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`id`),
   KEY `fk_tag_id` (`user_id`),
   KEY `fk_tag_name_id` (`name_id`),
-  CONSTRAINT `fk_tag_name_id` FOREIGN KEY (`name_id`) REFERENCES `content` (`id`),
   CONSTRAINT `fk_tag_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -227,7 +227,7 @@ CREATE TABLE `users` (
   `email` varchar(255) DEFAULT NULL,
   `password` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +236,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'petroff','petroff@gmail.com','827ccb0eea8a706c4c34a16891f84e7b'),(2,'test','test@gmail7.com','202cb962ac59075b964b07152d234b70'),(4,'test3','test@gmail3.com','827ccb0eea8a706c4c34a16891f84e7b'),(8,'test1','test@ya.ru','827ccb0eea8a706c4c34a16891f84e7b');
+INSERT INTO `users` VALUES (1,'petroff','petroff1@gmail.com','827ccb0eea8a706c4c34a16891f84e7b');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -249,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-30 23:53:27
+-- Dump completed on 2015-10-11 22:40:45

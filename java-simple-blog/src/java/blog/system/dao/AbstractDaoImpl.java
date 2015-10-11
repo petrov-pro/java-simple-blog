@@ -30,10 +30,11 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
             prepareQuery(statement, id);
             ResultSet rs = statement.executeQuery();
             list = parseResultSet(rs);
+            rs.close();
         } catch (Exception e) {
             throw new PersistException(e);
         }
-        if (list == null || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
         if (list.size() > 1) {
@@ -50,6 +51,7 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
 
             ResultSet rs = statement.executeQuery();
             list = parseResultSet(rs);
+            rs.close();
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -71,6 +73,7 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             prepareQueryUpdate(statement, entity);
             rs = statement.executeUpdate();
+            statement.close();
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -83,7 +86,7 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
     }
 
     @Override
-    public Long insert(T entity) throws PersistException {
+    public Integer insert(T entity) throws PersistException {
         String sql = queryInsert();
         int affectedRows;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -91,22 +94,17 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
             affectedRows = statement.executeUpdate();
             if (affectedRows == 0) {
                 statement.close();
-                throw new PersistException("Creating user failed, no rows affected.");
-            }
-
-            try {
-                res = statement.getResultSet();
-            } catch (Exception e) {
-                throw new PersistException(e);
+                throw new PersistException("Insert failed, no rows affected.");
             }
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
+                    Integer last_id = generatedKeys.getInt(1);
                     statement.close();
-                    return generatedKeys.getLong(1);
+                    return last_id;
                 } else {
                     statement.close();
-                    throw new PersistException("Creating user failed, no ID obtained.");
+                    throw new PersistException("Get result failed, no ID obtained.");
                 }
             }
         } catch (Exception e) {
@@ -121,6 +119,7 @@ public abstract class AbstractDaoImpl<T> implements DaoGeneric<T> {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             prepareQuery(statement, id);
             rs = statement.executeUpdate();
+            statement.close();
         } catch (Exception e) {
             throw new PersistException(e);
         }

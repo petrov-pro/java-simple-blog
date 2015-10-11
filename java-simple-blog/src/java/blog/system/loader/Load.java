@@ -16,69 +16,79 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Load {
 
-	public static HttpServletRequest request;
-	public static HttpServletResponse response;
-	public static ErrorPage errorPage;
+    public static HttpServletRequest request;
+    public static HttpServletResponse response;
+    public static ErrorPage errorPage;
 
-	public static Model model;
-	public static View view;
-	public static ResourceBundle bundle;
-	public static Config config;
-	public static Auth auth;
-	public static Session session;
+    public static Model model;
+    public static View view;
+    public static ResourceBundle bundle;
+    public static Config config;
+    public static Auth auth;
+    public static Session session;
+    public static Lang lang;
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
+    public Lang getLang() {
+        return lang;
+    }
 
-	public void setBundle(ResourceBundle bundle) {
-		Load.bundle = bundle;
-	}
+    public void setLang(Lang lang) {
+        Load.lang = lang;
+    }
 
-	public static ResourceBundle getBundleStatic() {
-		return bundle;
-	}
+    public ResourceBundle getBundle() {
+        return bundle;
+    }
 
-	public static void initBundle(HttpServletRequest request) {
-		Bundle bundle = new Bundle();
-		Load.bundle = bundle.getBundle(request);
-	}
+    public void setBundle(ResourceBundle bundle) {
+        Load.bundle = bundle;
+    }
 
-	public Load(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
-		Load.request = request;
-		Load.response = response;
-		Load.errorPage = errorPage;
-		model = new Model();
-		view = new View();
-		Bundle bundle = new Bundle();
-		Load.bundle = bundle.getBundle(request);
-		config = new Config();
-		auth = new Auth();
-		session = new Session();
-	}
+    public static ResourceBundle getBundleStatic() {
+        return bundle;
+    }
 
-	public Auth getAuth() {
-		return auth;
-	}
+    public static void initBundle(HttpServletRequest request) {
+        Bundle bundle = new Bundle();
+        Load.bundle = bundle.getBundle(request);
+    }
 
-	public void setAuth(Auth auth) {
-		Load.auth = auth;
-	}
+    public Load(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
+        Load.request = request;
+        Load.response = response;
+        Load.errorPage = errorPage;
+        model = new Model();
+        view = new View();
+        Bundle bundle = new Bundle();
+        Load.bundle = bundle.getBundle(request);
+        config = new Config();
+        auth = new Auth();
+        session = new Session();
+        lang = new Lang();
+    }
 
-	public Config getConfig() {
-		return config;
-	}
+    public Auth getAuth() {
+        return auth;
+    }
 
-	public void setConfig(Config config) {
-		Load.config = config;
-	}
+    public void setAuth(Auth auth) {
+        Load.auth = auth;
+    }
 
-	public Session getSession() {
-		return session;
-	}
+    public Config getConfig() {
+        return config;
+    }
 
-	public void setSession(Session session) {
-		Load.session = session;
-	}
+    public void setConfig(Config config) {
+        Load.config = config;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        Load.session = session;
+    }
 
 }

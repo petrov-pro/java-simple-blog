@@ -22,6 +22,8 @@ public class Category {
 
     private static String errorMessage = "";
 
+    private static String type = "category";
+
     private int id;
 
     @Bind
@@ -36,14 +38,24 @@ public class Category {
     @NotNull
     private int weight;
 
-    private int title_id;
-
     @NotNull
     @Internatinolaization
     public HashMap<String, String> translate;
 
     public Category() {
         this.translate = new HashMap();
+    }
+    
+    public static String getTypeS(){
+         return type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        type = type;
     }
 
     public static String getErrorMessage() {
@@ -84,14 +96,6 @@ public class Category {
 
     public void setWeight(int weight) {
         this.weight = weight;
-    }
-
-    public int getTitle_id() {
-        return title_id;
-    }
-
-    public void setTitle_id(int title_id) {
-        this.title_id = title_id;
     }
 
     public HashMap getTranslate() {

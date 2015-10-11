@@ -11,20 +11,23 @@ package blog.system.loader;
  */
 public class Config {
 
-	public final String urlDefault = "/main/";
-	public final String userGroup = "USERS";
-	public final String userDecriptor = "default";
-	
-	public String[] langs = {"ru", "en"};
+    public final String urlDefault = "/main/";
+    public final String userGroup = "USERS";
+    public final String userDecriptor = "default";
+    public final String defaultLang = "en";
 
-	public String[] getLangs() {
-		return langs;
-	}
+    public String getDefaultLang() {
+        return defaultLang;
+    }
 
-	public void setLangs(String[] langs) {
-		this.langs = langs;
-	}
-	
-	
+    public String[] langs = {"ru", "en"};
+
+    public String[] getLangs() {
+        return langs;
+    }
+
+    public void setLangs(String[] langs) {
+        this.langs = langs;
+    }
 
 }
