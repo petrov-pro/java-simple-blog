@@ -8,11 +8,13 @@ import blog.bind.CategoryBind;
 import blog.dao.impl.CategoryImpl;
 import blog.entity.Category;
 import blog.system.dao.DaoFactory;
+import blog.system.exception.Exception404;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
 import blog.system.model.Model;
 import blog.system.tools.Logger;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -30,9 +32,34 @@ public class CategoryModel extends Model {
     private Category category;
 
     private List<Category> categories;
+    private String url;
 
     public CategoryModel() {
         category = new Category();
+    }
+
+    @Override
+    public void init(Object[] params) {
+        super.init(params); //To change body of generated methods, choose Tools | Templates.       
+        if (params.length > 0) {
+            url = "/category/update/" + params[0];
+        } else {
+            new Exception404("Miss id element");
+        }
+    }
+
+    @Override
+    public void init(HttpServletRequest r) {
+        super.init(r); //To change body of generated methods, choose Tools | Templates.
+        url = "/category/create/";
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Category getCategory() {
@@ -85,9 +112,9 @@ public class CategoryModel extends Model {
     }
 
     public boolean create() {
+        CategoryBind.bind(category);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        CategoryBind.bind(category);
         if (Category.validate(category, validator)) {
             CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
             Integer result;
@@ -110,9 +137,9 @@ public class CategoryModel extends Model {
     }
 
     public boolean update(String category_id) {
+        CategoryBind.bind(category, category_id);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-        CategoryBind.bind(category);
         if (Category.validate(category, validator)) {
             CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
             boolean result;
@@ -123,7 +150,7 @@ public class CategoryModel extends Model {
                 result = false;
             }
             if (!result) {
-                errorMessage = Load.bundle.getString("category_cant_insert");
+                errorMessage = Load.bundle.getString("category_cant_update");
                 return false;
             } else {
                 return true;
@@ -162,6 +189,27 @@ public class CategoryModel extends Model {
             category = ci.findAllForPk(category_id);
         } catch (PersistException p) {
             Logger.write(p.toString());
+        }
+
+    }
+
+    @Override
+    public boolean checkUnique(String name) {
+        CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
+        try {
+            if (category != null) {
+                int count = ci.findByAlias(category.getAlias(), category.getId());
+                if (count == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+            return false;
         }
 
     }

@@ -1,7 +1,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<t:template title="${Load.bundle.nav_main}">
+<t:template title="${Load.bundle.category}">
 
     <jsp:attribute name="head_area">
         <script type="text/javascript">

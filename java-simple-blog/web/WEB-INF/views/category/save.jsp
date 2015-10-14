@@ -1,7 +1,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<t:template title="${Load.bundle.nav_main}">
+<t:template title="${Load.bundle.category}">
 
     <jsp:attribute name="navigator_area">
         <t:navigator navigator="${Data.getNavigator()}"/> 
@@ -12,7 +12,7 @@
         <c:if test="${!Data.errorMessage.isEmpty()}">
             <p>${Data.errorMessage}<p>
             </c:if>
-        <form method="POST" action="/category/create/" class="form-horizontal">
+        <form method="POST" action="${Data.url}" class="form-horizontal">
             <div class="control-group">
                 <label class="control-label" for="category_name">${Load.bundle.category_name}</label>
 

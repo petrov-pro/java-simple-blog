@@ -61,7 +61,7 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
             statement.setString(2, c.getAlias());
             statement.setInt(3, c.getWeight());
             statement.setInt(4, c.getId());
-
+            statement.setInt(5, Load.auth.getUserId());
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -206,7 +206,7 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
         try {
             if (res) {
                 if (!updateContent(category)) {
-                    throw new PersistException("Can't insert content");
+                    throw new PersistException("Can't update content");
                 }
             }
             super.endTransaction();
@@ -236,6 +236,23 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
         }
 
         return true;
+    }
+
+    public int findByAlias(String alias, int category_id) throws PersistException {
+        int count = 0;
+        String sql = "SELECT * FROM blogj.category cat  WHERE cat.alias = ? AND cat.user_id = ? and cat.id != ?;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, alias);
+            statement.setInt(2, Load.auth.getUserId());
+            statement.setInt(3, category_id);
+            ResultSet rs = statement.executeQuery();
+            rs.last();
+            count = rs.getRow();
+            rs.close();
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+        return count;
     }
 
 }

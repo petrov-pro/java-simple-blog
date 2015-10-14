@@ -8,6 +8,7 @@ package blog.entity;
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import blog.validation.annotation.Internatinolaization;
+import blog.validation.annotation.Unique;
 import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -30,8 +31,8 @@ public class Category {
     private boolean enable;
 
     @Bind
+    @Unique(model_name = "Category")
     @NotNull
-    //@Unique(model_name = "Category")
     private String alias;
 
     @Bind
@@ -43,11 +44,12 @@ public class Category {
     public HashMap<String, String> translate;
 
     public Category() {
+        Category.errorMessage = "";
         this.translate = new HashMap();
     }
-    
-    public static String getTypeS(){
-         return type;
+
+    public static String getTypeS() {
+        return type;
     }
 
     public String getType() {
@@ -119,7 +121,6 @@ public class Category {
             }
             return false;
         }
-
     }
 
 }

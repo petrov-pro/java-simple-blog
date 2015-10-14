@@ -6,8 +6,8 @@
 package blog.system.loader;
 
 import blog.system.exception.Exception404;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Model<T> {
 
     private final String modelPrefix = "Model";
     private static final String path = "blog.model.";
-    private List<blog.system.model.Model> models = new ArrayList<blog.system.model.Model>();
+    private Map<String, blog.system.model.Model> models = new HashMap();
 
     public blog.system.model.Model name(String name) {
         return this.loadModel(name, null);
@@ -28,9 +28,9 @@ public class Model<T> {
     }
 
     private blog.system.model.Model loadModel(String name, Object[] params) {
-        int pos = models.indexOf(name);
-        if (pos != -1) {
-            return models.get(pos);
+        blog.system.model.Model modelS = models.get(name);
+        if (modelS != null) {
+            return modelS;
         } else {
             String class_name_path = path + name + modelPrefix;
             Class c;
@@ -47,7 +47,7 @@ public class Model<T> {
                         model = (blog.system.model.Model) obj;
                         model.init(params);
                     }
-                    models.add(model);
+                    models.put(name, model);
                     return model;
                 } catch (InstantiationException | IllegalAccessException ie) {
                     new Exception404(ie);

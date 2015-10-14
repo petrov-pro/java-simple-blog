@@ -26,7 +26,8 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 
     @Get
     public void create(blog.system.environment.Get get) throws ServletException, IOException {
-        Load.view.name("/category/save.jsp");
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        Load.view.name("/category/save.jsp", categoryModel);
     }
 
     @Post
@@ -44,14 +45,16 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 
     @Get
     public void update(blog.system.environment.Get get, String category_id) throws ServletException, IOException {
-        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        Object[] arg = new Object[]{category_id};
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category", arg);
         categoryModel.findAllForPk(Integer.parseInt(category_id));
         Load.view.name("/category/save.jsp", categoryModel);
     }
 
     @Post
     public void update(blog.system.environment.Post post, String category_id) throws ServletException, IOException {
-        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        Object[] arg = new Object[]{category_id};
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category", arg);
 
         if (categoryModel.update(category_id)) {
             Http.redirect("/main/done");

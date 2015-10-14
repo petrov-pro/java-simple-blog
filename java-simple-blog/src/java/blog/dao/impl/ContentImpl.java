@@ -52,7 +52,6 @@ public class ContentImpl extends AbstractDaoImpl<Content> {
             statement.setString(2, c.getLang());
             statement.setInt(3, c.getObject_id());
             statement.setString(4, c.getType());
-            statement.setInt(5, c.getId());
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -83,7 +82,7 @@ public class ContentImpl extends AbstractDaoImpl<Content> {
 
     @Override
     public String queryUpdate() throws PersistException {
-        return "UPDATE blogj.content SET text = ?, lang = ?, object_id = ?, `type` = ? WHERE id = ?;";
+        return "UPDATE blogj.content SET text = ?  WHERE lang = ? AND object_id = ? AND `type` = ?;";
     }
 
     @Override
