@@ -4,14 +4,19 @@
  */
 package blog.model;
 
-import blog.system.dao.DaoFactory;
+import blog.bind.ArticleBind;
 import blog.dao.impl.ArticleImpl;
 import blog.entity.Article;
+import blog.system.dao.DaoFactory;
+import blog.system.exception.PersistException;
+import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
-import java.util.ArrayList;
+import blog.system.tools.Logger;
 import java.util.List;
-import java.util.ResourceBundle;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -20,61 +25,86 @@ import java.util.ResourceBundle;
 //test
 public class ArticleModel extends Model {
 
-	private Article article;
-	private List<Article> articles;
+    private String errorMessage = "";
+    private String url = "/article/create/";
 
-	public ArticleModel() {
-		Navigator nav = new Navigator();
-		super.setNavigator(nav);
-	}
+    private Article article;
+    private List<Article> articles;
 
-	public Article getArticle() {
-		return article;
-	}
+    
+    public ArticleModel() {
+        article = new Article();
+    }
 
-	public ResourceBundle getBundle() {
-		return bundle;
-	}
+    public Article getArticle() {
+        return article;
+    }
 
-	public void setBundle(ResourceBundle bundle) {
-		this.bundle = bundle;
-	}
-	
-	
+    public String getUrl() {
+        return url;
+    }
 
-	@Override
-	public String getView() {
-		return "/article/article.jsp";
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	@Override
-	public ArticleModel getData() {
-		ArticleImpl a = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-		try {
-			article = a.findByPk(1);
-		} catch (Exception e) {
-			System.out.print("Error " + e.toString());
-		}
+    @Override
+    public String getView() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
+    @Override
+    public ArticleModel getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-		try {
-			articles = a.findAll();
-		} catch (Exception e) {
-			System.out.print("Error");
-		}
-		return this;
-	}
+    @Override
+    public Navigator getNavigator() {
+        return this.navigator;
+    }
 
-	@Override
-	public Navigator getNavigator() {
-		return this.navigator;
-	}
+    public boolean update(String category_id) {
+        return false;
+    }
 
-	public ArticleModel test(String i, String i2) {
-		return this;
-	}
+    public void findAll() {
+    }
 
-	public ArticleModel test() {
-		return this;
-	}
+    public String del(int user_id) {
+        return "";
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public boolean create() {
+        ArticleBind.bind(article);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        if (Article.validate(article, validator)) {
+            ArticleImpl ci = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+            Integer result;
+            try {
+                result = ci.insert(article);
+            } catch (PersistException p) {
+                Logger.write(p.toString());
+                result = null;
+            }
+            if (result == null) {
+                errorMessage = Load.bundle.getString("article_cant_insert");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            errorMessage = Article.getErrorMessage();
+            return false;
+        }
+    }
+
 }
