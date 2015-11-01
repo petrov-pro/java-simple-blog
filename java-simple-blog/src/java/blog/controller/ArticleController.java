@@ -20,10 +20,6 @@ import javax.servlet.ServletException;
  */
 public class ArticleController extends ControllerImpl<ArticleController> {
 
-    public void test() {
-        super.getView("/article/article.jsp");
-    }
-
     @Override
     public void index() {
         ArticleModel AModel = new ArticleModel();
@@ -55,7 +51,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
     public void update(blog.system.environment.Get get, String article_id) throws ServletException, IOException {
         Object[] arg = new Object[]{article_id};
         ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
-       // articleModel.findAllForPk(Integer.parseInt(article_id));
+        articleModel.findByPk(Integer.parseInt(article_id));
         Load.view.name("/article/save.jsp", articleModel);
     }
 

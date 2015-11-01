@@ -45,10 +45,6 @@ public class Router extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception404 {
-        Boolean m = Load.request.isUserInRole("ADMINS");
-        Logger.write("ADMINS? " + m);
-        Boolean m1 = Load.request.isUserInRole("USERS");
-        Logger.write("USERS? " + m1);
         errorPage = Load.errorPage;
         String servletPath = request.getServletPath();
         ParseUrl parseUrl = new ParseUrl(servletPath);

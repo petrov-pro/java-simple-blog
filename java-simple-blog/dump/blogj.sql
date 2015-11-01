@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.46, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: blogj
 -- ------------------------------------------------------
--- Server version	5.5.44-0ubuntu0.14.04.1
+-- Server version	5.5.46-0ubuntu0.14.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,19 +24,15 @@ DROP TABLE IF EXISTS `article`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `article` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title_id` int(11) DEFAULT NULL,
-  `body_id` int(11) DEFAULT NULL,
   `alias` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `weight` int(11) DEFAULT NULL,
   `ut` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `enable` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `article_body_id_idx` (`body_id`),
   KEY `fk_article_id` (`user_id`),
-  KEY `fk_tag_title_id` (`title_id`),
   CONSTRAINT `fk_article_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +41,7 @@ CREATE TABLE `article` (
 
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
-INSERT INTO `article` VALUES (1,NULL,NULL,NULL,NULL,NULL,'0000-00-00 00:00:00',NULL);
+INSERT INTO `article` VALUES (22,'test1',1,0,'2015-11-01 20:37:14',1),(23,'',1,0,'2015-11-01 20:11:34',1);
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +85,7 @@ CREATE TABLE `category` (
   PRIMARY KEY (`id`),
   KEY `fk_category_id` (`user_id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +94,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (24,1,'test',100,1),(27,1,'test1',100,1);
+INSERT INTO `category` VALUES (24,1,'petroff',100,1),(27,1,'test',100,1),(36,1,'super',100,1),(37,1,'pahom',10,1),(38,1,'',0,1);
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +143,7 @@ CREATE TABLE `content` (
   PRIMARY KEY (`id`),
   KEY `content_object_id_idx` (`object_id`),
   KEY `content_type_idx` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +152,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES (1,'test en','en',24,'category'),(2,'test ru','ru',24,'category'),(7,'test en1','en',27,'category'),(8,'test ru1','ru',27,'category');
+INSERT INTO `content` VALUES (1,'test en2','en',24,'category'),(2,'test ru22','ru',24,'category'),(7,'test en1','en',27,'category'),(8,'test ru1','ru',27,'category'),(25,'petroff','en',36,'category'),(26,'Ð¿ÐµÑ?Ñ?Ð¾Ñ?Ñ?','ru',36,'category'),(27,'pahom en','en',37,'category'),(28,'pahom ru','ru',37,'category'),(29,'test en','en',38,'category'),(30,'test ru','ru',38,'category'),(81,'test title en','en',22,'article_t'),(82,'test title ru','ru',22,'article_t'),(83,'test body en','en',22,'article_b'),(84,'test body ru','ru',22,'article_b'),(85,'test title en','en',23,'article_t'),(86,'test title ru','ru',23,'article_t'),(87,'test body en','en',23,'article_b'),(88,'test body ru','ru',23,'article_b');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-10-11 22:40:45
+-- Dump completed on 2015-11-01 22:52:27

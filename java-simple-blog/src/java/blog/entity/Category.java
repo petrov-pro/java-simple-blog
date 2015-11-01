@@ -39,7 +39,6 @@ public class Category {
     @NotNull
     private int weight;
 
-    @NotNull
     @Internatinolaization
     public HashMap<String, String> translate;
 

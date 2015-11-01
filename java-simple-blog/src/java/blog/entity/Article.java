@@ -23,12 +23,8 @@ public class Article {
 
     private int id;
 
-    private String title_id;
-
-    private String body_id;
-
     @Bind
-    private Boolean enable;
+    private boolean enable;
 
     @Bind
     private int weight;
@@ -37,23 +33,31 @@ public class Article {
     private String ut;
 
     @Bind
+    @NotNull
     @Unique(model_name = "Article")
     private String alias;
 
-    @NotNull
     @Internatinolaization
     public HashMap<String, String> translate_title;
 
-    @NotNull
     @Internatinolaization
     public HashMap<String, String> translate_body;
 
     private static String errorMessage = "";
+    private static String type = "article";
 
     public Article() {
         Article.errorMessage = "";
         this.translate_body = new HashMap();
         this.translate_title = new HashMap();
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public static String getErrorMessage() {
@@ -88,27 +92,11 @@ public class Article {
         this.id = id;
     }
 
-    public String getTitle_id() {
-        return title_id;
-    }
-
-    public void setTitle_id(String title_id) {
-        this.title_id = title_id;
-    }
-
-    public String getBody_id() {
-        return body_id;
-    }
-
-    public void setBody_id(String body_id) {
-        this.body_id = body_id;
-    }
-
-    public Boolean getEnable() {
+    public boolean isEnable() {
         return enable;
     }
 
-    public void setEnable(Boolean enable) {
+    public void setEnable(boolean enable) {
         this.enable = enable;
     }
 
@@ -126,6 +114,14 @@ public class Article {
 
     public void setUt(String ut) {
         this.ut = ut;
+    }
+
+    public static String getType() {
+        return type;
+    }
+
+    public static void setType(String type) {
+        Article.type = type;
     }
 
     public static boolean validate(Object object, Validator validator) {

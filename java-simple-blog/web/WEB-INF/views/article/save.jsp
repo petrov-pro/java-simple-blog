@@ -28,7 +28,7 @@
                 <c:forEach items="${Load.config.langs}" var="item"> 
                     <div class="controls">
                         ${item}   
-                        <textarea name="article_title[${item}]">${Data.article.translate_title.get(item)}</textarea>
+                        <textarea name="article_body[${item}]">${Data.article.translate_body.get(item)}</textarea>
                     </div>
                 </c:forEach>
             </div>

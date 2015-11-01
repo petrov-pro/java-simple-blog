@@ -6,6 +6,7 @@ package blog.model;
 
 import blog.bind.ArticleBind;
 import blog.dao.impl.ArticleImpl;
+import blog.dao.impl.CategoryImpl;
 import blog.entity.Article;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
@@ -31,9 +32,16 @@ public class ArticleModel extends Model {
     private Article article;
     private List<Article> articles;
 
-    
     public ArticleModel() {
         article = new Article();
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     public Article getArticle() {
@@ -63,11 +71,39 @@ public class ArticleModel extends Model {
         return this.navigator;
     }
 
-    public boolean update(String category_id) {
-        return false;
+    public boolean update(String article_id) {
+        url = "/article/update/" + article_id;
+        ArticleBind.bind(article, article_id);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        if (Article.validate(article, validator)) {
+            ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+            boolean result;
+            try {
+                result = i.update(article);
+            } catch (PersistException p) {
+                Logger.write(p.toString());
+                result = false;
+            }
+            if (!result) {
+                errorMessage = Load.bundle.getString("article_cant_update");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            errorMessage = Article.getErrorMessage();
+            return false;
+        }
     }
 
     public void findAll() {
+        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+        try {
+            articles = ai.findAllForUser(Load.auth.getUserId());
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
     }
 
     public String del(int user_id) {
@@ -107,4 +143,35 @@ public class ArticleModel extends Model {
         }
     }
 
+    public void findByPk(Integer article_id) {
+        url = "/article/update/" + article_id;
+        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+        try {
+            article = ai.findByPk(article_id);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+
+    }
+
+    @Override
+    public boolean checkUnique(String name) {
+        ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+        try {
+            if (article != null) {
+                int count = i.findByAlias(article.getAlias(), article.getId());
+                if (count == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+            return false;
+        }
+
+    }
 }

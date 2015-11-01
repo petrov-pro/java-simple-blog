@@ -5,6 +5,7 @@
  */
 package blog.validation;
 
+import blog.system.tools.Logger;
 import blog.validation.annotation.Internatinolaization;
 import java.util.Map;
 import javax.validation.ConstraintValidator;
@@ -26,6 +27,9 @@ public class InternatinolaizationValidator implements ConstraintValidator<Intern
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context) {
         Map<String, String> i18n = (Map) obj;
+        if (i18n.size() == 0) {
+            return false;
+        }
         for (Map.Entry<String, String> entry : i18n.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
