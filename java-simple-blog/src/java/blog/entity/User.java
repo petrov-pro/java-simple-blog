@@ -9,6 +9,7 @@ import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import blog.system.tools.Md5;
 import blog.validation.annotation.Confirm;
+import blog.validation.annotation.NotEmpty;
 import blog.validation.annotation.Unique;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -27,20 +28,20 @@ public class User {
     public int id;
 
     @Bind
-    @NotNull
+    @NotEmpty
     public String email;
 
     @Bind
-    @NotNull
+    @NotEmpty
     @Unique(model_name = "User")
     public String user_name;
 
     @Bind
-    @NotNull
+    @NotEmpty
     public String password;
 
     @Bind
-    @NotNull
+    @NotEmpty
 
     public String confirm;
 
@@ -104,7 +105,7 @@ public class User {
         } else {
             for (ConstraintViolation<Object> cv : constraintViolations) {
                 errorMessage = errorMessage + String.format(
-                        Load.bundle.getString("user_registration_error"),
+                        Load.bundle.getString("main_error"),
                         cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
             }
             return false;

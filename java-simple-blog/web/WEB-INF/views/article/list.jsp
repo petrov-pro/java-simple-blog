@@ -74,7 +74,7 @@
                         <c:out value="${Load.lang.get()}"/>
                     </td>
                     <td>
-                        <c:out value="${article.translate.get(Load.lang.get())}"/>
+                        <c:out value="${article.translate_title.get(Load.lang.get())}"/>
                     </td>
                     <td>
                         <a href="/article/update/${article.id}">${Load.bundle.article_edit}</a>

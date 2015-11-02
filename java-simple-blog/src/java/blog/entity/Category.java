@@ -8,6 +8,7 @@ package blog.entity;
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import blog.validation.annotation.Internatinolaization;
+import blog.validation.annotation.NotEmpty;
 import blog.validation.annotation.Unique;
 import java.util.HashMap;
 import java.util.Set;
@@ -32,11 +33,11 @@ public class Category {
 
     @Bind
     @Unique(model_name = "Category")
-    @NotNull
+    @NotEmpty
     private String alias;
 
     @Bind
-    @NotNull
+    @NotEmpty
     private int weight;
 
     @Internatinolaization
@@ -115,7 +116,7 @@ public class Category {
         } else {
             for (ConstraintViolation<Object> cv : constraintViolations) {
                 errorMessage = errorMessage + String.format(
-                        Load.bundle.getString("user_registration_error"),
+                        Load.bundle.getString("main_error"),
                         cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
             }
             return false;

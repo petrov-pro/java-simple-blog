@@ -8,12 +8,12 @@ package blog.entity;
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import blog.validation.annotation.Internatinolaization;
+import blog.validation.annotation.NotEmpty;
 import blog.validation.annotation.Unique;
 import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -33,7 +33,7 @@ public class Article {
     private String ut;
 
     @Bind
-    @NotNull
+    @NotEmpty
     @Unique(model_name = "Article")
     private String alias;
 
@@ -132,7 +132,7 @@ public class Article {
         } else {
             for (ConstraintViolation<Object> cv : constraintViolations) {
                 errorMessage = errorMessage + String.format(
-                        Load.bundle.getString("user_registration_error"),
+                        Load.bundle.getString("main_error"),
                         cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
             }
             return false;
