@@ -6,8 +6,10 @@
 package blog.entity;
 
 import blog.system.loader.Load;
+import blog.validation.annotation.NotEmpty;
 import java.util.HashMap;
 import java.util.Set;
+import static javafx.scene.transform.Transform.translate;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
@@ -23,15 +25,13 @@ public class Tag {
 
 	private int id;
 
-	private int article_link_id;
-
 	private int user_id;
 
-	private HashMap<String, String> translate;
+	@NotEmpty
+	private String name;
 
 	public Tag() {
 		Tag.errorMessage = "";
-		this.translate = new HashMap();
 	}
 
 	public static boolean validate(Object object, Validator validator) {
@@ -73,14 +73,6 @@ public class Tag {
 		this.id = id;
 	}
 
-	public int getArticle_link_id() {
-		return article_link_id;
-	}
-
-	public void setArticle_link_id(int article_link_id) {
-		this.article_link_id = article_link_id;
-	}
-
 	public int getUser_id() {
 		return user_id;
 	}
@@ -89,12 +81,12 @@ public class Tag {
 		this.user_id = user_id;
 	}
 
-	public HashMap<String, String> getTranslate() {
-		return translate;
+	public String getName() {
+		return name;
 	}
 
-	public void setTranslate(HashMap<String, String> translate) {
-		this.translate = translate;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

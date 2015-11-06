@@ -10,6 +10,7 @@ import blog.system.loader.Load;
 import java.lang.reflect.Field;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import javax.servlet.ServletRequest;
 
@@ -30,7 +31,7 @@ public class BindParams {
             if (bind != null) {
                 try {
                     String param_name = field.getName();
-                    String param_raw = Load.request.getParameter(param_name);
+                    String param_raw = Load.request.getParameter(param_name.toLowerCase(Locale.ENGLISH));
                     String param;
                     if (param_raw == null) {
                         param = "";

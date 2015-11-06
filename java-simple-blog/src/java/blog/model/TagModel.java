@@ -12,11 +12,12 @@ import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
 import blog.system.tools.Logger;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import org.json.simple.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -81,29 +82,63 @@ public class TagModel extends Model {
 		this.errorMessage = errorMessage;
 	}
 
-	public boolean update(String tags, int articleId) {
+	public boolean update(String tags_str, int articleId) {
+		List<String> items = Arrays.asList(tags_str.split(","));
+		for (String item : items) {
+			if (!item.isEmpty()) {
+				tag.setName(item);
+				ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+				Validator validator = factory.getValidator();
+				if (Tag.validate(tag, validator)) {
+					TagImpl i = (TagImpl) DaoFactory.getDao("TagImpl");
+					Tag find = null;
+					try {
+						find = i.findByName(tag.getName());
+					} catch (PersistException p) {
+						Logger.write(p.toString());
+					}
 
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		if (Tag.validate(tag, validator)) {
-			TagImpl i = (TagImpl) DaoFactory.getDao("TagImpl");
-			boolean result;
-			try {
-				result = i.update(tag);
-			} catch (PersistException p) {
-				Logger.write(p.toString());
-				result = false;
+					if (find == null) {
+						int result = 0;
+						try {
+							result = i.insert(tag);
+						} catch (PersistException p) {
+							Logger.write(p.toString());
+						}
+						if (result == 0) {
+							errorMessage = Load.bundle.getString("tag_cant_insert");
+							return false;
+						}
+					}
+
+					int result_map = 0;
+					try {
+						result_map = i.insert_link(tag, articleId);
+					} catch (PersistException p) {
+						Logger.write(p.toString());
+					}
+
+				} else {
+					errorMessage = Tag.getErrorMessage();
+					return false;
+				}
 			}
-			if (!result) {
-				errorMessage = Load.bundle.getString("tag_cant_update");
-				return false;
-			} else {
-				return true;
-			}
-		} else {
-			errorMessage = Tag.getErrorMessage();
-			return false;
+
 		}
+
+		return true;
+	}
+
+	public String getTagsStr(int userId, int articleId) {
+		String res = "";
+		TagImpl i = (TagImpl) DaoFactory.getDao("TagImpl");
+		try {
+			List<Tag> tags = i.findByPkForUser(userId, articleId);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		res = StringUtils.join(tags, ",");
+		return res;
 	}
 
 }

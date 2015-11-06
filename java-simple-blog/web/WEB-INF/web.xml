@@ -33,12 +33,13 @@
             <url-pattern>/auth/*</url-pattern>
             <url-pattern>/user/privat/</url-pattern>
             <url-pattern>/category/create/</url-pattern>
-            <url-pattern>/category/update/</url-pattern>
+            <url-pattern>/category/update/*</url-pattern>
             <url-pattern>/category/del/</url-pattern>
             <url-pattern>/category/list/</url-pattern>
-            <url-pattern>/article/update/</url-pattern>
+            <url-pattern>/article/create/</url-pattern>
+            <url-pattern>/article/update/*</url-pattern>
             <url-pattern>/article/del/</url-pattern>
-
+            <url-pattern>/article/list/</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PUT</http-method>

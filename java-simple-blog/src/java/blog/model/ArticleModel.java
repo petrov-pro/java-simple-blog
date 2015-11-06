@@ -33,18 +33,18 @@ public class ArticleModel extends Model {
 	private Article article;
 	private List<Article> articles;
 
-	private Tag tag;
+	private String tagsStr;
 
 	public ArticleModel() {
 		article = new Article();
 	}
 
-	public Tag getTag() {
-		return tag;
+	public String getTagsStr() {
+		return tagsStr;
 	}
 
-	public void setTag(Tag tag) {
-		this.tag = tag;
+	public void setTagsStr(String tagsStr) {
+		this.tagsStr = tagsStr;
 	}
 
 	public List<Article> getArticles() {
@@ -82,9 +82,9 @@ public class ArticleModel extends Model {
 		return this.navigator;
 	}
 
-	public boolean update(String article_id) {
-		url = "/article/update/" + article_id;
-		ArticleBind.bind(article, article_id);
+	public boolean update(String articleId) {
+		url = "/article/update/" + articleId;
+		ArticleBind.bind(article, articleId);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		if (Article.validate(article, validator)) {
@@ -129,11 +129,16 @@ public class ArticleModel extends Model {
 		ArticleBind.bind(article);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
 		if (Article.validate(article, validator)) {
 			ArticleImpl ci = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
 			Integer result;
+			boolean resultTag = false;
 			try {
+				ci.startTransaction();
 				result = ci.insert(article);
+				resultTag = tagModel.update(article.getTagsStr(), article.getId());
+
 			} catch (PersistException p) {
 				Logger.write(p.toString());
 				result = null;
@@ -141,7 +146,16 @@ public class ArticleModel extends Model {
 			if (result == null) {
 				errorMessage = Load.bundle.getString("article_cant_insert");
 				return false;
+			} else if (!resultTag) {
+				errorMessage = Load.bundle.getString("tag_cant_insert");
+				return false;
 			} else {
+				try {
+					ci.endTransaction();
+				} catch (PersistException p) {
+					Logger.write(p.toString());
+					return false;
+				}
 				return true;
 			}
 		} else {
@@ -150,14 +164,18 @@ public class ArticleModel extends Model {
 		}
 	}
 
-	public void findByPk(Integer article_id) {
-		url = "/article/update/" + article_id;
+	public void findByPk(Integer articleId) {
+		url = "/article/update/" + articleId;
 		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
 		try {
-			article = ai.findByPk(article_id);
+			article = ai.findByPk(articleId);
 		} catch (PersistException p) {
 			Logger.write(p.toString());
 		}
+
+		String tagsStr = tagModel.getTagsStr(article.getUser_id(), article.getId());
+		article.setTagsStr(tagsStr);
 
 	}
 
@@ -182,12 +200,12 @@ public class ArticleModel extends Model {
 
 	}
 
-	public String del(int user_id) {
+	public String del(int userId) {
 		Boolean message = false;
 		JSONObject resultJson = new JSONObject();
 		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
 		try {
-			message = ai.delete(user_id);
+			message = ai.delete(userId);
 		} catch (PersistException p) {
 			Logger.write(p.toString());
 		}

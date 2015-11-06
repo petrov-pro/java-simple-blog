@@ -100,7 +100,6 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 	@Override
 	public Integer insert(Article article) throws PersistException {
 		Integer res;
-		super.startTransaction();
 		res = super.insert(article);
 		try {
 			if (res != null) {
@@ -109,7 +108,6 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 					throw new PersistException("Can't insert content");
 				}
 			}
-			super.endTransaction();
 		} catch (PersistException p) {
 			super.rollbackTransaction();
 			throw p;

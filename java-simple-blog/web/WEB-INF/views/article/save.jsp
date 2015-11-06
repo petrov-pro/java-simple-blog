@@ -55,8 +55,9 @@
                 </div>
 				<label class="control-label" for="article_name">${Load.bundle.article_tag}</label>
                 <div class="controls">
-                    <input type="text" name="tags" value="${Data.tag}" />
+                    <input type="text" name="tagsstr" value="${Data.article.tagsStr}" />
                 </div>
+
                 <div class="controls">
                     <input type="submit" value="${Load.bundle.user_registration_submit}"/>
                 </div>
