@@ -7,9 +7,7 @@ package blog.entity;
 
 import blog.system.loader.Load;
 import blog.validation.annotation.NotEmpty;
-import java.util.HashMap;
 import java.util.Set;
-import static javafx.scene.transform.Transform.translate;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 

@@ -7,11 +7,11 @@ package blog.model;
 import blog.bind.CategoryBind;
 import blog.dao.impl.CategoryImpl;
 import blog.entity.Category;
+import blog.model.intf.TreeIntf;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.Exception404;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
-import blog.system.model.Model;
 import blog.system.tools.Logger;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +24,8 @@ import org.json.simple.JSONObject;
  *
  * @author petroff
  */
-//test
-public class CategoryModel extends Model {
+
+public class CategoryModel extends blog.system.model.Model implements TreeIntf<Category> {
 
     private String errorMessage = "";
 
@@ -212,6 +212,11 @@ public class CategoryModel extends Model {
             return false;
         }
 
+    }
+
+    @Override
+    public List<Category> getBranches() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

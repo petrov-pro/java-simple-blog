@@ -28,7 +28,7 @@
 
 
     <jsp:attribute name="body_area">
-        <h1>Catgeory list</h1>
+        <h1>${Load.bundle.article} list</h1>
         <c:if test="${!Data.errorMessage.isEmpty()}">
             <p>${Data.errorMessage}<p>
             </c:if>

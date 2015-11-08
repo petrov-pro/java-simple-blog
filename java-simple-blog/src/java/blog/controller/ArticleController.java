@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
  * @author petroff
  */
 public class ArticleController extends ControllerImpl<ArticleController> {
+    
+    
 
     @Override
     public void index() {

@@ -5,6 +5,7 @@
  */
 package blog.entity;
 
+import blog.entity.intf.branch;
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
 import blog.validation.annotation.Internatinolaization;
@@ -14,13 +15,12 @@ import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author petroff
  */
-public class Category {
+public class Category implements branch {
 
     private static String errorMessage = "";
 
@@ -48,6 +48,11 @@ public class Category {
         this.translate = new HashMap();
     }
 
+    @Override
+    public String getName() {
+        return alias;
+    }
+
     public static String getTypeS() {
         return type;
     }
@@ -68,6 +73,7 @@ public class Category {
         Category.errorMessage = errorMessage;
     }
 
+    @Override
     public int getId() {
         return id;
     }

@@ -14,6 +14,12 @@
             </c:if>
         <form method="POST" action="${Data.url}" class="form-horizontal">
             <div class="control-group">
+                <label class="control-label" for="article_name">${Load.bundle.article_category}</label>
+
+               ${Data.tree.getBranches()}
+            </div>
+                
+            <div class="control-group">
                 <label class="control-label" for="article_name">${Load.bundle.article_title}</label>
 
                 <c:forEach items="${Load.config.langs}" var="item"> 

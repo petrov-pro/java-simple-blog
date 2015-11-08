@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: blogj
 -- ------------------------------------------------------
--- Server version	5.5.46-0ubuntu0.12.04.2
+-- Server version	5.5.46-0ubuntu0.14.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,10 +29,12 @@ CREATE TABLE `article` (
   `weight` int(11) DEFAULT NULL,
   `ut` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `enable` tinyint(1) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_article_id` (`user_id`),
+  KEY `article_category_id_idx` (`category_id`),
   CONSTRAINT `fk_article_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +43,6 @@ CREATE TABLE `article` (
 
 LOCK TABLES `article` WRITE;
 /*!40000 ALTER TABLE `article` DISABLE KEYS */;
-INSERT INTO `article` VALUES (1,'test-tag',1,0,'2015-11-06 15:14:32',1),(2,'test-tag2',1,0,'2015-11-06 15:17:14',1);
 /*!40000 ALTER TABLE `article` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,7 +55,9 @@ DROP TABLE IF EXISTS `article_tag_link`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `article_tag_link` (
   `article_id` int(11) NOT NULL,
-  `tag_id` int(11) DEFAULT NULL,
+  `tag_id` int(11) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `article_tag_id` (`tag_id`),
   KEY `article_id` (`article_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -66,7 +69,6 @@ CREATE TABLE `article_tag_link` (
 
 LOCK TABLES `article_tag_link` WRITE;
 /*!40000 ALTER TABLE `article_tag_link` DISABLE KEYS */;
-INSERT INTO `article_tag_link` VALUES (2,1),(2,2);
 /*!40000 ALTER TABLE `article_tag_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,7 +146,7 @@ CREATE TABLE `content` (
   PRIMARY KEY (`id`),
   KEY `content_object_id_idx` (`object_id`),
   KEY `content_type_idx` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +155,7 @@ CREATE TABLE `content` (
 
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
-INSERT INTO `content` VALUES (1,'test en2','en',24,'category'),(2,'test ru22','ru',24,'category'),(7,'test en1','en',27,'category'),(8,'test ru1','ru',27,'category'),(25,'petroff','en',36,'category'),(26,'Ð¿ÐµÑ?Ñ?Ð¾Ñ?Ñ?','ru',36,'category'),(27,'pahom en','en',37,'category'),(28,'pahom ru','ru',37,'category'),(29,'test en','en',38,'category'),(30,'test ru','ru',38,'category'),(81,'test title en','en',22,'article_t'),(82,'test title ru','ru',22,'article_t'),(83,'test body en','en',22,'article_b'),(84,'test body ru','ru',22,'article_b'),(85,'test title en','en',23,'article_t'),(86,'test title ru','ru',23,'article_t'),(87,'test body en','en',23,'article_b'),(88,'test body ru','ru',23,'article_b'),(89,'tyery','ru',24,'article_t'),(90,'erty','en',24,'article_t'),(91,'ery','ru',24,'article_b'),(92,'ery','en',24,'article_b'),(93,'tyery','ru',25,'article_t'),(94,'erty','en',25,'article_t'),(95,'ery','ru',25,'article_b'),(96,'ery','en',25,'article_b'),(97,'tyery','ru',26,'article_t'),(98,'erty','en',26,'article_t'),(99,'ery','ru',26,'article_b'),(100,'ery','en',26,'article_b'),(101,'tyery','ru',27,'article_t'),(102,'erty','en',27,'article_t'),(103,'ery','ru',27,'article_b'),(104,'ery','en',27,'article_b'),(105,'tyery','ru',28,'article_t'),(106,'erty','en',28,'article_t'),(107,'ery','ru',28,'article_b'),(108,'ery','en',28,'article_b'),(109,'tyery','ru',29,'article_t'),(110,'erty','en',29,'article_t'),(111,'ery','ru',29,'article_b'),(112,'ery','en',29,'article_b'),(113,'tyery','ru',30,'article_t'),(114,'erty','en',30,'article_t'),(115,'ery','ru',30,'article_b'),(116,'ery','en',30,'article_b'),(117,'tyery','ru',31,'article_t'),(118,'erty','en',31,'article_t'),(119,'ery','ru',31,'article_b'),(120,'ery','en',31,'article_b'),(121,'tyery','ru',32,'article_t'),(122,'erty','en',32,'article_t'),(123,'ery','ru',32,'article_b'),(124,'ery','en',32,'article_b'),(125,'tyery','ru',33,'article_t'),(126,'erty','en',33,'article_t'),(127,'ery','ru',33,'article_b'),(128,'ery','en',33,'article_b'),(129,'tyery','ru',34,'article_t'),(130,'erty','en',34,'article_t'),(131,'ery','ru',34,'article_b'),(132,'ery','en',34,'article_b'),(133,'tyery','ru',35,'article_t'),(134,'erty','en',35,'article_t'),(135,'ery','ru',35,'article_b'),(136,'ery','en',35,'article_b'),(137,'tyery','ru',36,'article_t'),(138,'erty','en',36,'article_t'),(139,'ery','ru',36,'article_b'),(140,'ery','en',36,'article_b'),(141,'tyery','ru',45,'article_t'),(142,'erty','en',45,'article_t'),(143,'ery','ru',45,'article_b'),(144,'ery','en',45,'article_b'),(145,'erytwer','ru',46,'article_t'),(146,'ertwert','en',46,'article_t'),(147,'wetwert','ru',46,'article_b'),(148,'eter','en',46,'article_b'),(149,'erytwer','ru',47,'article_t'),(150,'ertwert','en',47,'article_t'),(151,'wetwert','ru',47,'article_b'),(152,'eter','en',47,'article_b'),(153,'wertwer','ru',48,'article_t'),(154,'wrwer','en',48,'article_t'),(155,'werwe','ru',48,'article_b'),(156,'werwe','en',48,'article_b'),(157,'wertwer','ru',49,'article_t'),(158,'wrwer','en',49,'article_t'),(159,'werwe','ru',49,'article_b'),(160,'werwe','en',49,'article_b'),(161,'wertwer','ru',50,'article_t'),(162,'wrwer','en',50,'article_t'),(163,'werwe','ru',50,'article_b'),(164,'werwe','en',50,'article_b'),(165,'wertwer','ru',51,'article_t'),(166,'wrwer','en',51,'article_t'),(167,'werwe','ru',51,'article_b'),(168,'werwe','en',51,'article_b'),(173,'wetrwe','ru',53,'article_t'),(174,'werwe','en',53,'article_t'),(175,'werwe','ru',53,'article_b'),(176,'werwer','en',53,'article_b'),(177,'wetrwe','ru',54,'article_t'),(178,'werwe','en',54,'article_t'),(179,'werwe','ru',54,'article_b'),(180,'werwer','en',54,'article_b'),(181,'tesfgsd','ru',55,'article_t'),(182,'dfgwerter','en',55,'article_t'),(183,'tytywy','ru',55,'article_b'),(184,'etweter','en',55,'article_b'),(185,'tesfgsd','ru',56,'article_t'),(186,'dfgwerter','en',56,'article_t'),(187,'tytywy','ru',56,'article_b'),(188,'etweter','en',56,'article_b'),(189,'tesfgsd','ru',57,'article_t'),(190,'dfgwerter','en',57,'article_t'),(191,'tytywy','ru',57,'article_b'),(192,'etweter','en',57,'article_b'),(193,'tesfgsd','ru',58,'article_t'),(194,'dfgwerter','en',58,'article_t'),(195,'qwrwr','ru',58,'article_b'),(196,'sdfwerw','en',58,'article_b'),(197,'tesfgsd','ru',59,'article_t'),(198,'dfgwerter','en',59,'article_t'),(199,'qwrwr','ru',59,'article_b'),(200,'sdfwerw','en',59,'article_b'),(201,'tesfgsd','ru',60,'article_t'),(202,'dfgwerter','en',60,'article_t'),(203,'qwrwr','ru',60,'article_b'),(204,'sdfwerw','en',60,'article_b'),(205,'tesfgsd','ru',61,'article_t'),(206,'dfgwerter','en',61,'article_t'),(207,'qwrwr','ru',61,'article_b'),(208,'sdfwerw','en',61,'article_b'),(209,'tesfgsd','ru',62,'article_t'),(210,'dfgwerter','en',62,'article_t'),(211,'qwrwr','ru',62,'article_b'),(212,'sdfwerw','en',62,'article_b'),(213,'tesfgsd','ru',63,'article_t'),(214,'dfgwerter','en',63,'article_t'),(215,'qwrwr','ru',63,'article_b'),(216,'sdfwerw','en',63,'article_b'),(217,'tesfgsd','ru',64,'article_t'),(218,'dfgwerter','en',64,'article_t'),(219,'qwrwr','ru',64,'article_b'),(220,'sdfwerw','en',64,'article_b'),(221,'tesfgsd','ru',65,'article_t'),(222,'dfgwerter','en',65,'article_t'),(223,'qwrwr','ru',65,'article_b'),(224,'sdfwerw','en',65,'article_b'),(225,'tesfgsd','ru',66,'article_t'),(226,'dfgwerter','en',66,'article_t'),(227,'qwrwr','ru',66,'article_b'),(228,'sdfwerw','en',66,'article_b'),(229,'test ru','ru',1,'article_t'),(230,'test en','en',1,'article_t'),(231,'test body ru','ru',1,'article_b'),(232,'test body en','en',1,'article_b'),(233,'title ru','ru',2,'article_t'),(234,'title en','en',2,'article_t'),(235,'body ru','ru',2,'article_b'),(236,'body en','en',2,'article_b'),(237,'title ru','ru',3,'article_t'),(238,'title en','en',3,'article_t'),(239,'body ru','ru',3,'article_b'),(240,'body en','en',3,'article_b'),(241,'title ru','ru',1,'article_t'),(242,'title en','en',1,'article_t'),(243,'body ru','ru',1,'article_b'),(244,'body en','en',1,'article_b'),(245,'title ru','ru',2,'article_t'),(246,'title en','en',2,'article_t'),(247,'body ru','ru',2,'article_b'),(248,'body en','en',2,'article_b');
+INSERT INTO `content` VALUES (1,'test en2','en',24,'category'),(2,'test ru22','ru',24,'category'),(7,'test en1','en',27,'category'),(8,'test ru1','ru',27,'category'),(25,'petroff','en',36,'category'),(26,'Ð¿ÐµÑ?Ñ?Ð¾Ñ?Ñ?','ru',36,'category'),(27,'pahom en','en',37,'category'),(28,'pahom ru','ru',37,'category'),(29,'test en','en',38,'category'),(30,'test ru','ru',38,'category'),(81,'test title en','en',22,'article_t'),(82,'test title ru','ru',22,'article_t'),(83,'test body en','en',22,'article_b'),(84,'test body ru','ru',22,'article_b'),(85,'test title en','en',23,'article_t'),(86,'test title ru','ru',23,'article_t'),(87,'test body en','en',23,'article_b'),(88,'test body ru','ru',23,'article_b'),(89,'tyery','ru',24,'article_t'),(90,'erty','en',24,'article_t'),(91,'ery','ru',24,'article_b'),(92,'ery','en',24,'article_b'),(93,'tyery','ru',25,'article_t'),(94,'erty','en',25,'article_t'),(95,'ery','ru',25,'article_b'),(96,'ery','en',25,'article_b'),(97,'tyery','ru',26,'article_t'),(98,'erty','en',26,'article_t'),(99,'ery','ru',26,'article_b'),(100,'ery','en',26,'article_b'),(101,'tyery','ru',27,'article_t'),(102,'erty','en',27,'article_t'),(103,'ery','ru',27,'article_b'),(104,'ery','en',27,'article_b'),(105,'tyery','ru',28,'article_t'),(106,'erty','en',28,'article_t'),(107,'ery','ru',28,'article_b'),(108,'ery','en',28,'article_b'),(109,'tyery','ru',29,'article_t'),(110,'erty','en',29,'article_t'),(111,'ery','ru',29,'article_b'),(112,'ery','en',29,'article_b'),(113,'tyery','ru',30,'article_t'),(114,'erty','en',30,'article_t'),(115,'ery','ru',30,'article_b'),(116,'ery','en',30,'article_b'),(117,'tyery','ru',31,'article_t'),(118,'erty','en',31,'article_t'),(119,'ery','ru',31,'article_b'),(120,'ery','en',31,'article_b'),(121,'tyery','ru',32,'article_t'),(122,'erty','en',32,'article_t'),(123,'ery','ru',32,'article_b'),(124,'ery','en',32,'article_b'),(125,'tyery','ru',33,'article_t'),(126,'erty','en',33,'article_t'),(127,'ery','ru',33,'article_b'),(128,'ery','en',33,'article_b'),(129,'tyery','ru',34,'article_t'),(130,'erty','en',34,'article_t'),(131,'ery','ru',34,'article_b'),(132,'ery','en',34,'article_b'),(133,'tyery','ru',35,'article_t'),(134,'erty','en',35,'article_t'),(135,'ery','ru',35,'article_b'),(136,'ery','en',35,'article_b'),(137,'tyery','ru',36,'article_t'),(138,'erty','en',36,'article_t'),(139,'ery','ru',36,'article_b'),(140,'ery','en',36,'article_b'),(141,'tyery','ru',45,'article_t'),(142,'erty','en',45,'article_t'),(143,'ery','ru',45,'article_b'),(144,'ery','en',45,'article_b'),(145,'erytwer','ru',46,'article_t'),(146,'ertwert','en',46,'article_t'),(147,'wetwert','ru',46,'article_b'),(148,'eter','en',46,'article_b'),(149,'erytwer','ru',47,'article_t'),(150,'ertwert','en',47,'article_t'),(151,'wetwert','ru',47,'article_b'),(152,'eter','en',47,'article_b'),(153,'wertwer','ru',48,'article_t'),(154,'wrwer','en',48,'article_t'),(155,'werwe','ru',48,'article_b'),(156,'werwe','en',48,'article_b'),(157,'wertwer','ru',49,'article_t'),(158,'wrwer','en',49,'article_t'),(159,'werwe','ru',49,'article_b'),(160,'werwe','en',49,'article_b'),(161,'wertwer','ru',50,'article_t'),(162,'wrwer','en',50,'article_t'),(163,'werwe','ru',50,'article_b'),(164,'werwe','en',50,'article_b'),(165,'wertwer','ru',51,'article_t'),(166,'wrwer','en',51,'article_t'),(167,'werwe','ru',51,'article_b'),(168,'werwe','en',51,'article_b'),(173,'wetrwe','ru',53,'article_t'),(174,'werwe','en',53,'article_t'),(175,'werwe','ru',53,'article_b'),(176,'werwer','en',53,'article_b'),(177,'wetrwe','ru',54,'article_t'),(178,'werwe','en',54,'article_t'),(179,'werwe','ru',54,'article_b'),(180,'werwer','en',54,'article_b'),(181,'tesfgsd','ru',55,'article_t'),(182,'dfgwerter','en',55,'article_t'),(183,'tytywy','ru',55,'article_b'),(184,'etweter','en',55,'article_b'),(185,'tesfgsd','ru',56,'article_t'),(186,'dfgwerter','en',56,'article_t'),(187,'tytywy','ru',56,'article_b'),(188,'etweter','en',56,'article_b'),(189,'tesfgsd','ru',57,'article_t'),(190,'dfgwerter','en',57,'article_t'),(191,'tytywy','ru',57,'article_b'),(192,'etweter','en',57,'article_b'),(193,'tesfgsd','ru',58,'article_t'),(194,'dfgwerter','en',58,'article_t'),(195,'qwrwr','ru',58,'article_b'),(196,'sdfwerw','en',58,'article_b'),(197,'tesfgsd','ru',59,'article_t'),(198,'dfgwerter','en',59,'article_t'),(199,'qwrwr','ru',59,'article_b'),(200,'sdfwerw','en',59,'article_b'),(201,'tesfgsd','ru',60,'article_t'),(202,'dfgwerter','en',60,'article_t'),(203,'qwrwr','ru',60,'article_b'),(204,'sdfwerw','en',60,'article_b'),(205,'tesfgsd','ru',61,'article_t'),(206,'dfgwerter','en',61,'article_t'),(207,'qwrwr','ru',61,'article_b'),(208,'sdfwerw','en',61,'article_b'),(209,'tesfgsd','ru',62,'article_t'),(210,'dfgwerter','en',62,'article_t'),(211,'qwrwr','ru',62,'article_b'),(212,'sdfwerw','en',62,'article_b'),(213,'tesfgsd','ru',63,'article_t'),(214,'dfgwerter','en',63,'article_t'),(215,'qwrwr','ru',63,'article_b'),(216,'sdfwerw','en',63,'article_b'),(217,'tesfgsd','ru',64,'article_t'),(218,'dfgwerter','en',64,'article_t'),(219,'qwrwr','ru',64,'article_b'),(220,'sdfwerw','en',64,'article_b'),(221,'tesfgsd','ru',65,'article_t'),(222,'dfgwerter','en',65,'article_t'),(223,'qwrwr','ru',65,'article_b'),(224,'sdfwerw','en',65,'article_b'),(225,'tesfgsd','ru',66,'article_t'),(226,'dfgwerter','en',66,'article_t'),(227,'qwrwr','ru',66,'article_b'),(228,'sdfwerw','en',66,'article_b');
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +200,7 @@ CREATE TABLE `tag` (
   UNIQUE KEY `name` (`name`),
   KEY `fk_tag_id` (`user_id`),
   CONSTRAINT `fk_tag_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +209,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES (1,1,'one'),(2,1,'two');
+INSERT INTO `tag` VALUES (1,1,'one'),(2,1,'two'),(13,1,'three'),(14,1,'four'),(15,1,'andrey'),(16,1,'olya'),(17,1,' mixa');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,4 +248,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-06 18:25:02
+-- Dump completed on 2015-11-09  0:05:49
