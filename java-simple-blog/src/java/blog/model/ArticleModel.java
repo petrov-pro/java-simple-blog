@@ -27,222 +27,229 @@ import org.json.simple.JSONObject;
  *
  * @author petroff
  */
-
 public class ArticleModel extends Model {
 
-    private String errorMessage = "";
-    private String url = "/article/create/";
+	private String errorMessage = "";
+	private String url = "/article/create/";
 
-    private Article article;
-    private List<Article> articles;
+	private Article article;
+	private List<Article> articles;
+	private TreeIntf tree;
 
-    private String tagsStr;
+	private String tagsStr;
 
+	public ArticleModel() {
+		article = new Article();
+	}
 
-    public ArticleModel() {
-        article = new Article();
-    }
-    
-    public String getTagsStr() {
-        return tagsStr;
-    }
+	public TreeIntf getTree() {
+		return tree;
+	}
 
-    public void setTagsStr(String tagsStr) {
-        this.tagsStr = tagsStr;
-    }
+	public void setTree(TreeIntf tree) {
+		this.tree = tree;
+	}
 
-    public List<Article> getArticles() {
-        return articles;
-    }
+	public String getTagsStr() {
+		return tagsStr;
+	}
 
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    }
+	public void setTagsStr(String tagsStr) {
+		this.tagsStr = tagsStr;
+	}
 
-    public Article getArticle() {
-        return article;
-    }
+	public List<Article> getArticles() {
+		return articles;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	public Article getArticle() {
+		return article;
+	}
 
-    @Override
-    public String getView() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    @Override
-    public ArticleModel getData() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    @Override
-    public Navigator getNavigator() {
-        return this.navigator;
-    }
+	@Override
+	public String getView() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    public boolean update(String articleId) {
-        url = "/article/update/" + articleId;
-        ArticleBind.bind(article, articleId);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        if (Article.validate(article, validator)) {
-            ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-            TagModel tagModel = (TagModel) Load.model.name("Tag");
-            article.setUser_id(Load.auth.getUserId());
-            boolean result;
-            boolean resultTag = false;
-            try {
-                i.startTransaction();
-                result = i.update(article);
-                resultTag = tagModel.update(article.getTagsStr(), article.getId(), article.getUser_id());
-            } catch (PersistException p) {
-                Logger.write(p.toString());
-                result = false;
-            }
-            if (!result) {
-                errorMessage = Load.bundle.getString("article_cant_update");
-                return false;
+	@Override
+	public ArticleModel getData() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-            } else if (!resultTag) {
-                errorMessage = Load.bundle.getString("tag_cant_insert");
-                return false;
-            } else {
-                try {
-                    i.endTransaction();
-                } catch (PersistException p) {
-                    Logger.write(p.toString());
-                    return false;
-                }
-                return true;
-            }
-        } else {
-            errorMessage = Article.getErrorMessage();
-            return false;
-        }
-    }
+	@Override
+	public Navigator getNavigator() {
+		return this.navigator;
+	}
 
-    public void findAll() {
-        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-        try {
-            articles = ai.findAllForUser(Load.auth.getUserId());
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-    }
+	public boolean update(String articleId) {
+		url = "/article/update/" + articleId;
+		ArticleBind.bind(article, articleId);
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		if (Article.validate(article, validator)) {
+			ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+			TagModel tagModel = (TagModel) Load.model.name("Tag");
+			article.setUser_id(Load.auth.getUserId());
+			boolean result;
+			boolean resultTag = false;
+			try {
+				i.startTransaction();
+				result = i.update(article);
+				resultTag = tagModel.update(article.getTagsStr(), article.getId(), article.getUser_id());
+			} catch (PersistException p) {
+				Logger.write(p.toString());
+				result = false;
+			}
+			if (!result) {
+				errorMessage = Load.bundle.getString("article_cant_update");
+				return false;
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+			} else if (!resultTag) {
+				errorMessage = Load.bundle.getString("tag_cant_insert");
+				return false;
+			} else {
+				try {
+					i.endTransaction();
+				} catch (PersistException p) {
+					Logger.write(p.toString());
+					return false;
+				}
+				return true;
+			}
+		} else {
+			errorMessage = Article.getErrorMessage();
+			return false;
+		}
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public void findAll() {
+		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		try {
+			articles = ai.findAllForUser(Load.auth.getUserId());
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+	}
 
-    public boolean create() {
-        ArticleBind.bind(article);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        TagModel tagModel = (TagModel) Load.model.name("Tag");
-        if (Article.validate(article, validator)) {
-            ArticleImpl ci = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-            Integer result;
-            article.setUser_id(Load.auth.getUserId());
-            boolean resultTag = false;
-            try {
-                ci.startTransaction();
-                result = ci.insert(article);
-                resultTag = tagModel.update(article.getTagsStr(), article.getId(), article.getUser_id());
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
-            } catch (PersistException p) {
-                Logger.write(p.toString());
-                result = null;
-            }
-            if (result == null) {
-                errorMessage = Load.bundle.getString("article_cant_insert");
-                return false;
-            } else if (!resultTag) {
-                errorMessage = Load.bundle.getString("tag_cant_insert");
-                return false;
-            } else {
-                try {
-                    ci.endTransaction();
-                } catch (PersistException p) {
-                    Logger.write(p.toString());
-                    return false;
-                }
-                return true;
-            }
-        } else {
-            errorMessage = Article.getErrorMessage();
-            return false;
-        }
-    }
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 
-    public void findByPk(Integer articleId) {
-        url = "/article/update/" + articleId;
-        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-        TagModel tagModel = (TagModel) Load.model.name("Tag");
-        try {
-            article = ai.findByPk(articleId);
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
+	public boolean create() {
+		ArticleBind.bind(article);
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
+		if (Article.validate(article, validator)) {
+			ArticleImpl ci = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+			Integer result;
+			article.setUser_id(Load.auth.getUserId());
+			boolean resultTag = false;
+			try {
+				ci.startTransaction();
+				result = ci.insert(article);
+				resultTag = tagModel.update(article.getTagsStr(), article.getId(), article.getUser_id());
 
-        String tagsStr = tagModel.getTagsStr(article.getUser_id(), article.getId());
-        article.setTagsStr(tagsStr);
+			} catch (PersistException p) {
+				Logger.write(p.toString());
+				result = null;
+			}
+			if (result == null) {
+				errorMessage = Load.bundle.getString("article_cant_insert");
+				return false;
+			} else if (!resultTag) {
+				errorMessage = Load.bundle.getString("tag_cant_insert");
+				return false;
+			} else {
+				try {
+					ci.endTransaction();
+				} catch (PersistException p) {
+					Logger.write(p.toString());
+					return false;
+				}
+				return true;
+			}
+		} else {
+			errorMessage = Article.getErrorMessage();
+			return false;
+		}
+	}
 
-    }
+	public void findByPk(Integer articleId) {
+		url = "/article/update/" + articleId;
+		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
+		try {
+			article = ai.findByPk(articleId);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
 
-    @Override
-    public boolean checkUnique(String name) {
-        ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-        try {
-            if (article != null) {
-                int count = i.findByAlias(article.getAlias(), article.getId());
-                if (count == 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-            return false;
-        }
+		String tagsStr = tagModel.getTagsStr(article.getUser_id(), article.getId());
+		article.setTagsStr(tagsStr);
 
-    }
+	}
 
-    public String del(int articleId) {
-        Boolean message = false;
-        boolean res = false;
-        JSONObject resultJson = new JSONObject();
-        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
-        TagModel tagModel = (TagModel) Load.model.name("Tag");
-        try {
-            ai.startTransaction();
-            res = tagModel.dellByArticleUser(articleId, Load.auth.getUserId());
-            message = ai.delete(articleId);
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-        try {
-            if (message && res) {
-                ai.endTransaction();
-            } else {
-                ai.rollbackTransaction();
-            }
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-        resultJson.put("message", message);
-        return resultJson.toString();
-    }
+	@Override
+	public boolean checkUnique(String name) {
+		ArticleImpl i = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		try {
+			if (article != null) {
+				int count = i.findByAlias(article.getAlias(), article.getId());
+				if (count == 0) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+			return false;
+		}
+
+	}
+
+	public String del(int articleId) {
+		Boolean message = false;
+		boolean res = false;
+		JSONObject resultJson = new JSONObject();
+		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
+		try {
+			ai.startTransaction();
+			res = tagModel.dellByArticleUser(articleId, Load.auth.getUserId());
+			message = ai.delete(articleId);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		try {
+			if (message && res) {
+				ai.endTransaction();
+			} else {
+				ai.rollbackTransaction();
+			}
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		resultJson.put("message", message);
+		return resultJson.toString();
+	}
 }

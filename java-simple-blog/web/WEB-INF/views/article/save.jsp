@@ -16,9 +16,15 @@
             <div class="control-group">
                 <label class="control-label" for="article_name">${Load.bundle.article_category}</label>
 
-               ${Data.tree.getBranches()}
+				<select name="category_id">
+					<c:forEach items="${Data.tree.getBranches()}" var="item"> 
+						<option value="${item.id}">
+							${item.alias}
+						</option>
+					</c:forEach>
+				</select>
             </div>
-                
+
             <div class="control-group">
                 <label class="control-label" for="article_name">${Load.bundle.article_title}</label>
 

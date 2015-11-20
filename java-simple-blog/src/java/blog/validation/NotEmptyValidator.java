@@ -6,7 +6,6 @@
 package blog.validation;
 
 import blog.validation.annotation.NotEmpty;
-import blog.validation.annotation.Unique;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
