@@ -18,72 +18,72 @@ import javax.servlet.ServletException;
  *
  * @author petroff
  */
-
-
 public class ArticleController extends ControllerImpl<ArticleController> {
 
+    @Override
+    public void index() {
+        ArticleModel AModel = new ArticleModel();
+        AModel.init(request);
+        super.request.setAttribute("Data", AModel.getData());
+        super.getView("/article/article.jsp");
+    }
 
+    @Get
+    public void create(blog.system.environment.Get get) throws ServletException, IOException {
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        articleModel.setTree(categoryModel);
+        Load.view.name("/article/save.jsp", articleModel);
+    }
 
-	@Override
-	public void index() {
-		ArticleModel AModel = new ArticleModel();
-		AModel.init(request);
-		super.request.setAttribute("Data", AModel.getData());
-		super.getView("/article/article.jsp");
-	}
+    @Post
+    public void create(blog.system.environment.Post post) throws ServletException, IOException {
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        articleModel.setTree(categoryModel);
+        if (articleModel.create()) {
+            Http.redirect("/main/done");
+        } else {
+            super.request.setAttribute("Data", articleModel);
+            Load.view.name("/article/save.jsp");
+        }
 
-	@Get
-	public void create(blog.system.environment.Get get) throws ServletException, IOException {
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
-		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
-		articleModel.setTree(categoryModel);
-		Load.view.name("/article/save.jsp", articleModel);
-	}
+    }
 
-	@Post
-	public void create(blog.system.environment.Post post) throws ServletException, IOException {
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+    @Get
+    public void update(blog.system.environment.Get get, String article_id) throws ServletException, IOException {
+        Object[] arg = new Object[]{article_id};
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
+        articleModel.findByPk(Integer.parseInt(article_id));
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        articleModel.setTree(categoryModel);
+        Load.view.name("/article/save.jsp", articleModel);
+    }
 
-		if (articleModel.create()) {
-			Http.redirect("/main/done");
-		} else {
-			super.request.setAttribute("Data", articleModel);
-			Load.view.name("/article/save.jsp");
-		}
+    @Post
+    public void update(blog.system.environment.Post post, String article_id) throws ServletException, IOException {
+        Object[] arg = new Object[]{article_id};
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
+        CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+        articleModel.setTree(categoryModel);
+        if (articleModel.update(article_id)) {
+            Http.redirect("/main/done");
+        } else {
+            super.request.setAttribute("Data", articleModel);
+            Load.view.name("/article/save.jsp");
+        }
 
-	}
+    }
 
-	@Get
-	public void update(blog.system.environment.Get get, String article_id) throws ServletException, IOException {
-		Object[] arg = new Object[]{article_id};
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
-		articleModel.findByPk(Integer.parseInt(article_id));
-		Load.view.name("/article/save.jsp", articleModel);
-	}
+    public void list() {
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+        articleModel.findAll();
+        Load.view.name("/article/list.jsp", articleModel);
+    }
 
-	@Post
-	public void update(blog.system.environment.Post post, String article_id) throws ServletException, IOException {
-		Object[] arg = new Object[]{article_id};
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
-
-		if (articleModel.update(article_id)) {
-			Http.redirect("/main/done");
-		} else {
-			super.request.setAttribute("Data", articleModel);
-			Load.view.name("/article/save.jsp");
-		}
-
-	}
-
-	public void list() {
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
-		articleModel.findAll();
-		Load.view.name("/article/list.jsp", articleModel);
-	}
-
-	public void del(String article_id) throws IOException {
-		ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
-		String str = articleModel.del(Integer.parseInt(article_id));
-		Load.view.out(str);
-	}
+    public void del(String article_id) throws IOException {
+        ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+        String str = articleModel.del(Integer.parseInt(article_id));
+        Load.view.out(str);
+    }
 }

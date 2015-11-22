@@ -44,7 +44,9 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
             statement.setBoolean(1, a.isEnable());
             statement.setString(2, a.getAlias());
             statement.setInt(3, a.getWeight());
+
             statement.setInt(4, Load.auth.getUserId());
+            statement.setInt(5, a.getCategory_id());
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -71,12 +73,12 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 
     @Override
     public String queryUpdate() throws PersistException {
-        return "UPDATE blogj.article SET enable = ?, alias = ?, weight = ? WHERE id = ? AND user_id = ?";
+        return "UPDATE blogj.article SET enable = ?, alias = ?, weight = ?, category_id = ? WHERE id = ? AND user_id = ?";
     }
 
     @Override
     public String queryInsert() throws PersistException {
-        return "INSERT blogj.article (enable, alias, weight, user_id, ut) VALUE(?, ?, ?, ?, NOW());";
+        return "INSERT blogj.article (enable, alias, weight, user_id, ut, category_id) VALUE(?, ?, ?, ?, NOW(), ?);";
     }
 
     @Override
@@ -91,8 +93,9 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
             statement.setBoolean(1, entity.isEnable());
             statement.setString(2, entity.getAlias());
             statement.setInt(3, entity.getWeight());
-            statement.setInt(4, entity.getId());
-            statement.setInt(5, Load.auth.getUserId());
+            statement.setInt(4, entity.getCategory_id());
+            statement.setInt(5, entity.getId());
+            statement.setInt(6, Load.auth.getUserId());
         } catch (Exception e) {
             throw new PersistException(e);
         }
@@ -167,6 +170,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
                 article.setEnable(rs.getBoolean("enable"));
                 article.setAlias(rs.getString("alias"));
                 article.setWeight(rs.getInt("weight"));
+                article.setCategory_id(rs.getInt("category_id"));
                 article.setUser_id(rs.getInt("user_id"));
                 String lang = rs.getString("lang");
                 String text = rs.getString("text");

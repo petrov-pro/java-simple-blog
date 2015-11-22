@@ -16,13 +16,23 @@
             <div class="control-group">
                 <label class="control-label" for="article_name">${Load.bundle.article_category}</label>
 
-				<select name="category_id">
-					<c:forEach items="${Data.tree.getBranches()}" var="item"> 
-						<option value="${item.id}">
-							${item.alias}
-						</option>
-					</c:forEach>
-				</select>
+                <select name="category_id">
+                    <c:forEach items="${Data.tree.getBranches()}" var="item"> 
+                        <c:choose>
+                            <c:when test="${item.id == Data.article.category_id}">
+                                <option selected="selected" value="${item.id}">
+                                    ${item.alias}
+                                </option>
+                            </c:when>
+                            <c:otherwise>
+                                <option  value="${item.id}">
+                                    ${item.alias}
+                                </option>
+                            </c:otherwise>
+                        </c:choose>
+
+                    </c:forEach>
+                </select>
             </div>
 
             <div class="control-group">
@@ -65,7 +75,7 @@
                 <div class="controls">
                     <input type="text" name="weight" value="${Data.article.weight}" />
                 </div>
-				<label class="control-label" for="article_name">${Load.bundle.article_tag}</label>
+                <label class="control-label" for="article_name">${Load.bundle.article_tag}</label>
                 <div class="controls">
                     <input type="text" name="tagsstr" value="${Data.article.tagsStr}" />
                 </div>

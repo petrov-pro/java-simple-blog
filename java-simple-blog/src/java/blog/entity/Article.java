@@ -36,7 +36,6 @@ public class Article {
 	private String tagsStr;
 
 	@Bind
-	@NotEmpty
 	private int category_id;
 
 	@Bind
@@ -157,7 +156,6 @@ public class Article {
 
 	public static boolean validate(Object object, Validator validator) {
 		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
-		return false;
 		if (constraintViolations.isEmpty()) {
 			return true;
 		} else {
