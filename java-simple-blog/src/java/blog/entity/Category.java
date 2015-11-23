@@ -37,7 +37,6 @@ public class Category implements branch {
     private String alias;
 
     @Bind
-    @NotEmpty
     private int weight;
 
     @Internatinolaization

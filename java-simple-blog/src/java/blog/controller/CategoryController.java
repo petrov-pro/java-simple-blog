@@ -76,5 +76,6 @@ public class CategoryController extends ControllerImpl<CategoryController> {
         String str = categoryModel.del(Integer.parseInt(category_id));
         Load.view.out(str);
     }
+	
 
 }

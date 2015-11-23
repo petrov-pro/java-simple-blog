@@ -4,6 +4,7 @@
  */
 package blog.controller;
 
+import blog.model.MainModel;
 import blog.system.annotation.Get;
 import blog.system.controller.ControllerImpl;
 import blog.system.loader.Load;
@@ -20,7 +21,7 @@ public class MainController extends ControllerImpl<MainController> {
 
     @Override
     public void index() {
-        String lang = Load.session.get("lang");
+		MainModel mainModel = (MainModel) Load.model.name("Main");
         Load.view.name("/main/main.jsp");
     }
 
