@@ -21,8 +21,9 @@ public class MainController extends ControllerImpl<MainController> {
 
     @Override
     public void index() {
-		MainModel mainModel = (MainModel) Load.model.name("Main");
-        Load.view.name("/main/main.jsp");
+        MainModel mainModel = (MainModel) Load.model.name("Main");
+        mainModel.getCategoryArticle();
+        Load.view.name("/main/main.jsp", mainModel);
     }
 
     @Get

@@ -4,20 +4,9 @@
  */
 package blog.model;
 
-import blog.dao.impl.TagImpl;
-import blog.entity.Tag;
-import blog.system.dao.DaoFactory;
-import blog.system.exception.PersistException;
 import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
-import blog.system.tools.Logger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 /**
  *
@@ -25,29 +14,54 @@ import javax.validation.ValidatorFactory;
  */
 public class MainModel extends Model {
 
-	private String errorMessage = "";
+    private String errorMessage = "";
+    private CategoryModel categoryModel;
+    private ArticleModel articleModel;
 
-	@Override
-	public String getView() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public CategoryModel getCategoryModel() {
+        return categoryModel;
+    }
 
-	@Override
-	public MainModel getData() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public void setCategoryModel(CategoryModel categoryModel) {
+        this.categoryModel = categoryModel;
+    }
 
-	@Override
-	public Navigator getNavigator() {
-		return this.navigator;
-	}
+    public ArticleModel getArticleModel() {
+        return articleModel;
+    }
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    public void setArticleModel(ArticleModel articleModel) {
+        this.articleModel = articleModel;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    @Override
+    public String getView() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public MainModel getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Navigator getNavigator() {
+        return this.navigator;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void getCategoryArticle() {
+        articleModel = (ArticleModel) Load.model.name("Article");
+        categoryModel = (CategoryModel) Load.model.name("Category");
+        categoryModel.findAllForMain();
+
+    }
 
 }

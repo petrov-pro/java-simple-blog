@@ -39,12 +39,22 @@ public class Category implements branch {
     @Bind
     private int weight;
 
+    private String userName;
+
     @Internatinolaization
     public HashMap<String, String> translate;
 
     public Category() {
         Category.errorMessage = "";
         this.translate = new HashMap();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

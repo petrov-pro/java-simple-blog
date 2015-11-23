@@ -291,4 +291,39 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
         return articles;
     }
 
+    public List<Article> findAllForMain() throws PersistException {
+
+        List<Article> articles = new ArrayList();
+        String sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang FROM blogj.article t  "
+                + "INNER JOIN blogj.content title "
+                + "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
+                + "INNER JOIN blogj.content body "
+                + "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
+                + "INNER JOIN (SELECT * FROM users ut LIMIT 10) u "
+                + "ON u.id = t.user_id "
+                + " GROUP BY t.id;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, Load.lang.get());
+            statement.setString(2, Load.lang.get());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Article article = new Article();
+                article.setId(rs.getInt("id"));
+                article.setEnable(rs.getBoolean("enable"));
+                article.setAlias(rs.getString("alias"));
+                article.setWeight(rs.getInt("weight"));
+                String lang = rs.getString("lang");
+                String title = rs.getString("title");
+                String body = rs.getString("body");
+                article.translate_title.put(lang, title);
+                article.translate_body.put(lang, body);
+                articles.add(article);
+            }
+            rs.close();
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+        return articles;
+    }
+
 }
