@@ -22,120 +22,130 @@ import javax.validation.Validator;
  */
 public class Category implements branch {
 
-    private static String errorMessage = "";
+	private static String errorMessage = "";
 
-    private static String type = "category";
+	private static String type = "category";
 
-    private int id;
+	private int id;
 
-    @Bind
-    private boolean enable;
+	@Bind
+	private boolean enable;
 
-    @Bind
-    @Unique(model_name = "Category")
-    @NotEmpty
-    private String alias;
+	@Bind
+	@Unique(model_name = "Category")
+	@NotEmpty
+	private String alias;
 
-    @Bind
-    private int weight;
+	@Bind
+	private int weight;
 
-    private String userName;
+	private String userName;
 
-    @Internatinolaization
-    public HashMap<String, String> translate;
+	private int userId;
 
-    public Category() {
-        Category.errorMessage = "";
-        this.translate = new HashMap();
-    }
+	@Internatinolaization
+	public HashMap<String, String> translate;
 
-    public String getUserName() {
-        return userName;
-    }
+	public Category() {
+		Category.errorMessage = "";
+		this.translate = new HashMap();
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public int getUserId() {
+		return userId;
+	}
 
-    @Override
-    public String getName() {
-        return alias;
-    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-    public static String getTypeS() {
-        return type;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public void setType(String type) {
-        type = type;
-    }
+	@Override
+	public String getName() {
+		return alias;
+	}
 
-    public static String getErrorMessage() {
-        return errorMessage;
-    }
+	public static String getTypeS() {
+		return type;
+	}
 
-    public static void setErrorMessage(String errorMessage) {
-        Category.errorMessage = errorMessage;
-    }
+	public String getType() {
+		return type;
+	}
 
-    @Override
-    public int getId() {
-        return id;
-    }
+	public void setType(String type) {
+		type = type;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public static String getErrorMessage() {
+		return errorMessage;
+	}
 
-    public boolean isEnable() {
-        return enable;
-    }
+	public static void setErrorMessage(String errorMessage) {
+		Category.errorMessage = errorMessage;
+	}
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
+	@Override
+	public int getId() {
+		return id;
+	}
 
-    public String getAlias() {
-        return alias;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
+	public boolean isEnable() {
+		return enable;
+	}
 
-    public int getWeight() {
-        return weight;
-    }
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
+	public String getAlias() {
+		return alias;
+	}
 
-    public HashMap getTranslate() {
-        return translate;
-    }
+	public void setAlias(String alias) {
+		this.alias = alias;
+	}
 
-    public void setTranslate(HashMap translate) {
-        this.translate = translate;
-    }
+	public int getWeight() {
+		return weight;
+	}
 
-    public static boolean validate(Object object, Validator validator) {
-        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
 
-        if (constraintViolations.isEmpty()) {
-            return true;
-        } else {
-            for (ConstraintViolation<Object> cv : constraintViolations) {
-                errorMessage = errorMessage + String.format(
-                        Load.bundle.getString("main_error"),
-                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
-            }
-            return false;
-        }
-    }
+	public HashMap getTranslate() {
+		return translate;
+	}
+
+	public void setTranslate(HashMap translate) {
+		this.translate = translate;
+	}
+
+	public static boolean validate(Object object, Validator validator) {
+		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+
+		if (constraintViolations.isEmpty()) {
+			return true;
+		} else {
+			for (ConstraintViolation<Object> cv : constraintViolations) {
+				errorMessage = errorMessage + String.format(
+						Load.bundle.getString("main_error"),
+						cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
+			}
+			return false;
+		}
+	}
 
 }

@@ -4,9 +4,12 @@
  */
 package blog.model;
 
+import blog.system.annotation.Get;
 import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
+import java.io.IOException;
+import javax.servlet.ServletException;
 
 /**
  *
@@ -14,54 +17,61 @@ import blog.system.model.Model;
  */
 public class MainModel extends Model {
 
-    private String errorMessage = "";
-    private CategoryModel categoryModel;
-    private ArticleModel articleModel;
+	private String errorMessage = "";
+	private CategoryModel categoryModel;
+	private ArticleModel articleModel;
 
-    public CategoryModel getCategoryModel() {
-        return categoryModel;
-    }
+	public CategoryModel getCategoryModel() {
+		return categoryModel;
+	}
 
-    public void setCategoryModel(CategoryModel categoryModel) {
-        this.categoryModel = categoryModel;
-    }
+	public void setCategoryModel(CategoryModel categoryModel) {
+		this.categoryModel = categoryModel;
+	}
 
-    public ArticleModel getArticleModel() {
-        return articleModel;
-    }
+	public ArticleModel getArticleModel() {
+		return articleModel;
+	}
 
-    public void setArticleModel(ArticleModel articleModel) {
-        this.articleModel = articleModel;
-    }
+	public void setArticleModel(ArticleModel articleModel) {
+		this.articleModel = articleModel;
+	}
 
-    @Override
-    public String getView() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public String getView() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public MainModel getData() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public MainModel getData() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public Navigator getNavigator() {
-        return this.navigator;
-    }
+	@Override
+	public Navigator getNavigator() {
+		return this.navigator;
+	}
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
 
-    public void getCategoryArticle() {
-        articleModel = (ArticleModel) Load.model.name("Article");
-        categoryModel = (CategoryModel) Load.model.name("Category");
-        categoryModel.findAllForMain();
+	public void getCategoryArticle() {
+		articleModel = (ArticleModel) Load.model.name("Article");
+		categoryModel = (CategoryModel) Load.model.name("Category");
+		categoryModel.findAllForMain();
+		articleModel.findAllForMain();
+	}
 
-    }
+	public void getCategoryArticle(String user_id, String category_alias) {
+		articleModel = (ArticleModel) Load.model.name("Article");
+		categoryModel = (CategoryModel) Load.model.name("Category");
+		categoryModel.findAllForMain(user_id, category_alias);
+		articleModel.findAllForMain();
+	}
 
 }

@@ -7,6 +7,7 @@ package blog.model;
 import blog.bind.ArticleBind;
 import blog.dao.impl.ArticleImpl;
 import blog.entity.Article;
+import blog.entity.Tag;
 import blog.model.intf.TreeIntf;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
@@ -14,10 +15,8 @@ import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
 import blog.system.tools.Logger;
+import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -251,5 +250,20 @@ public class ArticleModel extends Model {
 		}
 		resultJson.put("message", message);
 		return resultJson.toString();
+	}
+
+	public void findAllForMain() {
+		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+		TagModel tagModel = (TagModel) Load.model.name("Tag");
+		try {
+			articles = ai.findAllForMain();
+			for (Article article : articles) {
+				ArrayList<Tag> tags = (ArrayList) tagModel.findByPkForUser(article.getUser_id(), article.getId());
+				article.setTags(tags);
+			}
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+
 	}
 }

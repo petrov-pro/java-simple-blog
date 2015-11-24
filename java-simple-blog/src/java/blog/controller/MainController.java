@@ -4,6 +4,7 @@
  */
 package blog.controller;
 
+import blog.model.CategoryModel;
 import blog.model.MainModel;
 import blog.system.annotation.Get;
 import blog.system.controller.ControllerImpl;
@@ -19,31 +20,38 @@ import org.json.simple.JSONObject;
  */
 public class MainController extends ControllerImpl<MainController> {
 
-    @Override
-    public void index() {
-        MainModel mainModel = (MainModel) Load.model.name("Main");
-        mainModel.getCategoryArticle();
-        Load.view.name("/main/main.jsp", mainModel);
-    }
+	@Override
+	public void index() {
+		MainModel mainModel = (MainModel) Load.model.name("Main");
+		mainModel.getCategoryArticle();
+		Load.view.name("/main/main.jsp", mainModel);
+	}
 
-    @Get
-    public void setlang(blog.system.environment.Get get, String lang) throws ServletException, IOException {
-        String status;
-        if (Arrays.asList(Load.config.langs).contains(lang)) {
-            status = "ok";
-            Load.request.getSession().setAttribute("lang", lang);
+	@Get
+	public void setlang(blog.system.environment.Get get, String lang) throws ServletException, IOException {
+		String status;
+		if (Arrays.asList(Load.config.langs).contains(lang)) {
+			status = "ok";
+			Load.request.getSession().setAttribute("lang", lang);
 
-        } else {
-            status = "error";
-        }
-        JSONObject resultJson = new JSONObject();
-        resultJson.put("status", status);
-        String str = resultJson.toString();
-        Load.view.out(str);
-    }
+		} else {
+			status = "error";
+		}
+		JSONObject resultJson = new JSONObject();
+		resultJson.put("status", status);
+		String str = resultJson.toString();
+		Load.view.out(str);
+	}
 
-    public void done() {
-        Load.view.name("/main/done.jsp");
-    }
+	public void done() {
+		Load.view.name("/main/done.jsp");
+	}
+
+	@Get
+	public void category(blog.system.environment.Get get, String user_id, String category_alias) throws ServletException, IOException {
+		MainModel mainModel = (MainModel) Load.model.name("Main");
+		mainModel.getCategoryArticle(user_id, category_alias);
+		Load.view.name("/main/category.jsp", mainModel);
+	}
 
 }

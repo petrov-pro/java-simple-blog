@@ -20,7 +20,7 @@ public class Config {
         return defaultLang;
     }
 
-    public String[] langs = {"ru", "en"};
+    public String[] langs = {"en", "ru"};
 
     public String[] getLangs() {
         return langs;
