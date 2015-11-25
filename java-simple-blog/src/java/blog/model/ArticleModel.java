@@ -253,10 +253,18 @@ public class ArticleModel extends Model {
 	}
 
 	public void findAllForMain() {
+		_findAllForMain(null);
+	}
+
+	public void findAllForMain(Integer category_id) {
+		_findAllForMain(category_id);
+	}
+
+	public void _findAllForMain(Integer category_id) {
 		ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
 		TagModel tagModel = (TagModel) Load.model.name("Tag");
 		try {
-			articles = ai.findAllForMain();
+			articles = ai.findAllForMain(category_id);
 			for (Article article : articles) {
 				ArrayList<Tag> tags = (ArrayList) tagModel.findByPkForUser(article.getUser_id(), article.getId());
 				article.setTags(tags);

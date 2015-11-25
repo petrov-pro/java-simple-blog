@@ -257,37 +257,24 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
 		return count;
 	}
 
-	public List<Category> findAllForMain(String user_id, String category_alias) throws PersistException {
+	public List<Category> findAllForMain() throws PersistException {
 
 		List<Category> categories = new ArrayList();
 		String sql;
-		if (user_id != null) {
-			sql = "SELECT *, u.user_name FROM blogj.category cat  "
-					+ "INNER JOIN blogj.content con  "
-					+ "ON cat.id = con.object_id AND con.`type` = ? AND lang = ? "
-					+ "INNER JOIN (SELECT * FROM blogj.users ut ORDER BY id LIMIT 5) u "
-					+ "ON cat.user_id = u.id  AND u.id = ? "
-					+ "WHERE cat.alias = ? ";
-		} else {
-			sql = "SELECT *, u.user_name FROM blogj.category cat  "
-					+ "INNER JOIN blogj.content con  "
-					+ "ON cat.id = con.object_id AND con.`type` = ? AND lang = ? "
-					+ "INNER JOIN (SELECT * FROM blogj.users ut ORDER BY id LIMIT 5) u "
-					+ "ON cat.user_id = u.id  "
-					+ "ORDER BY cat.weight "
-					+ "LIMIT 3";
-		}
+		sql = "SELECT *, u.user_name FROM blogj.category cat  "
+				+ "INNER JOIN blogj.content con  "
+				+ "ON cat.id = con.object_id AND con.`type` = ? AND lang = ? "
+				+ "INNER JOIN (SELECT * FROM blogj.users ut ORDER BY id LIMIT 5) u "
+				+ "ON cat.user_id = u.id  "
+				+ "WHERE enable=true "
+				+ "ORDER BY cat.weight "
+				+ "LIMIT 3";
+
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			if (user_id != null) {
-				statement.setString(1, Category.getTypeS());
-				statement.setString(2, Load.lang.get());
-				int iUser_id = Integer.parseInt(user_id);
-				statement.setInt(3, iUser_id);
-				statement.setString(4, category_alias);
-			} else {
-				statement.setString(1, Category.getTypeS());
-				statement.setString(2, Load.lang.get());
-			}
+
+			statement.setString(1, Category.getTypeS());
+			statement.setString(2, Load.lang.get());
+
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Category category = new Category();
@@ -307,6 +294,45 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
 			throw new PersistException(e);
 		}
 		return categories;
+	}
+
+	public Category findAllForMain(String user_id, String category_alias) throws PersistException {
+		Category category = new Category();
+		String sql;
+		sql = "SELECT *, u.user_name FROM blogj.category cat  "
+				+ "INNER JOIN blogj.content con  "
+				+ "ON cat.id = con.object_id AND con.`type` = ? AND lang = ? "
+				+ "INNER JOIN (SELECT * FROM blogj.users ut ORDER BY id LIMIT 5) u "
+				+ "ON cat.user_id = u.id  AND u.id = ? "
+				+ "WHERE cat.alias = ? AND enable=true ";
+
+		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+			statement.setString(1, Category.getTypeS());
+			statement.setString(2, Load.lang.get());
+			int iUser_id = Integer.parseInt(user_id);
+			statement.setInt(3, iUser_id);
+			statement.setString(4, category_alias);
+
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+
+				category.setId(rs.getInt(1));
+				category.setEnable(rs.getBoolean(2));
+				category.setAlias(rs.getString(3));
+				category.setWeight(rs.getInt(4));
+				String lang = rs.getString(8);
+				String text = rs.getString(7);
+				category.translate.put(lang, text);
+				category.setUserName(rs.getString("user_name"));
+				category.setUserId(rs.getInt("user_id"));
+
+			}
+			rs.close();
+		} catch (Exception e) {
+			throw new PersistException(e);
+		}
+		return category;
 	}
 
 }

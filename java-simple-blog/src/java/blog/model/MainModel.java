@@ -71,7 +71,7 @@ public class MainModel extends Model {
 		articleModel = (ArticleModel) Load.model.name("Article");
 		categoryModel = (CategoryModel) Load.model.name("Category");
 		categoryModel.findAllForMain(user_id, category_alias);
-		articleModel.findAllForMain();
+		articleModel.findAllForMain(categoryModel.getCategory().getId());
 	}
 
 }

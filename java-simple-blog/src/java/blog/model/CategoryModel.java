@@ -220,18 +220,20 @@ public class CategoryModel extends blog.system.model.Model implements TreeIntf<C
 	}
 
 	public boolean findAllForMain() {
-
-		return _findAllForMain(null, null);
+		CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
+		try {
+			categories = ci.findAllForMain();
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+			return false;
+		}
+		return true;
 	}
 
 	public boolean findAllForMain(String user_id, String category_alias) {
-		return _findAllForMain(user_id, category_alias);
-	}
-
-	private boolean _findAllForMain(String user_id, String category_alias) {
 		CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
 		try {
-			categories = ci.findAllForMain(user_id, category_alias);
+			category = ci.findAllForMain(user_id, category_alias);
 		} catch (PersistException p) {
 			Logger.write(p.toString());
 			return false;

@@ -6,11 +6,12 @@ package blog.dao.impl;
 
 import blog.system.dao.AbstractDaoImpl;
 import blog.entity.Article;
-import blog.entity.Category;
 import blog.entity.Content;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
+import static java.net.Proxy.Type.HTTP;
+import java.net.URLEncoder;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -291,20 +292,38 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 		return articles;
 	}
 
-	public List<Article> findAllForMain() throws PersistException {
+	public List<Article> findAllForMain(Integer category_id) throws PersistException {
 
 		List<Article> articles = new ArrayList();
-		String sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang, u.user_name FROM blogj.article t  "
-				+ "INNER JOIN blogj.content title "
-				+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
-				+ "INNER JOIN blogj.content body "
-				+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
-				+ "INNER JOIN (SELECT * FROM users ut LIMIT 10) u "
-				+ "ON u.id = t.user_id "
-				+ "WHERE t.enable = true GROUP BY t.id;";
+		String sql;
+		if (category_id == null) {
+			sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang, u.user_name FROM blogj.article t  "
+					+ "INNER JOIN blogj.content title "
+					+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
+					+ "INNER JOIN blogj.content body "
+					+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
+					+ "INNER JOIN (SELECT * FROM users ut LIMIT 10) u "
+					+ "ON u.id = t.user_id "
+					+ "WHERE t.enable = true GROUP BY t.id;";
+		} else {
+			sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang, u.user_name FROM blogj.article t  "
+					+ "INNER JOIN blogj.content title "
+					+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
+					+ "INNER JOIN blogj.content body "
+					+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
+					+ "INNER JOIN (SELECT * FROM users ut LIMIT 10) u "
+					+ "ON u.id = t.user_id "
+					+ "WHERE t.enable = true AND category_id = ? GROUP BY t.id;";
+		}
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			statement.setString(1, Load.lang.get());
-			statement.setString(2, Load.lang.get());
+			if (category_id == null) {
+				statement.setString(1, Load.lang.get());
+				statement.setString(2, Load.lang.get());
+			} else {
+				statement.setString(1, Load.lang.get());
+				statement.setString(2, Load.lang.get());
+				statement.setInt(3, category_id);
+			}
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Article article = new Article();
@@ -317,6 +336,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 				String body = rs.getString("body");
 				article.setUserName(rs.getString("user_name"));
 				article.translate_title.put(lang, title);
+		
 				article.translate_body.put(lang, body);
 				article.setUt(rs.getString("ut"));
 				article.setUser_id(rs.getInt("user_id"));
