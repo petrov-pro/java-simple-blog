@@ -25,7 +25,7 @@
 			<ul>
 				<c:forEach items="${Data.articleModel.articles}" var="article">
 					<li>
-						<a href="/article/get/${article.user_id}/${article.alias}/">
+						<a href="/main/article/${article.user_id}/${article.alias}/">
 							${article.translate_title.get(Load.lang.get())}
 						</a>
 						<div>
