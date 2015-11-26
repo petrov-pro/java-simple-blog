@@ -53,11 +53,18 @@ public class MainController extends ControllerImpl<MainController> {
 		mainModel.getCategoryArticle(user_id, category_alias);
 		Load.view.name("/main/category.jsp", mainModel);
 	}
-        
-        @Get
+
+	@Get
 	public void article(blog.system.environment.Get get, String user_id, String article_alias) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getCategoryArticle(user_id, article_alias);
+		Load.view.name("/main/article.jsp", mainModel);
+	}
+
+	@Get
+	public void tag(blog.system.environment.Get get, String user_id, String tag) throws ServletException, IOException {
+		MainModel mainModel = (MainModel) Load.model.name("Main");
+		mainModel.getArticleForTag(user_id, tag);
 		Load.view.name("/main/article.jsp", mainModel);
 	}
 
