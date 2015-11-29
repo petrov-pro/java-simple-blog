@@ -62,10 +62,10 @@ public class MainController extends ControllerImpl<MainController> {
 	}
 
 	@Get
-	public void tag(blog.system.environment.Get get, String user_id, String tag) throws ServletException, IOException {
+	public void tag(blog.system.environment.Get get,String tag) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
-		mainModel.getArticleForTag(user_id, tag);
-		Load.view.name("/main/article.jsp", mainModel);
+		mainModel.getArticleForTag(tag);
+		Load.view.name("/main/tag.jsp", mainModel);
 	}
 
 }

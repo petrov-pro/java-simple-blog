@@ -5,10 +5,11 @@
  */
 package blog.entity;
 
+import blog.system.annotation.Bind;
 import blog.system.loader.Load;
+import blog.validation.annotation.Internatinolaization;
 import blog.validation.annotation.NotEmpty;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -17,32 +18,30 @@ import javax.validation.Validator;
  *
  * @author petroff
  */
-public class Tag {
+public class Comment {
 
     private static String errorMessage = "";
 
-    private static String type = "tag";
+    private static String type = "comment";
 
     private int id;
 
     private int user_id;
 
-    private List<Article> articles;
+    private boolean enable;
 
+    private String ut;
+
+    @Bind
     @NotEmpty
-    private String name;
+    private int article_id;
 
-    public Tag() {
-        Tag.errorMessage = "";
-        articles = new ArrayList();
-    }
+    @Internatinolaization
+    private HashMap<String, String> translate;
 
-    public List<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
+    public Comment() {
+        Comment.errorMessage = "";
+        this.translate = new HashMap();
     }
 
     public static boolean validate(Object object, Validator validator) {
@@ -65,7 +64,7 @@ public class Tag {
     }
 
     public static void setErrorMessage(String errorMessage) {
-        Tag.errorMessage = errorMessage;
+        Comment.errorMessage = errorMessage;
     }
 
     public static String getType() {
@@ -73,7 +72,7 @@ public class Tag {
     }
 
     public static void setType(String type) {
-        Tag.type = type;
+        Comment.type = type;
     }
 
     public int getId() {
@@ -84,20 +83,44 @@ public class Tag {
         this.id = id;
     }
 
-    public int getUser_id() {
+    public int getUserId() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUserId(int user_id) {
         this.user_id = user_id;
     }
 
-    public String getName() {
-        return name;
+    public boolean isEnable() {
+        return enable;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
+
+    public String getUt() {
+        return ut;
+    }
+
+    public void setUt(String ut) {
+        this.ut = ut;
+    }
+
+    public int getArticleId() {
+        return article_id;
+    }
+
+    public void setArticleId(int article_id) {
+        this.article_id = article_id;
+    }
+
+    public HashMap<String, String> getTranslate() {
+        return translate;
+    }
+
+    public void setTranslate(HashMap<String, String> translate) {
+        this.translate = translate;
     }
 
 }

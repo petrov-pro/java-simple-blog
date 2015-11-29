@@ -38,7 +38,7 @@
 								<span>Tags:</span>
 								<span>
 									<c:forEach items="${article.tags}" var="tag">
-										<a href="/tag/get/${tag.user_id}/${tag.name}/">
+										<a href="/main/tag/${tag.name}/">
 											${tag.name}
 										</a>
 									</c:forEach>

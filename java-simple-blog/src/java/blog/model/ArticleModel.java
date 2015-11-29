@@ -37,6 +37,8 @@ public class ArticleModel extends Model {
 
     private String tagsStr;
 
+    
+
     public ArticleModel() {
         article = new Article();
     }

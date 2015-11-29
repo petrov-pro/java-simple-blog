@@ -4,12 +4,9 @@
  */
 package blog.model;
 
-import blog.system.annotation.Get;
 import blog.system.loader.Load;
 import blog.system.tools.Navigator;
 import blog.system.model.Model;
-import java.io.IOException;
-import javax.servlet.ServletException;
 
 /**
  *
@@ -17,65 +14,85 @@ import javax.servlet.ServletException;
  */
 public class MainModel extends Model {
 
-	private String errorMessage = "";
-	private CategoryModel categoryModel;
-	private ArticleModel articleModel;
+    private String errorMessage = "";
+    private CategoryModel categoryModel;
+    private ArticleModel articleModel;
+    private TagModel tagModel;
+    private CommentModel commentModel;
 
-	public CategoryModel getCategoryModel() {
-		return categoryModel;
-	}
+    public CommentModel getCommentModel() {
+        return commentModel;
+    }
 
-	public void setCategoryModel(CategoryModel categoryModel) {
-		this.categoryModel = categoryModel;
-	}
+    public void setCommentModel(CommentModel commentModel) {
+        this.commentModel = commentModel;
+    }
 
-	public ArticleModel getArticleModel() {
-		return articleModel;
-	}
+    public TagModel getTagModel() {
+        return tagModel;
+    }
 
-	public void setArticleModel(ArticleModel articleModel) {
-		this.articleModel = articleModel;
-	}
+    public void setTagModel(TagModel tagModel) {
+        this.tagModel = tagModel;
+    }
 
-	@Override
-	public String getView() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public CategoryModel getCategoryModel() {
+        return categoryModel;
+    }
 
-	@Override
-	public MainModel getData() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public void setCategoryModel(CategoryModel categoryModel) {
+        this.categoryModel = categoryModel;
+    }
 
-	@Override
-	public Navigator getNavigator() {
-		return this.navigator;
-	}
+    public ArticleModel getArticleModel() {
+        return articleModel;
+    }
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    public void setArticleModel(ArticleModel articleModel) {
+        this.articleModel = articleModel;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    @Override
+    public String getView() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	public void getCategoryArticle() {
-		articleModel = (ArticleModel) Load.model.name("Article");
-		categoryModel = (CategoryModel) Load.model.name("Category");
-		categoryModel.findAllForMain();
-		articleModel.findAllForMain();
-	}
+    @Override
+    public MainModel getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	public void getCategoryArticle(String user_id, String article_alias) {
-		articleModel = (ArticleModel) Load.model.name("Article");
-		categoryModel = (CategoryModel) Load.model.name("Category");
-		articleModel.findByAliasUser(user_id, article_alias);
-		categoryModel.findByPkFree(articleModel.getArticle().getCategory_id());
-	}
+    @Override
+    public Navigator getNavigator() {
+        return this.navigator;
+    }
 
-	public void getArticleForTag(String user_id, String tag) {
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 
-	}
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void getCategoryArticle() {
+        articleModel = (ArticleModel) Load.model.name("Article");
+        categoryModel = (CategoryModel) Load.model.name("Category");
+        categoryModel.findAllForMain();
+        articleModel.findAllForMain();
+    }
+
+    public void getCategoryArticle(String user_id, String article_alias) {
+        articleModel = (ArticleModel) Load.model.name("Article");
+        categoryModel = (CategoryModel) Load.model.name("Category");
+        commentModel = (CommentModel) Load.model.name("Comment");
+        articleModel.findByAliasUser(user_id, article_alias);
+        categoryModel.findByPkFree(articleModel.getArticle().getCategory_id());
+    }
+
+    public void getArticleForTag(String tag) {
+        tagModel = (TagModel) Load.model.name("Tag");
+        tagModel.findByName(tag);
+    }
 
 }

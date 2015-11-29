@@ -4,6 +4,8 @@
  */
 package blog.dao.impl;
 
+import blog.entity.Article;
+import blog.entity.Category;
 import blog.system.dao.AbstractDaoImpl;
 import blog.entity.Tag;
 import blog.system.exception.PersistException;
@@ -193,6 +195,76 @@ public class TagImpl extends AbstractDaoImpl<Tag> {
             throw new PersistException(e);
         }
         return tags;
+    }
+
+    public Tag findByName(String tag_name) throws PersistException {
+        Tag tag = new Tag();
+        String sql = "SELECT t.id, t.`name` as tag_name, t.user_id, a.id as article_id,a.alias as article_alias,"
+                + " a.title, a.body, a.ut as article_ut, "
+                + "a.lang, c.id as category_id, c.title_category, c.alias as category_alias, "
+                + "u.user_name "
+                + "FROM blogj.tag t  "
+                + "INNER JOIN blogj.article_tag_link al "
+                + "ON t.id = al.tag_id "
+                + "INNER JOIN  "
+                + "(SELECT t.*, title.text as title, body.text as body, title.lang as lang  "
+                + "FROM blogj.article t   "
+                + "                INNER JOIN blogj.content title  "
+                + "                ON t.id = title.object_id AND title.`type` = 'article_t'   "
+                + "                INNER JOIN blogj.content body  "
+                + "                ON t.id = body.object_id AND body.`type` = 'article_b'  "
+                + "AND body.lang = title.lang  "
+                + "                WHERE t.enable = true "
+                + "                 GROUP BY t.id)  "
+                + "AS a ON a.id = al.article_id "
+                + "INNER JOIN ( "
+                + "SELECT cat.*, con.text as title_category, con.lang FROM blogj.category cat   "
+                + "                INNER JOIN blogj.content con   "
+                + "                ON cat.id = con.object_id AND con.`type` = 'category'  "
+                + " WHERE enable=true  "
+                + ") c  "
+                + "ON c.id = a.category_id AND c.lang = a.lang "
+                + "INNER JOIN blogj.users u  "
+                + "ON t.user_id = u.id   "
+                + "WHERE t.`name` = ? AND a.lang = ?;";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, tag_name);
+            statement.setString(2, Load.lang.get());
+            ResultSet rs = statement.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    Article article = new Article();
+                    Category category = new Category();
+                    article.setId(rs.getInt("article_id"));
+                    article.setAlias(rs.getString("article_alias"));
+                    article.setCategory_id(rs.getInt("category_id"));
+                    article.setUt(rs.getString("article_ut"));
+                    article.setUser_id(rs.getInt("user_id"));
+                    String lang = rs.getString("lang");
+                    String title = rs.getString("title");
+                    String body = rs.getString("body");
+                    article.translate_title.put(lang, title);
+                    article.translate_body.put(lang, body);
+                    article.setTags((ArrayList) findByPkForUser(article.getUser_id(), article.getId()));
+                    category.setId(rs.getInt("category_id"));
+                    category.setAlias(rs.getString("category_alias"));
+                    String text = rs.getString("title_category");
+                    category.getTranslate().put(lang, text);
+
+                    article.setCategory(category);
+                    tag.getArticles().add(article);
+                }
+                rs.previous();
+                tag.setId(rs.getInt("id"));
+                tag.setName(rs.getString("tag_name"));
+                tag.setUser_id(rs.getInt("user_id"));
+                rs.close();
+            }
+
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+        return tag;
     }
 
 }

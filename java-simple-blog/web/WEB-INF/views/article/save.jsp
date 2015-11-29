@@ -21,7 +21,7 @@
                         <c:choose>
                             <c:when test="${item.id == Data.article.category_id}">
                                 <option selected="selected" value="${item.id}">
-                                    ${item.alias}
+                                    ${item.translate.get(Load.lang.get())}
                                 </option>
                             </c:when>
                             <c:otherwise>

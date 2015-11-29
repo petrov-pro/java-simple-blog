@@ -22,172 +22,183 @@ import javax.validation.Validator;
  */
 public class Article {
 
-	private int id;
+    private int id;
 
-	@Bind
-	private boolean enable;
+    @Bind
+    private boolean enable;
 
-	@Bind
-	private int weight;
+    @Bind
+    private int weight;
 
-	private int user_id;
-	private String ut;
+    private int user_id;
+    private String ut;
 
-	@Bind
-	private String tagsStr;
+    @Bind
+    private String tagsStr;
 
-	@Bind
-	private int category_id;
+    @Bind
+    private int category_id;
 
-	@Bind
-	@NotEmpty
-	@Unique(model_name = "Article")
-	private String alias;
+    @Bind
+    @NotEmpty
+    @Unique(model_name = "Article")
+    private String alias;
 
-	private String userName;
+    private String userName;
 
-	private static String errorMessage = "";
+    private static String errorMessage = "";
 
-	private static String type = "article";
+    private static String type = "article";
 
-	private ArrayList<Tag> tags;
+    private ArrayList<Tag> tags;
+    private Category category;
 
-	@Internatinolaization
-	public HashMap<String, String> translate_title;
+    @Internatinolaization
+    public HashMap<String, String> translate_title;
 
-	@Internatinolaization
-	public HashMap<String, String> translate_body;
+    @Internatinolaization
+    public HashMap<String, String> translate_body;
 
-	public Article() {
-		Article.errorMessage = "";
-		this.translate_body = new HashMap();
-		this.translate_title = new HashMap();
-	}
+    public Article() {
+        Article.errorMessage = "";
+        this.translate_body = new HashMap();
+        this.translate_title = new HashMap();
+    }
 
-	public ArrayList<Tag> getTags() {
-		return tags;
-	}
+    public Category getCategory() {
+        return category;
+    }
 
-	public void setTags(ArrayList<Tag> tags) {
-		this.tags = tags;
-	}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+    
+    
 
-	public String getUserName() {
-		return userName;
-	}
+    public ArrayList<Tag> getTags() {
+        return tags;
+    }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public void setTags(ArrayList<Tag> tags) {
+        this.tags = tags;
+    }
 
-	public int getCategory_id() {
-		return category_id;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public void setCategory_id(int category_id) {
-		this.category_id = category_id;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public int getUser_id() {
-		return user_id;
-	}
+    public int getCategory_id() {
+        return category_id;
+    }
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
 
-	public String getTagsStr() {
-		return tagsStr;
-	}
+    public int getUser_id() {
+        return user_id;
+    }
 
-	public void setTagsStr(String tagsStr) {
-		this.tagsStr = tagsStr;
-	}
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
-	public String getAlias() {
-		return alias;
-	}
+    public String getTagsStr() {
+        return tagsStr;
+    }
 
-	public void setAlias(String alias) {
-		this.alias = alias;
-	}
+    public void setTagsStr(String tagsStr) {
+        this.tagsStr = tagsStr;
+    }
 
-	public static String getErrorMessage() {
-		return errorMessage;
-	}
+    public String getAlias() {
+        return alias;
+    }
 
-	public static void setErrorMessage(String errorMessage) {
-		Article.errorMessage = errorMessage;
-	}
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public static String getErrorMessage() {
+        return errorMessage;
+    }
 
-	public HashMap<String, String> getTranslate_title() {
-		return translate_title;
-	}
+    public static void setErrorMessage(String errorMessage) {
+        Article.errorMessage = errorMessage;
+    }
 
-	public void setTranslate_title(HashMap<String, String> translate_title) {
-		this.translate_title = translate_title;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public HashMap<String, String> getTranslate_body() {
-		return translate_body;
-	}
+    public HashMap<String, String> getTranslate_title() {
+        return translate_title;
+    }
 
-	public void setTranslate_body(HashMap<String, String> translate_body) {
-		this.translate_body = translate_body;
-	}
+    public void setTranslate_title(HashMap<String, String> translate_title) {
+        this.translate_title = translate_title;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public HashMap<String, String> getTranslate_body() {
+        return translate_body;
+    }
 
-	public boolean isEnable() {
-		return enable;
-	}
+    public void setTranslate_body(HashMap<String, String> translate_body) {
+        this.translate_body = translate_body;
+    }
 
-	public void setEnable(boolean enable) {
-		this.enable = enable;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getWeight() {
-		return weight;
-	}
+    public boolean isEnable() {
+        return enable;
+    }
 
-	public void setWeight(int weight) {
-		this.weight = weight;
-	}
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
-	public String getUt() {
-		return ut;
-	}
+    public int getWeight() {
+        return weight;
+    }
 
-	public void setUt(String ut) {
-		this.ut = ut;
-	}
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
-	public static String getType() {
-		return type;
-	}
+    public String getUt() {
+        return ut;
+    }
 
-	public static void setType(String type) {
-		Article.type = type;
-	}
+    public void setUt(String ut) {
+        this.ut = ut;
+    }
 
-	public static boolean validate(Object object, Validator validator) {
-		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
-		if (constraintViolations.isEmpty()) {
-			return true;
-		} else {
-			for (ConstraintViolation<Object> cv : constraintViolations) {
-				errorMessage = errorMessage + String.format(
-						Load.bundle.getString("main_error"),
-						cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
-			}
-			return false;
-		}
-	}
+    public static String getType() {
+        return type;
+    }
+
+    public static void setType(String type) {
+        Article.type = type;
+    }
+
+    public static boolean validate(Object object, Validator validator) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+        if (constraintViolations.isEmpty()) {
+            return true;
+        } else {
+            for (ConstraintViolation<Object> cv : constraintViolations) {
+                errorMessage = errorMessage + String.format(
+                        Load.bundle.getString("main_error"),
+                        cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage());
+            }
+            return false;
+        }
+    }
 
 }
