@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <t:comment comment="${Data.commentModel}" article_id="Data.articleModel.article.id"/>
+        <t:comment user_name="${Load.auth.getUserName()}" article_id="${Data.articleModel.article.id}" lang="${Load.lang.get()}"/>
     </jsp:attribute>
 
 </t:template>

@@ -7,46 +7,57 @@ package blog.entity;
 
 import blog.system.annotation.Bind;
 import blog.system.loader.Load;
-import blog.validation.annotation.Internatinolaization;
 import blog.validation.annotation.NotEmpty;
-import java.util.HashMap;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import nl.captcha.Captcha;
 
 /**
  *
  * @author petroff
  */
 public class Comment {
-
+    
     private static String errorMessage = "";
-
+    
     private static String type = "comment";
-
+    
     private int id;
-
+    
     private int user_id;
-
-    private boolean enable;
-
+    
+    private boolean enable = true;
+    
     private String ut;
-
+    
+    private String email;
+    
+    @Bind
+    private int article_id;
+    
     @Bind
     @NotEmpty
-    private int article_id;
-
-    @Internatinolaization
-    private HashMap<String, String> translate;
-
+    private String comment;
+    
     public Comment() {
         Comment.errorMessage = "";
-        this.translate = new HashMap();
     }
-
+    
     public static boolean validate(Object object, Validator validator) {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
-
+        Captcha captcha = (Captcha) Load.session.getSession().getAttribute(Captcha.NAME);
+        String answer = Load.request.getParameter("captcha");
+        if (!captcha.isCorrect(answer)) {
+            errorMessage = Load.bundle.getString("comment_error_captcha");
+            return false;
+        } else {
+            Load.session.getSession().removeAttribute(Captcha.NAME);
+        }
+        if (!Load.auth.isAuth() && Load.request.getParameter("email").isEmpty()) {
+            errorMessage = Load.bundle.getString("comment_error_not_auth");
+            return false;
+        }
         if (constraintViolations.isEmpty()) {
             return true;
         } else {
@@ -58,69 +69,77 @@ public class Comment {
             return false;
         }
     }
-
+    
     public static String getErrorMessage() {
         return errorMessage;
     }
-
+    
     public static void setErrorMessage(String errorMessage) {
         Comment.errorMessage = errorMessage;
     }
-
+    
     public static String getType() {
         return type;
     }
-
+    
     public static void setType(String type) {
         Comment.type = type;
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public int getUserId() {
         return user_id;
     }
-
+    
     public void setUserId(int user_id) {
         this.user_id = user_id;
     }
-
+    
     public boolean isEnable() {
         return enable;
     }
-
+    
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
-
+    
     public String getUt() {
         return ut;
     }
-
+    
     public void setUt(String ut) {
         this.ut = ut;
     }
-
+    
     public int getArticleId() {
         return article_id;
     }
-
+    
     public void setArticleId(int article_id) {
         this.article_id = article_id;
     }
-
-    public HashMap<String, String> getTranslate() {
-        return translate;
+    
+    public String getComment() {
+        return comment;
     }
-
-    public void setTranslate(HashMap<String, String> translate) {
-        this.translate = translate;
+    
+    public void setComment(String comment) {
+        this.comment = comment;
     }
-
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 }

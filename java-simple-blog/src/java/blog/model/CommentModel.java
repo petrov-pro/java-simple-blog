@@ -5,6 +5,7 @@
 package blog.model;
 
 //import blog.bind.CommentBind;
+import blog.bind.CommentBind;
 import blog.dao.impl.CommentImpl;
 import blog.entity.Comment;
 import blog.system.dao.DaoFactory;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
-import org.json.simple.JSONObject;
 
 /**
  *
@@ -100,16 +100,16 @@ public class CommentModel extends blog.system.model.Model {
         return null;
     }
 
-    public CommentModel listComment() {
-        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-        try {
-            comments = ci.findAll();
-        } catch (PersistException p) {
-            throw new RuntimeException(p);
-        }
-        return this;
-    }
-
+//    public CommentModel listComment() {
+//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+//        try {
+//            comments = ci.findAll();
+//        } catch (PersistException p) {
+//            throw new RuntimeException(p);
+//        }
+//        return this;
+//    }
+//
     public boolean create() {
         CommentBind.bind(comment);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -127,6 +127,7 @@ public class CommentModel extends blog.system.model.Model {
                 errorMessage = Load.bundle.getString("comment_cant_insert");
                 return false;
             } else {
+                errorMessage = Load.bundle.getString("comment_done");
                 return true;
             }
         } else {
@@ -135,82 +136,84 @@ public class CommentModel extends blog.system.model.Model {
         }
     }
 
-    public boolean update(String comment_id) {
-        CommentBind.bind(comment, comment_id);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        if (Comment.validate(comment, validator)) {
-            CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-            boolean result;
-            try {
-                result = ci.update(comment);
-            } catch (PersistException p) {
-                Logger.write(p.toString());
-                result = false;
-            }
-            if (!result) {
-                errorMessage = Load.bundle.getString("comment_cant_update");
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            errorMessage = Comment.getErrorMessage();
-            return false;
-        }
-    }
-
-    public void findAll() {
+//    public boolean update(String comment_id) {
+//        CommentBind.bind(comment, comment_id);
+//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//        Validator validator = factory.getValidator();
+//        if (Comment.validate(comment, validator)) {
+//            CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+//            boolean result;
+//            try {
+//                result = ci.update(comment);
+//            } catch (PersistException p) {
+//                Logger.write(p.toString());
+//                result = false;
+//            }
+//            if (!result) {
+//                errorMessage = Load.bundle.getString("comment_cant_update");
+//                return false;
+//            } else {
+//                return true;
+//            }
+//        } else {
+//            errorMessage = Comment.getErrorMessage();
+//            return false;
+//        }
+//    }
+//
+    public boolean findAll(String articleIdS, String pageS) {
         CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+        int article_id = Integer.parseInt(articleIdS);
+        int page = Integer.parseInt(pageS);
         try {
-            comments = ci.findAllForUser(Load.auth.getUserId());
+            comments = ci.findAllByParams(article_id, page);
         } catch (PersistException p) {
             Logger.write(p.toString());
         }
+        return true;
     }
-
-    public String del(int user_id) {
-        Boolean message = false;
-        JSONObject resultJson = new JSONObject();
-        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-        try {
-            message = ci.delete(user_id);
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-        resultJson.put("message", message);
-        return resultJson.toString();
-    }
-
-    public void findAllForPk(Integer comment_id) {
-        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-        try {
-            comment = ci.findAllForPk(comment_id);
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-
-    }
-
-    @Override
-    public boolean checkUnique(String name) {
-        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-        try {
-            if (comment != null) {
-                int count = ci.findByAlias(comment.getAlias(), comment.getId());
-                if (count == 0) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-            return false;
-        }
-
-    }
-
+//
+//    public String del(int user_id) {
+//        Boolean message = false;
+//        JSONObject resultJson = new JSONObject();
+//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+//        try {
+//            message = ci.delete(user_id);
+//        } catch (PersistException p) {
+//            Logger.write(p.toString());
+//        }
+//        resultJson.put("message", message);
+//        return resultJson.toString();
+//    }
+//
+//    public void findAllForPk(Integer comment_id) {
+//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+//        try {
+//            comment = ci.findAllForPk(comment_id);
+//        } catch (PersistException p) {
+//            Logger.write(p.toString());
+//        }
+//
+//    }
+//
+//    @Override
+//    public boolean checkUnique(String name) {
+//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+//        try {
+//            if (comment != null) {
+//                int count = ci.findByAlias(comment.getAlias(), comment.getId());
+//                if (count == 0) {
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            } else {
+//                return false;
+//            }
+//        } catch (PersistException p) {
+//            Logger.write(p.toString());
+//            return false;
+//        }
+//
+//    }
 }

@@ -10,8 +10,12 @@
 
 <html>
     <head>
-		<meta charset="UTF-8">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+        <link rel="stylesheet" href="/static/css/jquery-ui.theme.min.css">
+        <link rel="stylesheet" href="/static/css/jquery-ui.structure.min.css">
         <script src="/static/js/jquery-2.1.4.min.js" type="text/javascript" encoding="UTF-8"></script>
+        <script src="/static/js/jquery-ui.min.js" type="text/javascript" encoding="UTF-8"></script>
         <script src="/static/js/common.js" type="text/javascript" encoding="UTF-8"></script>
         <!-- Bootstrap -->
         <link href="/static/b/css/bootstrap.min.css" rel="stylesheet">

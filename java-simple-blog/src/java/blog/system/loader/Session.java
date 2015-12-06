@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
  */
 public class Session {
 
-    private HttpSession getSession() {
+    public HttpSession getSession() {
         return Load.request.getSession();
     }
 
