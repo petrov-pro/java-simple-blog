@@ -25,80 +25,90 @@ import javax.validation.ValidatorFactory;
  */
 public class CommentModel extends blog.system.model.Model {
 
-    private String errorMessage = "";
+	private String errorMessage = "";
 
-    private Comment comment;
+	private Comment comment;
 
-    private String url;
+	private String url;
 
-    private List<Comment> comments;
+	private List<Comment> comments;
 
-    public CommentModel() {
-        comment = new Comment();
-    }
+	private int count;
 
-    @Override
-    public void init(Object[] params) {
-        super.init(params); //To change body of generated methods, choose Tools | Templates.       
-        if (params.length > 0) {
-            url = "/comment/update/" + params[0];
-        } else {
-            new Exception404("Miss id element");
-        }
-    }
+	public CommentModel() {
+		comment = new Comment();
+	}
 
-    @Override
-    public void init(HttpServletRequest r) {
-        super.init(r); //To change body of generated methods, choose Tools | Templates.
-        url = "/comment/create/";
-    }
+	public int getCount() {
+		return count;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setCount(int count) {
+		this.count = count;
+	}
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+	@Override
+	public void init(Object[] params) {
+		super.init(params); //To change body of generated methods, choose Tools | Templates.       
+		if (params.length > 0) {
+			url = "/comment/update/" + params[0];
+		} else {
+			new Exception404("Miss id element");
+		}
+	}
 
-    public Comment getComment() {
-        return comment;
-    }
+	@Override
+	public void init(HttpServletRequest r) {
+		super.init(r); //To change body of generated methods, choose Tools | Templates.
+		url = "/comment/create/";
+	}
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public List<Comment> getComments() {
-        return comments;
-    }
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
+	public Comment getComment() {
+		return comment;
+	}
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
 
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
+	public List<Comment> getComments() {
+		return comments;
+	}
 
-    @Override
-    public Object getData() {
-        return this;
-    }
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 
-    @Override
-    public String getView() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+	public String getErrorMessage() {
+		return errorMessage;
+	}
 
-    @Override
-    public Object getNavigator() {
-        return null;
-    }
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	@Override
+	public Object getData() {
+		return this;
+	}
+
+	@Override
+	public String getView() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public Object getNavigator() {
+		return null;
+	}
 
 //    public CommentModel listComment() {
 //        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
@@ -110,31 +120,31 @@ public class CommentModel extends blog.system.model.Model {
 //        return this;
 //    }
 //
-    public boolean create() {
-        CommentBind.bind(comment);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        if (Comment.validate(comment, validator)) {
-            CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-            Integer result;
-            try {
-                result = ci.insert(comment);
-            } catch (PersistException p) {
-                Logger.write(p.toString());
-                result = null;
-            }
-            if (result == null) {
-                errorMessage = Load.bundle.getString("comment_cant_insert");
-                return false;
-            } else {
-                errorMessage = Load.bundle.getString("comment_done");
-                return true;
-            }
-        } else {
-            errorMessage = Comment.getErrorMessage();
-            return false;
-        }
-    }
+	public boolean create() {
+		CommentBind.bind(comment);
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		if (Comment.validate(comment, validator)) {
+			CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+			Integer result;
+			try {
+				result = ci.insert(comment);
+			} catch (PersistException p) {
+				Logger.write(p.toString());
+				result = null;
+			}
+			if (result == null) {
+				errorMessage = Load.bundle.getString("comment_cant_insert");
+				return false;
+			} else {
+				errorMessage = Load.bundle.getString("comment_done");
+				return true;
+			}
+		} else {
+			errorMessage = Comment.getErrorMessage();
+			return false;
+		}
+	}
 
 //    public boolean update(String comment_id) {
 //        CommentBind.bind(comment, comment_id);
@@ -161,17 +171,31 @@ public class CommentModel extends blog.system.model.Model {
 //        }
 //    }
 //
-    public boolean findAll(String articleIdS, String pageS) {
-        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-        int article_id = Integer.parseInt(articleIdS);
-        int page = Integer.parseInt(pageS);
-        try {
-            comments = ci.findAllByParams(article_id, page);
-        } catch (PersistException p) {
-            Logger.write(p.toString());
-        }
-        return true;
-    }
+	public boolean findAll(String articleIdS, String pageS) {
+		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+		int article_id = Integer.parseInt(articleIdS);
+		int page = Integer.parseInt(pageS);
+		try {
+			comments = ci.findAllByParams(article_id, page);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		return true;
+	}
+
+	public int count(String articleIdS) {
+		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+		int article_id = Integer.parseInt(articleIdS);
+		try {
+			count = ci.count(article_id);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		float count_t;
+		count_t = (float) count / Load.config.limit;
+		count = (int) Math.round(count_t);
+		return count;
+	}
 //
 //    public String del(int user_id) {
 //        Boolean message = false;

@@ -10,3 +10,10 @@
     </c:forEach>
 </ul>
 
+<div>
+	<c:forEach begin="1" end="${Data.count}" var="val">
+		<span class="link_comment" style="cursor:pointer;" ><c:out value="${val}"/></span>
+	</c:forEach>
+
+</div>
+

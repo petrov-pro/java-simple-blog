@@ -63,12 +63,14 @@ public class CommentController extends ControllerImpl<CommentController> {
     public void list() throws ServletException, IOException {
         CommentModel commentModel = (CommentModel) Load.model.name("Comment");
         boolean result = commentModel.findAll(Load.request.getParameter("article_id"), Load.request.getParameter("page"));
+		commentModel.count(Load.request.getParameter("article_id"));
         String listCommentsHtml = Load.view.partial("/comment/list.jsp", commentModel);
         JSONObject resultJson = new JSONObject();
         resultJson.put("status", result);
         resultJson.put("message", listCommentsHtml);
         Load.view.out(resultJson.toString());
     }
+	
 
     public void del(String category_id) throws IOException {
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
