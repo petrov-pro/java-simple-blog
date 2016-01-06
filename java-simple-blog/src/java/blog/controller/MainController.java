@@ -67,5 +67,14 @@ public class MainController extends ControllerImpl<MainController> {
 		mainModel.getArticleForTag(tag);
 		Load.view.name("/main/tag.jsp", mainModel);
 	}
+	
+	@Get
+	public void user(blog.system.environment.Get get,String userName) throws ServletException, IOException {
+		MainModel mainModel = (MainModel) Load.model.name("Main");
+		mainModel.getCategoryArticleForUser(userName);
+		Load.view.name("/main/user.jsp", mainModel);
+	}
+	
+	
 
 }

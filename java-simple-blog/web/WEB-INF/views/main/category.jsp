@@ -12,7 +12,7 @@
     <jsp:attribute name="body_area">
 		<div id="category">
 			<h1>${Load.bundle.category}: ${Data.categoryModel.category.translate.get(Load.lang.get())}</h1>
-			<span>${Load.bundle.category_author}:</span>${Data.categoryModel.category.userName}
+			<span>${Load.bundle.category_author}:</span><a href="/main/user/${Data.categoryModel.category.userName}/">${Data.categoryModel.category.userName}</a>
 			<div>
 				<c:forEach items="${Data.articleModel.articles}" var="article">
 					<li>

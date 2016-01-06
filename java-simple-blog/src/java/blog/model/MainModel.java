@@ -19,6 +19,7 @@ public class MainModel extends Model {
 	private ArticleModel articleModel;
 	private TagModel tagModel;
 	private CommentModel commentModel;
+	private UserModel userModel;
 
 	public CommentModel getCommentModel() {
 		return commentModel;
@@ -101,6 +102,16 @@ public class MainModel extends Model {
 		commentModel = (CommentModel) Load.model.name("Comment");
 		categoryModel.findByAlias(user_id, category_alias);
 		articleModel.findAllForCategory(categoryModel.getCategory().getId());
+	}
+
+	public void getCategoryArticleForUser(String userName) {
+		articleModel = (ArticleModel) Load.model.name("Article");
+		categoryModel = (CategoryModel) Load.model.name("Category");
+		commentModel = (CommentModel) Load.model.name("Comment");
+		userModel = (UserModel) Load.model.name("User");
+		int userId = userModel.getUserByName(userName);
+		categoryModel.getCategoriesForUser(userId);
+		
 	}
 
 }

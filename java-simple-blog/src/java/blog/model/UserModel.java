@@ -135,4 +135,16 @@ public class UserModel extends Model {
 		}
 	}
 
+	public int getUserByName(String name) {
+		UserImpl ui = (UserImpl) DaoFactory.getDao("UserImpl");
+
+		user = ui.findByUserName(name);
+		if (user != null) {
+			return user.getId();
+		} else {
+			return 0;
+		}
+
+	}
+
 }

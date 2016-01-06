@@ -13,7 +13,7 @@
         <div id="category">
             <h1>${Load.bundle.article}: ${Data.articleModel.article.translate_title.get(Load.lang.get())}</h1>
             <span>${Data.categoryModel.category.translate.get(Load.lang.get())}</span>
-            \<span>${Load.bundle.article_author}:</span>${Data.articleModel.article.userName}
+            \<span>${Load.bundle.article_author}:</span><a href="/main/user/${Data.articleModel.article.userName}/">${Data.articleModel.article.userName}</a>
             <div>
 
                 <div>

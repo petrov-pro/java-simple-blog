@@ -253,4 +253,14 @@ public class CategoryModel extends blog.system.model.Model implements TreeIntf<C
 		return true;
 	}
 
+	public boolean getCategoriesForUser(int userId) {
+		CategoryImpl ci = (CategoryImpl) DaoFactory.getDao("CategoryImpl");
+		try {
+			categories = ci.findAllForUser(userId);
+		} catch (PersistException p) {
+			Logger.write(p.toString());
+		}
+		return true;
+	}
+
 }

@@ -15,18 +15,18 @@ import javax.servlet.http.HttpServletResponse;
  * @author petroff
  */
 public abstract class ControllerImpl<T> extends HttpServlet implements ControllerIntf<T> {
-	
+
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected ErrorPage errorPage;
-	
-        @Override
+
+	@Override
 	public void init(HttpServletRequest request, HttpServletResponse response, ErrorPage errorPage) {
 		this.request = request;
 		this.response = response;
 		this.errorPage = errorPage;
 	}
-	
+
 	@Override
 	public void getView(String path) {
 		Load.view.name(path);

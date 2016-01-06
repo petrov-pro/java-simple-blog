@@ -43,7 +43,7 @@
                                 </c:choose>
 
                             </div>
-                            <span>${article.userName}</span>
+							<span><a href="/main/user/${article.userName}/">${article.userName}</a></span>
                             <span>${article.ut}</span>
                             <c:if test="${article.tags.size() > 0}">
                                 <div id="tags">
