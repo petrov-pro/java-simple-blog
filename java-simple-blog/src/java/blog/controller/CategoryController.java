@@ -27,6 +27,7 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 	@Get
 	public void create(blog.system.environment.Get get) throws ServletException, IOException {
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+                categoryModel.navigator.setView("/navigator/user.jsp");
 		Load.view.name("/category/save.jsp", categoryModel);
 	}
 

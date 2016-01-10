@@ -5,7 +5,6 @@
  */
 package blog.system.loader;
 
-import static blog.system.loader.Load.response;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;

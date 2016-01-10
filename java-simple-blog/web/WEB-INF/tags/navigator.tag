@@ -3,4 +3,6 @@
 
 <%@tag import="blog.system.tools.Navigator" %>
 <%@attribute name="navigator" required="true" type="blog.system.tools.Navigator"%>
-link
+<div id="navigator">
+    ${navigator.getView()}    
+</div>

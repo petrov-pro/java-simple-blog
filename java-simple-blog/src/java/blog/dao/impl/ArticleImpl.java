@@ -278,6 +278,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 				article.setEnable(rs.getBoolean("enable"));
 				article.setAlias(rs.getString("alias"));
 				article.setWeight(rs.getInt("weight"));
+                                article.setUser_id(rs.getInt("user_id"));
 				String lang = rs.getString("lang");
 				String title = rs.getString("title");
 				String body = rs.getString("body");

@@ -38,6 +38,7 @@ public abstract class Model implements ModelIntf {
     }
 
     public Model() {
+        this.navigator = new Navigator();
     }
 
     @Override

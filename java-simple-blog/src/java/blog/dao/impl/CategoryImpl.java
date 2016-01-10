@@ -163,6 +163,7 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
 				category.setEnable(rs.getBoolean(2));
 				category.setAlias(rs.getString(3));
 				category.setWeight(rs.getInt(4));
+                                category.setUserId(rs.getInt(5));
 				String lang = rs.getString(8);
 				String text = rs.getString(7);
 				category.translate.put(lang, text);

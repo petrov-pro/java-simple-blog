@@ -17,7 +17,7 @@ import javax.servlet.ServletException;
  *
  * @author petroff
  */
-public class UserController extends ControllerImpl<UserController> {
+public class UserController extends ControllerImpl<UserController> {    
 
     @Override
     public void index() throws ServletException, IOException {
@@ -49,6 +49,7 @@ public class UserController extends ControllerImpl<UserController> {
     @Get
     public void privat(blog.system.environment.Get get) throws ServletException, IOException {
         UserModel userModel = (UserModel) Load.model.name("User");
+        userModel.navigator.setViewProfile("/navigator/user.jsp");
         int user_id = Load.auth.getUserId();
         userModel.getUserInfo(user_id);
         super.request.setAttribute("Data", userModel);

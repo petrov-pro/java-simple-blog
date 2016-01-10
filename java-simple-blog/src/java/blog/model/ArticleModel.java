@@ -37,8 +37,6 @@ public class ArticleModel extends Model {
 
     private String tagsStr;
 
-    
-
     public ArticleModel() {
         article = new Article();
     }
@@ -290,8 +288,8 @@ public class ArticleModel extends Model {
         }
 
     }
-	
-	public void findAllForCategory(Integer category_id) {
+
+    public void findAllForCategory(Integer category_id) {
         ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
         TagModel tagModel = (TagModel) Load.model.name("Tag");
         try {
@@ -304,5 +302,14 @@ public class ArticleModel extends Model {
             Logger.write(p.toString());
         }
 
+    }
+
+    public void findAllForUser(int userId) {
+        ArticleImpl ai = (ArticleImpl) DaoFactory.getDao("ArticleImpl");
+        try {
+            articles = ai.findAllForUser(userId);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
     }
 }

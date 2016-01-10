@@ -10,6 +10,7 @@
 
 
     <jsp:attribute name="body_area">
+        <h1>Context by ${Data.userModel.user.user_name}</h1>
         <div id="category">
             <ul>
                 <c:forEach items="${Data.categoryModel.categories}" var="category">
@@ -40,24 +41,6 @@
 							</c:choose>
 
 						</div>
-						<span>
-							<a href="/main/user/${article.userName}/">
-							${article.userName}
-							</a>
-						</span>
-						<span>${article.ut}</span>
-						<c:if test="${article.tags.size() > 0}">
-							<div id="tags">
-								<span>Tags:</span>
-								<span>
-									<c:forEach items="${article.tags}" var="tag">
-										<a href="/main/tag/${tag.name}/">
-											${tag.name}
-										</a>
-									</c:forEach>
-								</span>
-							</div>
-						</c:if>
 					</li>
 				</c:forEach> 
 			</ul>
