@@ -66,7 +66,7 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
 	public void prepareQueryUpdate(PreparedStatement statement, Comment c) throws PersistException {
 		try {
 			statement.setBoolean(1, c.isEnable());
-			statement.setInt(4, c.getId());
+			statement.setInt(2, c.getId());
 		} catch (Exception e) {
 			throw new PersistException(e);
 		}
