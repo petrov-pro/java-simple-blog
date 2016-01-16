@@ -77,6 +77,7 @@
                         <c:out value="${article.translate_title.get(Load.lang.get())}"/>
                     </td>
                     <td>
+						<a href="/comment/get/${article.id}/1">${Load.bundle.comment_view}</a>
                         <a href="/article/update/${article.id}">${Load.bundle.article_edit}</a>
                         <span class="article_del" article_id="${article.id}">${Load.bundle.article_del}</span>
                     </td>

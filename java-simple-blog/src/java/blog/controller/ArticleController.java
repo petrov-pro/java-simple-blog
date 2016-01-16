@@ -31,6 +31,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
     @Get
     public void create(blog.system.environment.Get get) throws ServletException, IOException {
         ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+		articleModel.navigator.setViewProfile("/navigator/user.jsp", "article_create");
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
         articleModel.setTree(categoryModel);
         Load.view.name("/article/save.jsp", articleModel);
@@ -39,6 +40,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
     @Post
     public void create(blog.system.environment.Post post) throws ServletException, IOException {
         ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
+		articleModel.navigator.setViewProfile("/navigator/user.jsp", "article_create");
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
         articleModel.setTree(categoryModel);
         if (articleModel.create()) {
@@ -57,6 +59,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
         articleModel.findByPk(Integer.parseInt(article_id));
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
         articleModel.setTree(categoryModel);
+		articleModel.navigator.setViewProfile("/navigator/user.jsp", "");
         Load.view.name("/article/save.jsp", articleModel);
     }
 
@@ -66,6 +69,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
         ArticleModel articleModel = (ArticleModel) Load.model.name("Article", arg);
         CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
         articleModel.setTree(categoryModel);
+		articleModel.navigator.setViewProfile("/navigator/user.jsp", "");
         if (articleModel.update(article_id)) {
             Http.redirect("/main/done");
         } else {
@@ -78,6 +82,7 @@ public class ArticleController extends ControllerImpl<ArticleController> {
     public void list() {
         ArticleModel articleModel = (ArticleModel) Load.model.name("Article");
         articleModel.findAll();
+		articleModel.navigator.setViewProfile("/navigator/user.jsp", "article_list");
         Load.view.name("/article/list.jsp", articleModel);
     }
 

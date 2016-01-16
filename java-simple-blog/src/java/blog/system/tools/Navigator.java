@@ -7,6 +7,7 @@ package blog.system.tools;
 
 import blog.system.loader.Load;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -18,36 +19,67 @@ public class Navigator<T> {
     private String view;
     private T obj;
 
-    private HashMap<String, Link> profile_links;
+
+    private LinkedHashMap<String, Link> profileLinks;
 
     public Navigator() {
-        profile_links = new HashMap();
+        profileLinks = new LinkedHashMap();
 
         Link link = new Link();
         link.setLink("/main/");
         link.setTitle(Load.bundle.getString("main"));
-        profile_links.put("main", link);
+        profileLinks.put("main", link);
 
     }
+
+	public HashMap<String, Link> getProfileLinks() {
+		return profileLinks;
+	}
+
+	public void setProfileLinks(LinkedHashMap<String, Link> profile_links) {
+		this.profileLinks = profile_links;
+	}
+	
 
     public String getView() {
-        return Load.view.partial(view, this.obj);
+        return Load.view.partial(view, this);
     }
 
-    public void setViewProfile(String view) {
+    public void setViewProfile(String view, String activate) {
 
         Link link = new Link();
         link.setLink("/category/list/");
         link.setTitle(Load.bundle.getString("category_list"));
-        profile_links.put("category_list", link);
+        profileLinks.put("category_list", link);
 
         link = new Link();
         link.setLink("/category/create/");
         link.setTitle(Load.bundle.getString("category_create"));
-        profile_links.put("category_create", link);
+        profileLinks.put("category_create", link);
+		
+		//articel
+		
+		link = new Link();
+        link.setLink("/article/list/");
+        link.setTitle(Load.bundle.getString("article_list"));
+        profileLinks.put("article_list", link);
 
-        this.obj = (T) this;
+        link = new Link();
+        link.setLink("/article/create/");
+        link.setTitle(Load.bundle.getString("article_create"));
+        profileLinks.put("article_create", link);
+		
+		Link lActivate = profileLinks.get(activate);
+		if(lActivate != null){
+			lActivate.setActivate(true);
+		}
         this.view = view;
+		
+    }
+	
+	public void setViewMain(String view, String activate) {
+        this.view = view;
+		
     }
 
     public void setView(String view) {

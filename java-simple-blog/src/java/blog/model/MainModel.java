@@ -73,7 +73,6 @@ public class MainModel extends Model {
 
     @Override
     public Navigator getNavigator() {
-        
         return this.navigator;
     }
 

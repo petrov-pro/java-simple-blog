@@ -10,6 +10,7 @@ import blog.entity.Content;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
+import blog.system.tools.Logger;
 import static java.net.Proxy.Type.HTTP;
 import java.net.URLEncoder;
 import java.sql.PreparedStatement;
@@ -267,6 +268,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 				+ "INNER JOIN blogj.content body "
 				+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
 				+ "WHERE  user_id = ?  GROUP BY t.id;";
+		//Logger.write(sql);
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, Load.lang.get());
 			statement.setString(2, Load.lang.get());
@@ -278,7 +280,7 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 				article.setEnable(rs.getBoolean("enable"));
 				article.setAlias(rs.getString("alias"));
 				article.setWeight(rs.getInt("weight"));
-                                article.setUser_id(rs.getInt("user_id"));
+				article.setUser_id(rs.getInt("user_id"));
 				String lang = rs.getString("lang");
 				String title = rs.getString("title");
 				String body = rs.getString("body");
@@ -383,20 +385,20 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 		}
 		return article;
 	}
-	
+
 	public List<Article> findAllForCategory(Integer category_id) throws PersistException {
 
 		List<Article> articles = new ArrayList();
 		String sql;
 
-			sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang, u.user_name FROM blogj.article t  "
-					+ "INNER JOIN blogj.content title "
-					+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
-					+ "INNER JOIN blogj.content body "
-					+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
-					+ "INNER JOIN   users  u "
-					+ "ON u.id = t.user_id "
-					+ "WHERE t.enable = true AND category_id = ? GROUP BY t.id;";
+		sql = "SELECT t.*, title.text as title, body.text as body, title.lang as lang, u.user_name FROM blogj.article t  "
+				+ "INNER JOIN blogj.content title "
+				+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
+				+ "INNER JOIN blogj.content body "
+				+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
+				+ "INNER JOIN   users  u "
+				+ "ON u.id = t.user_id "
+				+ "WHERE t.enable = true AND category_id = ? GROUP BY t.id;";
 
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			if (category_id == null) {

@@ -35,8 +35,23 @@ public class CommentModel extends blog.system.model.Model {
 
 	private int count;
 
+	private int articleId;
+
 	public CommentModel() {
 		comment = new Comment();
+	}
+
+	public int getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
+
+	public void setArticleId(String articleId) {
+		int t = Integer.parseInt(articleId);
+		this.articleId = t;
 	}
 
 	public int getCount() {
@@ -110,16 +125,6 @@ public class CommentModel extends blog.system.model.Model {
 		return null;
 	}
 
-//    public CommentModel listComment() {
-//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-//        try {
-//            comments = ci.findAll();
-//        } catch (PersistException p) {
-//            throw new RuntimeException(p);
-//        }
-//        return this;
-//    }
-//
 	public boolean create() {
 		CommentBind.bind(comment);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -146,31 +151,38 @@ public class CommentModel extends blog.system.model.Model {
 		}
 	}
 
-//    public boolean update(String comment_id) {
-//        CommentBind.bind(comment, comment_id);
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//        Validator validator = factory.getValidator();
-//        if (Comment.validate(comment, validator)) {
-//            CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-//            boolean result;
-//            try {
-//                result = ci.update(comment);
-//            } catch (PersistException p) {
-//                Logger.write(p.toString());
-//                result = false;
-//            }
-//            if (!result) {
-//                errorMessage = Load.bundle.getString("comment_cant_update");
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        } else {
-//            errorMessage = Comment.getErrorMessage();
-//            return false;
-//        }
-//    }
-//
+	public boolean update() {
+		CommentBind.bind(comment);
+		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
+		try {
+			comment = ci.findByPk(comment.getId());
+		} catch (PersistException p) {
+			errorMessage = Load.bundle.getString("comment_cant_find_comment");
+			return false;
+		}
+		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+		Validator validator = factory.getValidator();
+		if (Comment.validate2(comment, validator)) {
+
+			boolean result;
+			try {
+				result = ci.update(comment);
+			} catch (PersistException p) {
+				Logger.write(p.toString());
+				result = false;
+			}
+			if (!result) {
+				errorMessage = Load.bundle.getString("comment_cant_update");
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			errorMessage = Comment.getErrorMessage();
+			return false;
+		}
+	}
+
 	public boolean findAll(String articleIdS, String pageS) {
 		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
 		int article_id = Integer.parseInt(articleIdS);
@@ -196,48 +208,5 @@ public class CommentModel extends blog.system.model.Model {
 		count = (int) Math.round(count_t);
 		return count;
 	}
-//
-//    public String del(int user_id) {
-//        Boolean message = false;
-//        JSONObject resultJson = new JSONObject();
-//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-//        try {
-//            message = ci.delete(user_id);
-//        } catch (PersistException p) {
-//            Logger.write(p.toString());
-//        }
-//        resultJson.put("message", message);
-//        return resultJson.toString();
-//    }
-//
-//    public void findAllForPk(Integer comment_id) {
-//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-//        try {
-//            comment = ci.findAllForPk(comment_id);
-//        } catch (PersistException p) {
-//            Logger.write(p.toString());
-//        }
-//
-//    }
-//
-//    @Override
-//    public boolean checkUnique(String name) {
-//        CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
-//        try {
-//            if (comment != null) {
-//                int count = ci.findByAlias(comment.getAlias(), comment.getId());
-//                if (count == 0) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            } else {
-//                return false;
-//            }
-//        } catch (PersistException p) {
-//            Logger.write(p.toString());
-//            return false;
-//        }
-//
-//    }
+
 }

@@ -27,14 +27,14 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 	@Get
 	public void create(blog.system.environment.Get get) throws ServletException, IOException {
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
-                categoryModel.navigator.setView("/navigator/user.jsp");
+		categoryModel.navigator.setViewProfile("/navigator/user.jsp", "category_create");
 		Load.view.name("/category/save.jsp", categoryModel);
 	}
 
 	@Post
 	public void create(blog.system.environment.Post post) throws ServletException, IOException {
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
-
+		categoryModel.navigator.setViewProfile("/navigator/user.jsp", "category_create");
 		if (categoryModel.create()) {
 			Http.redirect("/main/done");
 		} else {
@@ -48,6 +48,7 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 	public void update(blog.system.environment.Get get, String category_id) throws ServletException, IOException {
 		Object[] arg = new Object[]{category_id};
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category", arg);
+		categoryModel.navigator.setViewProfile("/navigator/user.jsp", "");
 		categoryModel.findAllForPk(Integer.parseInt(category_id));
 		Load.view.name("/category/save.jsp", categoryModel);
 	}
@@ -56,7 +57,7 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 	public void update(blog.system.environment.Post post, String category_id) throws ServletException, IOException {
 		Object[] arg = new Object[]{category_id};
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category", arg);
-
+		categoryModel.navigator.setViewProfile("/navigator/user.jsp", "");
 		if (categoryModel.update(category_id)) {
 			Http.redirect("/main/done");
 		} else {
@@ -68,6 +69,7 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 
 	public void list() {
 		CategoryModel categoryModel = (CategoryModel) Load.model.name("Category");
+		categoryModel.navigator.setViewProfile("/navigator/user.jsp", "category_list");
 		categoryModel.findAll();
 		Load.view.name("/category/list.jsp", categoryModel);
 	}
@@ -77,7 +79,5 @@ public class CategoryController extends ControllerImpl<CategoryController> {
 		String str = categoryModel.del(Integer.parseInt(category_id));
 		Load.view.out(str);
 	}
-
-	
 
 }

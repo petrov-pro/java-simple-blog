@@ -5,6 +5,7 @@
  */
 package blog.system.loader;
 
+import blog.system.tools.Logger;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -16,59 +17,60 @@ import javax.servlet.http.HttpServletResponseWrapper;
  */
 public class View<T> {
 
-    public static final String basePath = "/WEB-INF/views/";
+	public static final String basePath = "/WEB-INF/views/";
 
-    public void name(String path) {
-        try {
-            Load.response.setContentType("text/html;charset=UTF-8");
-            Load.response.setCharacterEncoding("UTF-8");
-            Load.request.getRequestDispatcher(basePath + path).forward(Load.request, Load.response);
-        } catch (Exception e) {
-            Load.errorPage.show404(e);
-        }
-    }
+	public void name(String path) {
+		try {
+			Load.response.setContentType("text/html;charset=UTF-8");
+			Load.response.setCharacterEncoding("UTF-8");
+			Load.request.getRequestDispatcher(basePath + path).forward(Load.request, Load.response);
+		} catch (Exception e) {
+			Load.errorPage.show404(e);
+		}
+	}
 
-    public void name(String path, T obj) {
-        try {
-            Load.request.setAttribute("Data", obj);
-            Load.response.setContentType("text/html;charset=UTF-8");
-            Load.response.setCharacterEncoding("UTF-8");
-            Load.request.getRequestDispatcher(basePath + path).forward(Load.request, Load.response);
-        } catch (Exception e) {
-            Load.errorPage.show404(e);
-        }
-    }
+	public void name(String path, T obj) {
+		try {
+			Load.request.setAttribute("Data", obj);
+			Load.response.setContentType("text/html;charset=UTF-8");
+			Load.response.setCharacterEncoding("UTF-8");
+			Load.request.getRequestDispatcher(basePath + path).forward(Load.request, Load.response);
+		} catch (Exception e) {
+			Load.errorPage.show404(e);
+		}
+	}
 
-    public String partial(String path, T obj) {
-        HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(Load.response) {
-            private final StringWriter sw = new StringWriter();
+	public String partial(String path, T obj) {
+		HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper(Load.response) {
+			private final StringWriter sw = new StringWriter();
 
-            @Override
-            public PrintWriter getWriter() throws IOException {
-                return new PrintWriter(sw);
-            }
+			@Override
+			public PrintWriter getWriter() throws IOException {
+				return new PrintWriter(sw);
+			}
 
-            @Override
-            public String toString() {
-                return sw.toString();
-            }
-        };
-        String answer = "";
-        try {
-            Load.request.setAttribute("Data", obj);
-            Load.response.setContentType("text/html;charset=UTF-8");
-            Load.response.setCharacterEncoding("UTF-8");
-            Load.request.getRequestDispatcher(basePath + path).include(Load.request, responseWrapper);
-            answer = responseWrapper.toString();
-        } catch (Exception e) {
-            Load.errorPage.show404(e);
-        }
-        return answer;
-    }
+			@Override
+			public String toString() {
+				return sw.toString();
+			}
+		};
+		String answer = "";
+		try {
+			String s = obj.getClass().getSimpleName();
+			Load.request.setAttribute(s, obj);
+			Load.response.setContentType("text/html;charset=UTF-8");
+			Load.response.setCharacterEncoding("UTF-8");
+			Load.request.getRequestDispatcher(basePath + path).include(Load.request, responseWrapper);
+			answer = responseWrapper.toString();
+		} catch (Exception e) {
+			Load.errorPage.show404(e);
+		}
+		return answer;
+	}
 
-    public void out(String str) throws IOException {
-        Load.response.setContentType("application/json");
-        Load.response.getWriter().write(str);
-    }
+	public void out(String str) throws IOException {
+		Load.response.setContentType("application/json");
+		Load.response.getWriter().write(str);
+	}
 
 }

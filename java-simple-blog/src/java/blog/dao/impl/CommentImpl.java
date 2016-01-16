@@ -10,6 +10,7 @@ import blog.system.dao.AbstractDaoImpl;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
 import blog.system.loader.Load;
+import blog.system.tools.Logger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -66,7 +67,6 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
 		try {
 			statement.setBoolean(1, c.isEnable());
 			statement.setInt(4, c.getId());
-			statement.setInt(5, Load.auth.getUserId());
 		} catch (Exception e) {
 			throw new PersistException(e);
 		}
@@ -81,6 +81,11 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
 				comment = new Comment();
 				comment.setId(rs.getInt("id"));
 				comment.setEnable(rs.getBoolean("enable"));
+				comment.setArticleId(rs.getInt("article_id"));
+				comment.setComment(rs.getString("text"));
+				comment.setUt(rs.getString("ut"));
+				comment.setUserId(rs.getInt("user_id"));
+				comment.setEmail(rs.getString("email"));
 
 				listCategories.add(comment);
 			}
@@ -92,13 +97,16 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
 
 	@Override
 	public String queryFindByPk() throws PersistException {
-		return "SELECT * FROM blogj.comment cat INNER JOIN blogj.content con"
-				+ " ON cat.id = con.object_id AND con.`type` = ? AND cat.id = ? AND cat.user_id = ?;";
+		return "SELECT *, com.user_id FROM blogj.comment com "
+				+ "INNER JOIN blogj.content con "
+				+ "ON com.id = con.object_id AND con.`type` = ? AND com.id = ? "
+				+ "INNER JOIN blogj.article a "
+				+ "ON a.id = com.article_id and a.user_id = ?";
 	}
 
 	@Override
 	public String queryUpdate() throws PersistException {
-		return "UPDATE blogj.comment SET enable = ?, alias = ?, weight = ? WHERE id = ? AND user_id = ?";
+		return "UPDATE blogj.comment SET enable = ? WHERE id = ?";
 	}
 
 	@Override
@@ -163,6 +171,7 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
 				+ " ON com.id = con.object_id  AND com.enable = true AND con.`type` = ? AND lang = ? AND article_id = ? "
 				+ " LEFT JOIN blogj.users u ON u.id = com.user_id "
 				+ "ORDER BY com.ut DESC LIMIT ? OFFSET ? ;";
+		Logger.write(sql);
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, Comment.getType());
 			statement.setString(2, Load.lang.get());

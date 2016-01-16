@@ -97,7 +97,7 @@ public class CategoryModel extends blog.system.model.Model implements TreeIntf<C
 
 	@Override
 	public Object getNavigator() {
-		return null;
+		return super.navigator;
 	}
 
 	public CategoryModel listCategory() {

@@ -5,6 +5,7 @@
 package blog.system.model;
 
 import blog.system.loader.Load;
+import blog.system.tools.Logger;
 import blog.system.tools.Navigator;
 import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;

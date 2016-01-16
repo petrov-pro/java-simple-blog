@@ -24,6 +24,7 @@ public class Comment {
 
 	private static String type = "comment";
 
+	@Bind
 	private int id;
 
 	private int user_id;
@@ -60,6 +61,25 @@ public class Comment {
 			//Load.session.getSession().removeAttribute(Captcha.NAME);
 		}
 		if (!Load.auth.isAuth() && Load.request.getParameter("email").isEmpty()) {
+			errorMessage = Load.bundle.getString("comment_error_not_auth");
+			return false;
+		}
+		if (constraintViolations.isEmpty()) {
+			return true;
+		} else {
+			for (ConstraintViolation<Object> cv : constraintViolations) {
+				errorMessage = errorMessage + String.format(
+						Load.bundle.getString("main_error"),
+						cv.getPropertyPath(), cv.getInvalidValue(), Load.bundle.getString(cv.getMessage()));
+			}
+			return false;
+		}
+	}
+
+	public static boolean validate2(Object object, Validator validator) {
+		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+
+		if (!Load.auth.isAuth()) {
 			errorMessage = Load.bundle.getString("comment_error_not_auth");
 			return false;
 		}

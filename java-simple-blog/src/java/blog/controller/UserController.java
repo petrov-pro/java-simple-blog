@@ -17,55 +17,54 @@ import javax.servlet.ServletException;
  *
  * @author petroff
  */
-public class UserController extends ControllerImpl<UserController> {    
+public class UserController extends ControllerImpl<UserController> {
 
-    @Override
-    public void index() throws ServletException, IOException {
-        Http.redirect();
-    }
+	@Override
+	public void index() throws ServletException, IOException {
+		Http.redirect();
+	}
 
-    
+	public void registration() {
+		Load.view.name("/user/registration.jsp");
+	}
 
-    public void registration() {
-        Load.view.name("/user/registration.jsp");
-    }
+	@Get
+	public void registration(blog.system.environment.Get get) throws ServletException, IOException {
+		Load.view.name("/user/registration.jsp");
+	}
 
-    @Get
-    public void registration(blog.system.environment.Get get) throws ServletException, IOException {
-        Load.view.name("/user/registration.jsp");
-    }
+	@Post
+	public void registration(blog.system.environment.Post post) throws ServletException, IOException {
+		UserModel userModel = (UserModel) Load.model.name("User");
+		if (userModel.create()) {
+			Http.redirect("/mian/done");
+		} else {
+			super.request.setAttribute("Data", userModel);
+			Load.view.name("/user/registration.jsp");
+		}
+	}
 
-    @Post
-    public void registration(blog.system.environment.Post post) throws ServletException, IOException {
-        UserModel userModel = (UserModel) Load.model.name("User");
-        if (userModel.create()) {
-            Http.redirect("/mian/done");
-        } else {
-            super.request.setAttribute("Data", userModel);
-            Load.view.name("/user/registration.jsp");
-        }
-    }
+	@Get
+	public void privat(blog.system.environment.Get get) throws ServletException, IOException {
+		UserModel userModel = (UserModel) Load.model.name("User");
+		userModel.navigator.setViewProfile("/navigator/user.jsp", "");
+		int user_id = Load.auth.getUserId();
+		userModel.getUserInfo(user_id);
+		super.request.setAttribute("Data", userModel);
+		Load.view.name("/user/privat.jsp");
+	}
 
-    @Get
-    public void privat(blog.system.environment.Get get) throws ServletException, IOException {
-        UserModel userModel = (UserModel) Load.model.name("User");
-        userModel.navigator.setViewProfile("/navigator/user.jsp");
-        int user_id = Load.auth.getUserId();
-        userModel.getUserInfo(user_id);
-        super.request.setAttribute("Data", userModel);
-        Load.view.name("/user/privat.jsp");
-    }
+	@Post
+	public void privat(blog.system.environment.Post post) throws ServletException, IOException {
 
-    @Post
-    public void privat(blog.system.environment.Post post) throws ServletException, IOException {
-
-        UserModel userModel = (UserModel) Load.model.name("User");
-        if (userModel.update(Load.auth.getUserId())) {
-            Http.redirect("/user/done");
-        } else {
-            super.request.setAttribute("Data", userModel);
-            Load.view.name("/user/privat.jsp");
-        }
-    }
+		UserModel userModel = (UserModel) Load.model.name("User");
+		userModel.navigator.setViewProfile("/navigator/user.jsp", "");
+		if (userModel.update(Load.auth.getUserId())) {
+			Http.redirect("/user/done");
+		} else {
+			super.request.setAttribute("Data", userModel);
+			Load.view.name("/user/privat.jsp");
+		}
+	}
 
 }

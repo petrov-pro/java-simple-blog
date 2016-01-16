@@ -44,13 +44,19 @@ public class MainController extends ControllerImpl<MainController> {
 	}
 
 	public void done() {
-		Load.view.name("/main/done.jsp");
+		MainModel mainModel = null;
+		if (Load.auth.isAuth()) {
+			mainModel = (MainModel) Load.model.name("Main");
+			mainModel.navigator.setViewProfile("/navigator/user.jsp", "");
+		}
+		Load.view.name("/main/done.jsp", mainModel);
 	}
 
 	@Get
 	public void category(blog.system.environment.Get get, String user_id, String category_alias) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getCategory(user_id, category_alias);
+		mainModel.navigator.setViewMain("/navigator/main.jsp", "main_category");
 		Load.view.name("/main/category.jsp", mainModel);
 	}
 
@@ -58,23 +64,24 @@ public class MainController extends ControllerImpl<MainController> {
 	public void article(blog.system.environment.Get get, String user_id, String article_alias) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getCategoryArticle(user_id, article_alias);
+		mainModel.navigator.setViewMain("/navigator/main.jsp", "main_article");
 		Load.view.name("/main/article.jsp", mainModel);
 	}
 
 	@Get
-	public void tag(blog.system.environment.Get get,String tag) throws ServletException, IOException {
+	public void tag(blog.system.environment.Get get, String tag) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getArticleForTag(tag);
+		mainModel.navigator.setViewMain("/navigator/main.jsp", "main_tag");
 		Load.view.name("/main/tag.jsp", mainModel);
 	}
-	
+
 	@Get
-	public void user(blog.system.environment.Get get,String userName) throws ServletException, IOException {
+	public void user(blog.system.environment.Get get, String userName) throws ServletException, IOException {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getCategoryArticleForUser(userName);
+		mainModel.navigator.setViewMain("/navigator/main.jsp", "main_user");
 		Load.view.name("/main/user.jsp", mainModel);
 	}
-	
-	
 
 }
