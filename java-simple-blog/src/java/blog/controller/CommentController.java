@@ -41,7 +41,7 @@ public class CommentController extends ControllerImpl<CommentController> {
 
 	public void list() throws ServletException, IOException {
 		CommentModel commentModel = (CommentModel) Load.model.name("Comment");
-		boolean result = commentModel.findAll(Load.request.getParameter("article_id"), Load.request.getParameter("page"));
+		boolean result = commentModel.findAll(Load.request.getParameter("article_id"), Load.request.getParameter("page"), true);
 		commentModel.count(Load.request.getParameter("article_id"));
 		String listCommentsHtml = Load.view.partial("/comment/list.jsp", commentModel);
 		JSONObject resultJson = new JSONObject();
@@ -54,7 +54,7 @@ public class CommentController extends ControllerImpl<CommentController> {
 	public void get(blog.system.environment.Get get, String articleId, String page) throws ServletException, IOException {
 		CommentModel commentModel = (CommentModel) Load.model.name("Comment");
 
-		boolean result = commentModel.findAll(articleId, page);
+		boolean result = commentModel.findAll(articleId, page, false);
 		commentModel.count(articleId);
 		commentModel.setArticleId(articleId);
 		commentModel.navigator.setViewProfile("/navigator/user.jsp", "comment_get");

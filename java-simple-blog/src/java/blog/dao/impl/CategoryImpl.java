@@ -151,7 +151,7 @@ public class CategoryImpl extends AbstractDaoImpl<Category> {
 		
 		List<Category> categories = new ArrayList();
 		String sql = "SELECT cat.*, con.* FROM blogj.category cat INNER JOIN blogj.content con"
-				+ " ON cat.id = con.object_id AND con.`type` = ? AND lang = ? AND user_id = ?;";
+				+ " ON cat.id = con.object_id AND con.`type` = ? AND lang = ? AND cat.user_id = ?;";
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, Category.getTypeS());
 			statement.setString(2, Load.lang.get());

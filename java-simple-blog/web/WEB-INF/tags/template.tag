@@ -11,6 +11,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="Cache-Control" content="no-store" />
         <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
         <link rel="stylesheet" href="/static/css/jquery-ui.theme.min.css">
         <link rel="stylesheet" href="/static/css/jquery-ui.structure.min.css">

@@ -183,12 +183,12 @@ public class CommentModel extends blog.system.model.Model {
 		}
 	}
 
-	public boolean findAll(String articleIdS, String pageS) {
+	public boolean findAll(String articleIdS, String pageS, boolean enable) {
 		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
 		int article_id = Integer.parseInt(articleIdS);
 		int page = Integer.parseInt(pageS);
 		try {
-			comments = ci.findAllByParams(article_id, page);
+			comments = ci.findAllByParams(article_id, page, enable);
 		} catch (PersistException p) {
 			Logger.write(p.toString());
 		}

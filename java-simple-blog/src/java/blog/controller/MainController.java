@@ -24,6 +24,7 @@ public class MainController extends ControllerImpl<MainController> {
 	public void index() {
 		MainModel mainModel = (MainModel) Load.model.name("Main");
 		mainModel.getCategoryArticle();
+                mainModel.navigator.setViewMain("/navigator/main.jsp", "main");
 		Load.view.name("/main/main.jsp", mainModel);
 	}
 

@@ -20,151 +20,156 @@ import nl.captcha.Captcha;
  */
 public class Comment {
 
-	private static String errorMessage = "";
+    private static String errorMessage = "";
 
-	private static String type = "comment";
+    private static String type = "comment";
 
-	@Bind
-	private int id;
+    @Bind
+    private int id;
 
-	private int user_id;
+    private int user_id;
 
-	private boolean enable = true;
+    private boolean enable = true;
 
-	private String ut;
+    private String ut;
 
-	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-			+ "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-			+ "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-			message = "comment_email_wrong")
-	private String email;
+    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
+            + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
+            + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
+            message = "comment_email_wrong")
+    private String email;
 
-	@Bind
-	private int article_id;
+    @Bind
+    private int article_id;
 
-	@Bind
-	@NotEmpty
-	private String comment;
+    @Bind
+    @NotEmpty
+    private String comment;
 
-	public Comment() {
-		Comment.errorMessage = "";
-	}
+    public Comment() {
+        Comment.errorMessage = "";
+    }
 
-	public static boolean validate(Object object, Validator validator) {
-		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
-		Captcha captcha = (Captcha) Load.session.getSession().getAttribute(Captcha.NAME);
-		String answer = Load.request.getParameter("captcha");
-		if (!captcha.isCorrect(answer)) {
-			errorMessage = Load.bundle.getString("comment_error_captcha");
-			return false;
-		} else {
-			//Load.session.getSession().removeAttribute(Captcha.NAME);
-		}
-		if (!Load.auth.isAuth() && Load.request.getParameter("email").isEmpty()) {
-			errorMessage = Load.bundle.getString("comment_error_not_auth");
-			return false;
-		}
-		if (constraintViolations.isEmpty()) {
-			return true;
-		} else {
-			for (ConstraintViolation<Object> cv : constraintViolations) {
-				errorMessage = errorMessage + String.format(
-						Load.bundle.getString("main_error"),
-						cv.getPropertyPath(), cv.getInvalidValue(), Load.bundle.getString(cv.getMessage()));
-			}
-			return false;
-		}
-	}
+    public static boolean validate(Object object, Validator validator) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+        Captcha captcha = (Captcha) Load.session.getSession().getAttribute(Captcha.NAME);
+        String answer = Load.request.getParameter("captcha");
+        if (captcha == null) {
+            errorMessage = Load.bundle.getString("comment_null_captcha");
+            return false;
+        }
+        if (!captcha.isCorrect(answer)) {
+            errorMessage = Load.bundle.getString("comment_error_captcha");
+            return false;
+        } else {
+            //Load.session.getSession().removeAttribute(Captcha.NAME);
+        }
+        String email = Load.request.getParameter("email");
+        if (!Load.auth.isAuth() && (email == null || (email != null && email.isEmpty()))) {
+            errorMessage = Load.bundle.getString("comment_error_not_auth");
+            return false;
+        }
+        if (constraintViolations.isEmpty()) {
+            return true;
+        } else {
+            for (ConstraintViolation<Object> cv : constraintViolations) {
+                errorMessage = errorMessage + String.format(
+                        Load.bundle.getString("main_error"),
+                        cv.getPropertyPath(), cv.getInvalidValue(), Load.bundle.getString(cv.getMessage()));
+            }
+            return false;
+        }
+    }
 
-	public static boolean validate2(Object object, Validator validator) {
-		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+    public static boolean validate2(Object object, Validator validator) {
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
 
-		if (!Load.auth.isAuth()) {
-			errorMessage = Load.bundle.getString("comment_error_not_auth");
-			return false;
-		}
-		if (constraintViolations.isEmpty()) {
-			return true;
-		} else {
-			for (ConstraintViolation<Object> cv : constraintViolations) {
-				errorMessage = errorMessage + String.format(
-						Load.bundle.getString("main_error"),
-						cv.getPropertyPath(), cv.getInvalidValue(), Load.bundle.getString(cv.getMessage()));
-			}
-			return false;
-		}
-	}
+        if (!Load.auth.isAuth()) {
+            errorMessage = Load.bundle.getString("comment_error_not_auth");
+            return false;
+        }
+        if (constraintViolations.isEmpty()) {
+            return true;
+        } else {
+            for (ConstraintViolation<Object> cv : constraintViolations) {
+                errorMessage = errorMessage + String.format(
+                        Load.bundle.getString("main_error"),
+                        cv.getPropertyPath(), cv.getInvalidValue(), Load.bundle.getString(cv.getMessage()));
+            }
+            return false;
+        }
+    }
 
-	public static String getErrorMessage() {
-		return errorMessage;
-	}
+    public static String getErrorMessage() {
+        return errorMessage;
+    }
 
-	public static void setErrorMessage(String errorMessage) {
-		Comment.errorMessage = errorMessage;
-	}
+    public static void setErrorMessage(String errorMessage) {
+        Comment.errorMessage = errorMessage;
+    }
 
-	public static String getType() {
-		return type;
-	}
+    public static String getType() {
+        return type;
+    }
 
-	public static void setType(String type) {
-		Comment.type = type;
-	}
+    public static void setType(String type) {
+        Comment.type = type;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getUserId() {
-		return user_id;
-	}
+    public int getUserId() {
+        return user_id;
+    }
 
-	public void setUserId(int user_id) {
-		this.user_id = user_id;
-	}
+    public void setUserId(int user_id) {
+        this.user_id = user_id;
+    }
 
-	public boolean isEnable() {
-		return enable;
-	}
+    public boolean isEnable() {
+        return enable;
+    }
 
-	public void setEnable(boolean enable) {
-		this.enable = enable;
-	}
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
-	public String getUt() {
-		return ut;
-	}
+    public String getUt() {
+        return ut;
+    }
 
-	public void setUt(String ut) {
-		this.ut = ut;
-	}
+    public void setUt(String ut) {
+        this.ut = ut;
+    }
 
-	public int getArticleId() {
-		return article_id;
-	}
+    public int getArticleId() {
+        return article_id;
+    }
 
-	public void setArticleId(int article_id) {
-		this.article_id = article_id;
-	}
+    public void setArticleId(int article_id) {
+        this.article_id = article_id;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 }

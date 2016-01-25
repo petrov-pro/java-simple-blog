@@ -267,8 +267,8 @@ public class ArticleImpl extends AbstractDaoImpl<Article> {
 				+ "ON t.id = title.object_id AND title.`type` = 'article_t' and title.lang = ? "
 				+ "INNER JOIN blogj.content body "
 				+ "ON t.id = body.object_id AND body.`type` = 'article_b' and body.lang = ? "
-				+ "WHERE  user_id = ?  GROUP BY t.id;";
-		//Logger.write(sql);
+				+ "WHERE  t.user_id = ?  GROUP BY t.id;";
+		//////Logger.write(sql);
 		try (PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, Load.lang.get());
 			statement.setString(2, Load.lang.get());
