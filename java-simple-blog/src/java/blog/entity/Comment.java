@@ -28,7 +28,8 @@ public class Comment {
     private int id;
 
     private int user_id;
-
+	
+	@Bind
     private boolean enable = true;
 
     private String ut;

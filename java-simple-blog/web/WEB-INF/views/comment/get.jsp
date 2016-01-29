@@ -34,6 +34,9 @@
 		</script>
 	</jsp:attribute>
 
+	<jsp:attribute name="navigator_area">
+        <t:navigator navigator="${Data.getNavigator()}"/> 
+    </jsp:attribute>
 
     <jsp:attribute name="body_area">
 		<ul>

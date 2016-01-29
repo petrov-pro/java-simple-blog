@@ -56,7 +56,6 @@ public class CommentImpl extends AbstractDaoImpl<Comment> {
                 statement.setInt(3, c.getArticleId());
 
             }
-
         } catch (Exception e) {
             throw new PersistException(e);
         }

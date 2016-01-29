@@ -122,7 +122,7 @@ public class CommentModel extends blog.system.model.Model {
 
 	@Override
 	public Object getNavigator() {
-		return null;
+		return super.navigator;
 	}
 
 	public boolean create() {
@@ -152,11 +152,13 @@ public class CommentModel extends blog.system.model.Model {
 	}
 
 	public boolean update() {
-		CommentBind.bind(comment);
+		Comment comment_form = new Comment();
+		CommentBind.bind(comment_form);
 		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
 		try {
-			comment = ci.findByPk(comment.getId());
-		} catch (PersistException p) {
+			comment = ci.findByPk(comment_form.getId());
+			comment.setEnable(comment_form.isEnable());
+		} catch (Exception p) {
 			errorMessage = Load.bundle.getString("comment_cant_find_comment");
 			return false;
 		}
