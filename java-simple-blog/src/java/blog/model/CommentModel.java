@@ -24,44 +24,44 @@ import javax.validation.ValidatorFactory;
  * @author petroff
  */
 public class CommentModel extends blog.system.model.Model {
-
+	
 	private String errorMessage = "";
-
+	
 	private Comment comment;
-
+	
 	private String url;
-
+	
 	private List<Comment> comments;
-
+	
 	private int count;
-
+	
 	private int articleId;
-
+	
 	public CommentModel() {
 		comment = new Comment();
 	}
-
+	
 	public int getArticleId() {
 		return articleId;
 	}
-
+	
 	public void setArticleId(int articleId) {
 		this.articleId = articleId;
 	}
-
+	
 	public void setArticleId(String articleId) {
 		int t = Integer.parseInt(articleId);
 		this.articleId = t;
 	}
-
+	
 	public int getCount() {
 		return count;
 	}
-
+	
 	public void setCount(int count) {
 		this.count = count;
 	}
-
+	
 	@Override
 	public void init(Object[] params) {
 		super.init(params); //To change body of generated methods, choose Tools | Templates.       
@@ -71,62 +71,63 @@ public class CommentModel extends blog.system.model.Model {
 			new Exception404("Miss id element");
 		}
 	}
-
+	
 	@Override
 	public void init(HttpServletRequest r) {
 		super.init(r); //To change body of generated methods, choose Tools | Templates.
 		url = "/comment/create/";
 	}
-
+	
 	public String getUrl() {
 		return url;
 	}
-
+	
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
+	
 	public Comment getComment() {
 		return comment;
 	}
-
+	
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
-
+	
 	public List<Comment> getComments() {
 		return comments;
 	}
-
+	
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-
+	
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-
+	
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-
+	
 	@Override
 	public Object getData() {
 		return this;
 	}
-
+	
 	@Override
 	public String getView() {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
+	
 	@Override
 	public Object getNavigator() {
 		return super.navigator;
 	}
-
+	
 	public boolean create() {
 		CommentBind.bind(comment);
+		comment.setEnable(Load.config.isEnableComment);
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		if (Comment.validate(comment, validator)) {
@@ -150,7 +151,7 @@ public class CommentModel extends blog.system.model.Model {
 			return false;
 		}
 	}
-
+	
 	public boolean update() {
 		Comment comment_form = new Comment();
 		CommentBind.bind(comment_form);
@@ -165,7 +166,7 @@ public class CommentModel extends blog.system.model.Model {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
 		if (Comment.validate2(comment, validator)) {
-
+			
 			boolean result;
 			try {
 				result = ci.update(comment);
@@ -184,7 +185,7 @@ public class CommentModel extends blog.system.model.Model {
 			return false;
 		}
 	}
-
+	
 	public boolean findAll(String articleIdS, String pageS, boolean enable) {
 		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
 		int article_id = Integer.parseInt(articleIdS);
@@ -196,7 +197,7 @@ public class CommentModel extends blog.system.model.Model {
 		}
 		return true;
 	}
-
+	
 	public int count(String articleIdS) {
 		CommentImpl ci = (CommentImpl) DaoFactory.getDao("CommentImpl");
 		int article_id = Integer.parseInt(articleIdS);
@@ -210,5 +211,5 @@ public class CommentModel extends blog.system.model.Model {
 		count = (int) Math.round(count_t);
 		return count;
 	}
-
+	
 }

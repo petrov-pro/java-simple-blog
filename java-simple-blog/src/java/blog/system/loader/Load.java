@@ -27,6 +27,7 @@ public class Load {
     public static Auth auth;
     public static Session session;
     public static Lang lang;
+	
 
     public Lang getLang() {
         return lang;

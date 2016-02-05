@@ -69,6 +69,16 @@ public class Navigator<T> {
         link.setTitle(Load.bundle.getString("article_create"));
         profileLinks.put("article_create", link);
 		
+		link = new Link();
+        link.setLink("/content/list/");
+        link.setTitle(Load.bundle.getString("content_list"));
+        profileLinks.put("content_list", link);
+		
+		link = new Link();
+        link.setLink("/content/update/");
+        link.setTitle(Load.bundle.getString("content_update"));
+        profileLinks.put("content_update", link);
+		
 		Link lActivate = profileLinks.get(activate);
 		if(lActivate != null){
 			lActivate.setActivate(true);

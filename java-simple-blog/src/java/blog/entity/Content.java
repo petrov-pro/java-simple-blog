@@ -5,70 +5,93 @@
  */
 package blog.entity;
 
+import blog.system.annotation.Bind;
+import blog.system.loader.Load;
+import blog.validation.annotation.NotEmpty;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+
 /**
  *
  * @author petroff
  */
 public class Content {
 
-    private int id;
+	@Bind
+    @NotEmpty
+	private int id;
 
-    private String text;
+	private String text;
 
-    private String lang;
+	private String lang;
 
-    private int object_id;
+	private int object_id;
 
-    private int user_id;
+	private int user_id;
 
-    private String type;
+	private String type;
+	
+	private static String errorMessage = "";
 
-    public String getType() {
-        return type;
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getObject_id() {
+		return object_id;
+	}
+
+	public void setObject_id(int object_id) {
+		this.object_id = object_id;
+	}
+
+	public int getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	public static boolean validate(Object object, Validator validator) {
+		return true;
+	}
+	
+	 public static String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getObject_id() {
-        return object_id;
-    }
-
-    public void setObject_id(int object_id) {
-        this.object_id = object_id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getLang() {
-        return lang;
-    }
-
-    public void setLang(String lang) {
-        this.lang = lang;
+    public static void setErrorMessage(String errorMessage) {
+        Content.errorMessage = errorMessage;
     }
 
 }
