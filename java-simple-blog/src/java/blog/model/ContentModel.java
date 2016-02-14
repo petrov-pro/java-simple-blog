@@ -6,6 +6,7 @@ package blog.model;
 
 import blog.bind.ContentBind;
 import blog.dao.impl.ContentImpl;
+import blog.dao.impl.ContentImpl;
 import blog.entity.Content;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
@@ -24,104 +25,137 @@ import javax.validation.ValidatorFactory;
  */
 public class ContentModel extends Model {
 
-	private String errorMessage = "";
+    private String errorMessage = "";
 
-	private Content content;
-	private List<Content> contents;
+    private Content content;
+    private List<Content> contents;
+    private int count;
+    private String search;
 
-	public ContentModel() {
-		content = new Content();
-	}
+    public ContentModel() {
+        content = new Content();
+    }
 
-	public Content getContent() {
-		return content;
-	}
+    public int getCount() {
+        return count;
+    }
 
-	public void setContent(Content content) {
-		this.content = content;
-	}
+    public void setCount(int count) {
+        this.count = count;
+    }
 
-	public List<Content> getContents() {
-		return contents;
-	}
+    public String getSearch() {
+        return search;
+    }
 
-	public void setContents(List<Content> contents) {
-		this.contents = contents;
-	}
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
-	@Override
-	public String getView() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public Content getContent() {
+        return content;
+    }
 
-	@Override
-	public ContentModel getData() {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+    public void setContent(Content content) {
+        this.content = content;
+    }
 
-	@Override
-	public Navigator getNavigator() {
-		return this.navigator;
-	}
+    public List<Content> getContents() {
+        return contents;
+    }
 
-	public boolean update(String contentId) {
-		ContentBind.bind(content);
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-		if (Content.validate(content, validator)) {
-			ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
-			boolean result;
-			boolean resultTag = false;
-			try {
-				i.startTransaction();
-				result = i.update(content);
-			} catch (PersistException p) {
-				Logger.write(p.toString());
-				result = false;
-			}
-			if (!result) {
-				errorMessage = Load.bundle.getString("content_cant_update");
-				return false;
-			}
-			try {
-				i.endTransaction();
-			} catch (PersistException p) {
-				Logger.write(p.toString());
-				return false;
-			}
-			return true;
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
+    }
 
-		} else {
-			errorMessage = Content.getErrorMessage();
-			return false;
-		}
-	}
+    @Override
+    public String getView() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	public void findAll() {
-		ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
-		try {
-			contents = i.findAllForUser(Load.auth.getUserId());
-		} catch (PersistException p) {
-			Logger.write(p.toString());
-		}
-	}
+    @Override
+    public ContentModel getData() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	public String getErrorMessage() {
-		return errorMessage;
-	}
+    @Override
+    public Navigator getNavigator() {
+        return this.navigator;
+    }
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    public boolean update(String contentId) {
+        ContentBind.bind(content);
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        if (Content.validate(content, validator)) {
+            ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
+            boolean result;
+            boolean resultTag = false;
+            try {
+                int t = Integer.parseInt(contentId);
+                i.startTransaction();
+                result = i.updateText(t, content);
+            } catch (PersistException p) {
+                Logger.write(p.toString());
+                result = false;
+            }
+            if (!result) {
+                errorMessage = Load.bundle.getString("content_cant_update");
+                return false;
+            }
+            try {
+                i.endTransaction();
+            } catch (PersistException p) {
+                Logger.write(p.toString());
+                return false;
+            }
+            return true;
 
-	public void findByPk(Integer contentId) {
-		ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
-		try {
-			content = i.findByPk(contentId);
-		} catch (PersistException p) {
-			Logger.write(p.toString());
-		}
+        } else {
+            errorMessage = Content.getErrorMessage();
+            return false;
+        }
+    }
 
-	}
+    public void findAll(int page, String seacrh) {
+        ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
+        try {
+            contents = i.findAllForUser(Load.auth.getUserId(), page, seacrh);
+            count(seacrh);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void findByPk(Integer contentId) {
+        ContentImpl i = (ContentImpl) DaoFactory.getDao("ContentImpl");
+        try {
+            content = i.findByPk(contentId);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+
+    }
+
+    public int count(String search) {
+        ContentImpl ci = (ContentImpl) DaoFactory.getDao("ContentImpl");
+        try {
+            count = ci.count(Load.auth.getUserId(), search);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+        float count_t;
+        count_t = (float) count / Load.config.limit;
+        count = (int) Math.round(count_t);
+        return count;
+    }
 
 }

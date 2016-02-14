@@ -6,9 +6,7 @@
 package blog.bind;
 
 import blog.entity.Content;
-import blog.system.loader.Load;
 import blog.system.tools.BindParams;
-import java.util.Map;
 
 /**
  *

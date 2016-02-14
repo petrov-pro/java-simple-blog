@@ -20,37 +20,56 @@ import javax.servlet.ServletException;
  */
 public class ContentController extends ControllerImpl<ContentController> {
 
-	@Override
-	public void index() throws ServletException, IOException {
-		Http.redirect("/main/");
-	}
+    @Override
+    public void index() throws ServletException, IOException {
+        Http.redirect("/main/");
+    }
 
-	@Get
-	public void update(blog.system.environment.Get get, String content_id) throws ServletException, IOException {
-		ContentModel contentModel = (ContentModel) Load.model.name("Content");
-		contentModel.findByPk(Integer.parseInt(content_id));
-		contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_update");
-		Load.view.name("/content/save.jsp", contentModel);
-	}
+    @Get
+    public void update(blog.system.environment.Get get, String content_id) throws ServletException, IOException {
+        ContentModel contentModel = (ContentModel) Load.model.name("Content");
+        contentModel.findByPk(Integer.parseInt(content_id));
+        contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_update");
+        Load.view.name("/content/save.jsp", contentModel);
+    }
 
-	@Post
-	public void update(blog.system.environment.Post post, String content_id) throws ServletException, IOException {
-		ContentModel contentModel = (ContentModel) Load.model.name("Content");
-		contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_update");
-		if (contentModel.update(content_id)) {
-			Http.redirect("/main/done");
-		} else {
-			super.request.setAttribute("Data", contentModel);
-			Load.view.name("/content/save.jsp");
-		}
+    @Post
+    public void update(blog.system.environment.Post post, String content_id) throws ServletException, IOException {
+        ContentModel contentModel = (ContentModel) Load.model.name("Content");
+        contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_update");
+        if (contentModel.update(content_id)) {
+            Http.redirect("/main/done");
+        } else {
+            super.request.setAttribute("Data", contentModel);
+            Load.view.name("/content/save.jsp");
+        }
 
-	}
+    }
 
-	public void list() {
-		ContentModel contentModel = (ContentModel) Load.model.name("Content");
-		contentModel.findAll();
-		contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_list");
-		Load.view.name("/content/list.jsp", contentModel);
-	}
+    private void list(String pageS, String search) {
+        int page;
+        try {
+            page = Integer.parseInt(pageS);
+        } catch (NumberFormatException nfe) {
+            page = 0;
+        }
+        if (search == null || (search != null && search.equals("null"))) {
+            search = "";
+        }
+        ContentModel contentModel = (ContentModel) Load.model.name("Content");
+        contentModel.findAll(page, search);
+        contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_list");
+        Load.view.name("/content/list.jsp", contentModel);
+    }
 
+    @Get
+    public void list(blog.system.environment.Get get, String page, String search) {
+        list(page, search);
+    }
+
+    @Post
+    public void list(blog.system.environment.Post post) {
+        String search = Load.request.getParameter("search");
+        list("1", search);
+    }
 }

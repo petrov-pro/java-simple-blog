@@ -19,7 +19,6 @@ public class Navigator<T> {
     private String view;
     private T obj;
 
-
     private LinkedHashMap<String, Link> profileLinks;
 
     public Navigator() {
@@ -32,14 +31,13 @@ public class Navigator<T> {
 
     }
 
-	public HashMap<String, Link> getProfileLinks() {
-		return profileLinks;
-	}
+    public HashMap<String, Link> getProfileLinks() {
+        return profileLinks;
+    }
 
-	public void setProfileLinks(LinkedHashMap<String, Link> profile_links) {
-		this.profileLinks = profile_links;
-	}
-	
+    public void setProfileLinks(LinkedHashMap<String, Link> profile_links) {
+        this.profileLinks = profile_links;
+    }
 
     public String getView() {
         return Load.view.partial(view, this);
@@ -56,10 +54,9 @@ public class Navigator<T> {
         link.setLink("/category/create/");
         link.setTitle(Load.bundle.getString("category_create"));
         profileLinks.put("category_create", link);
-		
+
 		//articel
-		
-		link = new Link();
+        link = new Link();
         link.setLink("/article/list/");
         link.setTitle(Load.bundle.getString("article_list"));
         profileLinks.put("article_list", link);
@@ -68,28 +65,28 @@ public class Navigator<T> {
         link.setLink("/article/create/");
         link.setTitle(Load.bundle.getString("article_create"));
         profileLinks.put("article_create", link);
-		
-		link = new Link();
-        link.setLink("/content/list/");
+
+        link = new Link();
+        link.setLink("/content/list/1/null/");
         link.setTitle(Load.bundle.getString("content_list"));
         profileLinks.put("content_list", link);
-		
-		link = new Link();
+
+        link = new Link();
         link.setLink("/content/update/");
         link.setTitle(Load.bundle.getString("content_update"));
         profileLinks.put("content_update", link);
-		
-		Link lActivate = profileLinks.get(activate);
-		if(lActivate != null){
-			lActivate.setActivate(true);
-		}
+
+        Link lActivate = profileLinks.get(activate);
+        if (lActivate != null) {
+            lActivate.setActivate(true);
+        }
         this.view = view;
-		
+
     }
-	
-	public void setViewMain(String view, String activate) {
+
+    public void setViewMain(String view, String activate) {
         this.view = view;
-		
+
     }
 
     public void setView(String view) {

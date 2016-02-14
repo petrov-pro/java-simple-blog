@@ -63,7 +63,12 @@
             <url-pattern>/article/list/</url-pattern>
             <url-pattern>/article/del</url-pattern>
             <url-pattern>/article/list</url-pattern>
-			<url-pattern>/comment/get/*</url-pattern>
+            
+            <url-pattern>/content/save/</url-pattern>
+            <url-pattern>/content/list/</url-pattern>
+            <url-pattern>/content/save</url-pattern>
+            <url-pattern>/content/list</url-pattern>
+            <url-pattern>/comment/get/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>PUT</http-method>

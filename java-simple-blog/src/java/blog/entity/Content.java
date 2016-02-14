@@ -18,75 +18,76 @@ import javax.validation.Validator;
  */
 public class Content {
 
-	@Bind
+    @Bind
     @NotEmpty
-	private int id;
+    private int id;
 
-	private String text;
+    @Bind
+    private String text;
 
-	private String lang;
+    private String lang;
 
-	private int object_id;
+    private int object_id;
 
-	private int user_id;
+    private int user_id;
 
-	private String type;
-	
-	private static String errorMessage = "";
+    private String type;
 
-	public String getType() {
-		return type;
-	}
+    private static String errorMessage = "";
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public int getObject_id() {
-		return object_id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setObject_id(int object_id) {
-		this.object_id = object_id;
-	}
+    public int getObject_id() {
+        return object_id;
+    }
 
-	public int getUser_id() {
-		return user_id;
-	}
+    public void setObject_id(int object_id) {
+        this.object_id = object_id;
+    }
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
+    public int getUser_id() {
+        return user_id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public String getLang() {
-		return lang;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
+    public String getLang() {
+        return lang;
+    }
 
-	public static boolean validate(Object object, Validator validator) {
-		return true;
-	}
-	
-	 public static String getErrorMessage() {
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    public static boolean validate(Object object, Validator validator) {
+        return true;
+    }
+
+    public static String getErrorMessage() {
         return errorMessage;
     }
 
