@@ -169,13 +169,13 @@ public class ContentImpl extends AbstractDaoImpl<Content> {
         String sql = "SELECT count(id) count FROM blogj.content t WHERE "
                 + " t.lang = ? AND t.user_id = ? ";
         if (!search.isEmpty()) {
-            sql = sql + " AND text LIKE '%?%' ;";
+            sql = sql + " AND text LIKE ? ;";
         }
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, Load.lang.get());
             statement.setInt(2, userId);
             if (!search.isEmpty()) {
-                statement.setString(3, search);
+                statement.setString(3, "%" + search + "%");
             }
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

@@ -15,7 +15,7 @@ public class Config {
     public final String userGroup = "USERS";
     public final String userDecriptor = "default";
     public final String defaultLang = "en";
-    public final int limit = 20;
+    public final int limit = 2;
 	public final boolean isEnableComment = true;
 
     public String getDefaultLang() {

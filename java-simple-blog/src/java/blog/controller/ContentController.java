@@ -58,6 +58,11 @@ public class ContentController extends ControllerImpl<ContentController> {
         }
         ContentModel contentModel = (ContentModel) Load.model.name("Content");
         contentModel.findAll(page, search);
+        if (search.isEmpty()) {
+            contentModel.setSearch("null");
+        } else {
+            contentModel.setSearch(search);
+        }
         contentModel.navigator.setViewProfile("/navigator/user.jsp", "content_list");
         Load.view.name("/content/list.jsp", contentModel);
     }

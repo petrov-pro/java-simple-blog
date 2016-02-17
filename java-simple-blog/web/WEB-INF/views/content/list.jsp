@@ -87,7 +87,7 @@
         </table>
         <div>
             <c:forEach begin="1" end="${Data.count}" var="val">
-                <a href="/content/list/${val}"><c:out value="${val}"/></a>
+                <a href="/content/list/${val}/${Data.search}"><c:out value="${val}"/></a>
             </c:forEach>
 
         </div>

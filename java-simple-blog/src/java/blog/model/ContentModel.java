@@ -30,7 +30,7 @@ public class ContentModel extends Model {
     private Content content;
     private List<Content> contents;
     private int count;
-    private String search;
+    private String search = "null";
 
     public ContentModel() {
         content = new Content();
