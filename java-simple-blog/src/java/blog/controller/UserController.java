@@ -37,7 +37,7 @@ public class UserController extends ControllerImpl<UserController> {
 	public void registration(blog.system.environment.Post post) throws ServletException, IOException {
 		UserModel userModel = (UserModel) Load.model.name("User");
 		if (userModel.create()) {
-			Http.redirect("/mian/done");
+			Http.redirect("/main/done");
 		} else {
 			super.request.setAttribute("Data", userModel);
 			Load.view.name("/user/registration.jsp");
