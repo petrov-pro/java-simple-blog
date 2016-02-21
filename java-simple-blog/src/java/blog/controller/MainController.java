@@ -35,7 +35,7 @@ public class MainController extends ControllerImpl<MainController> {
         if (Arrays.asList(Load.config.langs).contains(lang)) {
             status = "ok";
             Load.request.getSession().setAttribute("lang", lang);
-            Load.response.setHeader("Content-Language", "es");
+            Load.response.setHeader("Content-Language", lang);
 
         } else {
             status = "error";
