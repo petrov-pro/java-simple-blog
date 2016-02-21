@@ -5,6 +5,7 @@
 package blog.model;
 
 import blog.dao.impl.UserImpl;
+import blog.entity.Category;
 import blog.entity.User;
 import blog.system.dao.DaoFactory;
 import blog.system.exception.PersistException;
@@ -12,6 +13,7 @@ import blog.system.loader.Load;
 import blog.system.model.Model;
 import blog.system.tools.BindParams;
 import blog.system.tools.Logger;
+import java.util.List;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -26,10 +28,41 @@ public class UserModel extends Model {
     private String errorMessage = "";
 
     private User user;
+    
+    private List<User> users;
+
+    private int count;
+
+    private String search = "null";
 
     public UserModel() {
         user = new User();
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
 
     public String getErrorMessage() {
         return errorMessage;
@@ -145,6 +178,29 @@ public class UserModel extends Model {
             return 0;
         }
 
+    }
+    
+     public void findAllCustom(int page, String seacrh) {
+        UserImpl i = (UserImpl) DaoFactory.getDao("UserImpl");
+        try {
+            users = i.findAllCustom(page, seacrh);
+            count(seacrh);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+    }
+
+    public int count(String search) {
+        UserImpl ci = (UserImpl) DaoFactory.getDao("UserImpl");
+        try {
+            count = ci.count(search);
+        } catch (PersistException p) {
+            Logger.write(p.toString());
+        }
+        float count_t;
+        count_t = (float) count / Load.config.limit;
+        count = (int) Math.round(count_t);
+        return count;
     }
 
 }

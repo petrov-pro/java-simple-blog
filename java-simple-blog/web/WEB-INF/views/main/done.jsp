@@ -9,7 +9,9 @@
 
 
     <jsp:attribute name="body_area">
-        <h1>Done</h1>
+        <div class="alert alert-success">
+            <strong>${Load.bundle.done}!</strong>
+        </div>
 
     </jsp:attribute>
 

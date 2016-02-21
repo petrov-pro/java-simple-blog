@@ -7,6 +7,15 @@
         <t:navigator navigator="${Data.getNavigator()}"/> 
     </jsp:attribute>
 
+    <jsp:attribute name="head_area">
+        <script src="/static/js/tinymce/tinymce.min.js"></script>
+        <script type="text/javascript">
+            tinymce.init({
+                selector: 'textarea'
+            });
+        </script>
+    </jsp:attribute>
+
 
     <jsp:attribute name="body_area">
         <c:if test="${!Data.errorMessage.isEmpty()}">
@@ -30,7 +39,7 @@
 
                 <div class="controls">
                     <input type="hidden" name="id" value="${Data.content.id}"/>
-                    <input type="submit" value="${Load.bundle.content_update2}"/>
+                    <input type="submit" class="btn btn-default" value="${Load.bundle.content_update2}"/>
                 </div>
             </div>
         </form>

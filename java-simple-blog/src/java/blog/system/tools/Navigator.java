@@ -55,7 +55,7 @@ public class Navigator<T> {
         link.setTitle(Load.bundle.getString("category_create"));
         profileLinks.put("category_create", link);
 
-		//articel
+        //articel
         link = new Link();
         link.setLink("/article/list/");
         link.setTitle(Load.bundle.getString("article_list"));
@@ -71,6 +71,13 @@ public class Navigator<T> {
         link.setTitle(Load.bundle.getString("content_list"));
         profileLinks.put("content_list", link);
 
+        if (Load.auth.isAdmin()) {
+            link = new Link();
+            link.setLink("/admin/listuser/");
+            link.setTitle(Load.bundle.getString("admin"));
+            profileLinks.put("admin", link);
+        }
+
         Link lActivate = profileLinks.get(activate);
         if (lActivate != null) {
             lActivate.setActivate(true);
@@ -80,6 +87,26 @@ public class Navigator<T> {
     }
 
     public void setViewMain(String view, String activate) {
+        Link link = new Link();
+        link.setLink("/main/categories/1/null/");
+        link.setTitle(Load.bundle.getString("categories"));
+        profileLinks.put("categories", link);
+
+        link = new Link();
+        link.setLink("/main/articles/1/null/");
+        link.setTitle(Load.bundle.getString("articles"));
+        profileLinks.put("articles", link);
+
+        link = new Link();
+        link.setLink("/main/users/1/null/");
+        link.setTitle(Load.bundle.getString("users"));
+        profileLinks.put("users", link);
+
+        Link lActivate = profileLinks.get(activate);
+        if (lActivate != null) {
+            lActivate.setActivate(true);
+        }
+
         this.view = view;
 
     }

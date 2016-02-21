@@ -10,58 +10,15 @@
 
 
     <jsp:attribute name="body_area">
-        <div id="category">
-            <ul>
-                <c:forEach items="${Data.categoryModel.categories}" var="category">
-                    <li>
-                        <a href="/main/category/${category.userId}/${category.alias}/">
-                            ${category.translate.get(Load.lang.get())}
-                        </a>
-                    </li>
+        <div class="rightLinks">
+            <div class="linkTitle">${Load.bundle.categories}:</div>
+            <c:forEach items="${Data.categoryModel.categories}" var="category">
+                <p class="links"><a href="/main/category/${category.userId}/${category.alias}/">
+                        ${category.translate.get(Load.lang.get())}
+                    </a></p>
                 </c:forEach> 
-            </ul>
         </div>
-        <div id="article">
-			<ul>
-				<c:forEach items="${Data.articleModel.articles}" var="article">
-					<li>
-						<a href="/main/article/${article.user_id}/${article.alias}/">
-							${article.translate_title.get(Load.lang.get())}
-						</a>
-						<div>
-							<c:set var="body" value="${article.translate_body.get(Load.lang.get())}"/>
-							<c:choose>
-								<c:when test="${body.length() > 50}">
-									${body.substring(0,10)}...
-								</c:when>
-								<c:otherwise>
-									${body}
-								</c:otherwise>
-							</c:choose>
-
-						</div>
-						<span>
-							<a href="/main/user/${article.userName}/">
-							${article.userName}
-							</a>
-						</span>
-						<span>${article.ut}</span>
-						<c:if test="${article.tags.size() > 0}">
-							<div id="tags">
-								<span>Tags:</span>
-								<span>
-									<c:forEach items="${article.tags}" var="tag">
-										<a href="/main/tag/${tag.name}/">
-											${tag.name}
-										</a>
-									</c:forEach>
-								</span>
-							</div>
-						</c:if>
-					</li>
-				</c:forEach> 
-			</ul>
-        </div>
+        <t:articles articles="${Data.articleModel.articles}"/>
     </jsp:attribute>
 
 </t:template>

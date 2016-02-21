@@ -122,4 +122,61 @@ public class MainModel extends Model {
 
     }
 
+    public void getCategories(String pageS, String search) {
+        int page;
+        try {
+            page = Integer.parseInt(pageS);
+        } catch (NumberFormatException nfe) {
+            page = 1;
+        }
+        if (search == null || (search != null && search.equals("null"))) {
+            search = "";
+        }
+        categoryModel = (CategoryModel) Load.model.name("Category");
+        categoryModel.findAllCustom(page, search);
+        if (search.isEmpty()) {
+            categoryModel.setSearch("null");
+        } else {
+            categoryModel.setSearch(search);
+        }
+    }
+
+    public void getArticles(String pageS, String search) {
+        int page;
+        try {
+            page = Integer.parseInt(pageS);
+        } catch (NumberFormatException nfe) {
+            page = 1;
+        }
+        if (search == null || (search != null && search.equals("null"))) {
+            search = "";
+        }
+        articleModel = (ArticleModel) Load.model.name("Article");
+        articleModel.findAllCustom(page, search);
+        if (search.isEmpty()) {
+            articleModel.setSearch("null");
+        } else {
+            articleModel.setSearch(search);
+        }
+    }
+
+    public void getUsers(String pageS, String search) {
+        int page;
+        try {
+            page = Integer.parseInt(pageS);
+        } catch (NumberFormatException nfe) {
+            page = 1;
+        }
+        if (search == null || (search != null && search.equals("null"))) {
+            search = "";
+        }
+        userModel = (UserModel) Load.model.name("User");
+        userModel.findAllCustom(page, search);
+        if (search.isEmpty()) {
+            userModel.setSearch("null");
+        } else {
+            userModel.setSearch(search);
+        }
+    }
+
 }

@@ -12,12 +12,28 @@
         <c:if test="${!Data.errorMessage.isEmpty()}">
             <p>${Data.errorMessage}<p>
             </c:if>
-        <form method="POST" action="/user/registration/">
-            ${Load.bundle.user_registration_user_name}: <input type="input" name="user_name" value="${Data.user.user_name}"/><br/>
-            ${Load.bundle.user_registration_email}: <input type="input" name="email" value="${Data.user.email}"/><br/>
-            ${Load.bundle.user_registration_password}: <input type="password" name="password" value="${Data.user.password}"/><br/>
-            ${Load.bundle.user_registration_confirm}: <input type="password" name="confirm" value="${Data.user.confirm}"/><br/>
-            <input type="submit" value="${Load.bundle.user_registration_submit}"/><br/>
+
+        <form role="form" method="POST" action="/user/registration/">
+            <div class="form-group">
+                <label for="user_name">${Load.bundle.user_registration_user_name}:</label>
+                <input type="input" class="form-control" id="user_name" name="user_name" value="${Data.user.user_name}"/>
+            </div>
+
+            <div class="form-group">
+                <label for="email">${Load.bundle.user_registration_email}:</label>
+                <input type="email" class="form-control" id="email" name="email" value="${Data.user.email}"/>
+            </div>
+            <div class="form-group">
+                <label for="pwd">${Load.bundle.user_registration_password}:</label>
+                <input type="password" name="password" class="form-control" id="pwd" value=""/>
+            </div>
+
+            <div class="form-group">
+                <label for="pwd">${Load.bundle.user_registration_confirm}:</label>
+                <input type="password" name="confirm" class="form-control" id="pwd" value=""/>
+            </div>
+
+            <button type="submit" class="btn btn-default">${Load.bundle.submit}</button>
         </form>
 
     </jsp:attribute>

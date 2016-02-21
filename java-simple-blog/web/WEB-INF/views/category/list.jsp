@@ -7,6 +7,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.category_del').click(function (obj) {
+                    if (!confirm("${Load.bundle.del}")) {
+                        return false;
+                    }
                     var category_id = $(this).attr('category_id');
                     $.post("/category/del/" + category_id, function (data) {
                         if (data.message === true) {
@@ -77,8 +80,8 @@
                         <c:out value="${category.translate.get(Load.lang.get())}"/>
                     </td>
                     <td>
-                        <a href="/category/update/${category.id}">${Load.bundle.category_edit}</a>
-                        <span class="category_del" category_id="${category.id}">${Load.bundle.category_del}</span>
+                        <a class="btn btn-info" href="/category/update/${category.id}">${Load.bundle.category_edit}</a>
+                        <span class="category_del btn btn-warning" category_id="${category.id}">${Load.bundle.category_del}</span>
                     </td>
                 </tr>
 

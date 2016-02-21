@@ -61,7 +61,7 @@ public class AdminModel extends Model {
 
     @Override
     public Object getNavigator() {
-        return null;
+        return super.navigator;
     }
 
     public AdminModel listUser() {

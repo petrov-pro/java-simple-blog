@@ -26,6 +26,7 @@ public class AdminController extends ControllerImpl<AdminController> {
     public void listuser() {
         AdminModel am = (AdminModel) Load.model.name("Admin");
         am.listUser();
+        am.navigator.setViewProfile("/navigator/admin.jsp", "admin");
         Load.view.name("/admin/listuser.jsp", am);
     }
 

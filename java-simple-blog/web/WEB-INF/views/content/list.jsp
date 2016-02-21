@@ -20,14 +20,14 @@
         <c:if test="${!Data.errorMessage.isEmpty()}">
             <p>${Data.errorMessage}<p>
             </c:if>
-            <form action="/content/list/" method="post">
-            <label class="control-label" for="content_name">${Load.bundle.content_lang}</label>
+        <form action="/content/list/" method="post">
+            <label class="control-label" for="content_name">${Load.bundle.search}</label>
             <div class="controls">
                 <input type="text" name="search" value=""/>
             </div>
 
             <div class="controls">
-                <input type="submit" value="${Load.bundle.content_search}"/>
+                <input class="btn btn-default" type="submit" value="${Load.bundle.content_search}"/>
             </div>
         </form>
         <br/>
@@ -79,16 +79,18 @@
                     </td>
 
                     <td>
-                        <a href="/content/update/${content.id}">${Load.bundle.content_edit}</a>
+                        <a class="btn btn-info" href="/content/update/${content.id}">${Load.bundle.content_edit}</a>
                     </td>
                 </tr>
 
             </c:forEach>
         </table>
-        <div>
-            <c:forEach begin="1" end="${Data.count}" var="val">
-                <a href="/content/list/${val}/${Data.search}"><c:out value="${val}"/></a>
-            </c:forEach>
+        <div align="center" style="text-align: center;">
+            <ul class="pagination">
+                <c:forEach begin="1" end="${Data.count}" var="val">
+                    <li><a href="/content/list/${val}/${Data.search}"><c:out value="${val}"/></a></li>
+                    </c:forEach>
+            </ul>
 
         </div>
 

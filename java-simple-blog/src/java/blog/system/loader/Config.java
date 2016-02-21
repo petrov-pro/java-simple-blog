@@ -15,8 +15,9 @@ public class Config {
     public final String userGroup = "USERS";
     public final String userDecriptor = "default";
     public final String defaultLang = "en";
-    public final int limit = 20;
-	public final boolean isEnableComment = true;
+    public final int limit = 2;
+    public final boolean isEnableComment = true;
+    public final int separete = 400;
 
     public String getDefaultLang() {
         return defaultLang;
@@ -30,6 +31,10 @@ public class Config {
 
     public void setLangs(String[] langs) {
         this.langs = langs;
+    }
+
+    public int getSeparete() {
+        return separete;
     }
 
 }

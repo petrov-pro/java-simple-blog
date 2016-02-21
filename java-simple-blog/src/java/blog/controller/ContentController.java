@@ -51,7 +51,7 @@ public class ContentController extends ControllerImpl<ContentController> {
         try {
             page = Integer.parseInt(pageS);
         } catch (NumberFormatException nfe) {
-            page = 0;
+            page = 1;
         }
         if (search == null || (search != null && search.equals("null"))) {
             search = "";

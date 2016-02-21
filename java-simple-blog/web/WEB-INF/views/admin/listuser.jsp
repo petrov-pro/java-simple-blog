@@ -7,6 +7,9 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.user_del').click(function (obj) {
+                    if (!confirm("${Load.bundle.del}")) {
+                        return false;
+                    }
                     var user_id = $(this).attr('user_id');
                     $.post("/admin/userdel/" + user_id, function (data) {
                         if (data.message === true) {
@@ -31,16 +34,28 @@
         <table class="table">
             <tr>
                 <td>
-                    ${Load.bundle.admin_user_list_id}
+                    <strong>
+                        ${Load.bundle.admin_user_list_id}  
+                    </strong>
+
                 </td>
                 <td>
-                    ${Load.bundle.admin_user_name}
+                    <strong>
+                        ${Load.bundle.admin_user_name}  
+                    </strong>
+
                 </td>
                 <td>
-                    ${Load.bundle.admin_user_email}
+                    <strong>
+                        ${Load.bundle.admin_user_email} 
+                    </strong>
+
                 </td>
                 <td>
-                    ${Load.bundle.admin_operations}
+                    <strong>
+                        ${Load.bundle.admin_operations}
+                    </strong>
+
                 </td>
             </tr>
             <c:forEach items="${Data.users}" var="user">
@@ -55,7 +70,7 @@
                         <c:out value="${user.email}"/>
                     </td>
                     <td>
-                        <span user_id="${user.id}"  class="user_del">Del</span>
+                        <span user_id="${user.id}" style="cursor:pointer;" class="user_del">Del</span>
                     </td>
                 </tr>
 

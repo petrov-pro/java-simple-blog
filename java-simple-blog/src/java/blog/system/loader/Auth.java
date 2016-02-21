@@ -27,6 +27,22 @@ public class Auth {
         }
     }
 
+    public boolean isAdmin() {
+        HttpSession session = Load.request.getSession();
+        if (session == null) {
+            return false;
+        } else {
+            Integer g_id = (Integer) session.getAttribute("user_id");
+            if (g_id == null) {
+                return false;
+            } else if (g_id == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public String getUserName() {
         return (String) Load.request.getSession().getAttribute("user_name");
     }

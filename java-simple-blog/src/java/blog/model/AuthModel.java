@@ -55,7 +55,7 @@ public class AuthModel extends Model {
                     UserImpl u = (UserImpl) DaoFactory.getDao("UserImpl");
                     User user = u.findByUserName(user_name);
                     session.setAttribute("user_id", user.getId());
-
+                    session.setAttribute("g_id", user.getGroupId());
                     session.setAttribute("user_name", user.getUser_name());
                 }
             }

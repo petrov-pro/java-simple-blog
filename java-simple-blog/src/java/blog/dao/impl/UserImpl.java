@@ -109,7 +109,14 @@ public class UserImpl extends AbstractDaoImpl<User> {
 
     @Override
     public String queryDelete() throws PersistException {
-        return "DELETE FROM blogj.users WHERE id = ?;";
+        return "DELETE a,c,con,g,u FROM blogj.users u "
+                + " INNER JOIN blogj.article a ON u.id = a.user_id"
+                + " INNER JOIN blogj.category c ON u.id = c.user_id"
+                + " INNER JOIN blogj.tag t ON u.id = t.user_id"
+                + " INNER JOIN blogj.content con ON u.id = con.user_id"
+                + " INNER JOIN blogj.groups g ON u.user_name = g.user_name"
+                + " INNER JOIN blogj.article_tag_link at ON at.article_id = a.id"
+                + " WHERE u.id = ?;";
     }
 
     public String queryFindByName() throws PersistException {
@@ -118,7 +125,9 @@ public class UserImpl extends AbstractDaoImpl<User> {
 
     public User findByUserName(String username) {
         User user = new User();
-        String sql = "SELECT * FROM blogj.users WHERE user_name = ?";
+        String sql = "SELECT u.*, g.id as g_id FROM blogj.users u"
+                + " INNER JOIN blogj.groups g ON g.user_name = u.user_name"
+                + " WHERE u.user_name = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, username);
 
@@ -127,6 +136,7 @@ public class UserImpl extends AbstractDaoImpl<User> {
             user.setId(rs.getInt("id"));
             user.setUser_name(rs.getString("user_name"));
             user.setEmail(rs.getString("email"));
+            user.setGroupId(rs.getInt("g_id"));
             rs.close();
         } catch (Exception e) {
             Logger.write("error findByUserName" + e.toString());
@@ -173,6 +183,64 @@ public class UserImpl extends AbstractDaoImpl<User> {
             return false;
         }
 
+    }
+
+    public List<User> findAllCustom(int page, String search) throws PersistException {
+        List<User> users = new ArrayList();
+        String sql;
+        sql = "SELECT t.* FROM blogj.users t  ";
+
+        if (!search.isEmpty()) {
+            sql = sql + " WHERE user_name LIKE ?  ";
+        }
+
+        sql = sql + " ORDER BY t.id DESC LIMIT ? OFFSET ?;";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            if (!search.isEmpty()) {
+                statement.setString(1, "%" + search + "%");
+                statement.setInt(2, Load.config.limit);
+                statement.setInt(3, (page - 1) * Load.config.limit);
+            } else {
+                statement.setInt(1, Load.config.limit);
+                statement.setInt(2, (page - 1) * Load.config.limit);
+            }
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setUser_name(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                users.add(user);
+            }
+            rs.close();
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+        return users;
+    }
+
+    public int count(String search) throws PersistException {
+        int count = 0;
+        String sql = "SELECT count(t.id) as count FROM blogj.users t  ";
+        if (!search.isEmpty()) {
+            sql = sql + " WHERE user_name LIKE ? ;";
+        }
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            if (!search.isEmpty()) {
+                statement.setString(1, "%" + search + "%");
+            }
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            rs.close();
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+        return count;
     }
 
 }

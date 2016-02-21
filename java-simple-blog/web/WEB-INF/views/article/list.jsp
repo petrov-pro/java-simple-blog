@@ -7,6 +7,11 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('.article_del').click(function (obj) {
+
+                    if (!confirm("${Load.bundle.del}")) {
+                        return false;
+                    }
+
                     var article_id = $(this).attr('article_id');
                     $.post("/article/del/" + article_id, function (data) {
                         if (data.message === true) {
@@ -77,9 +82,10 @@
                         <c:out value="${article.translate_title.get(Load.lang.get())}"/>
                     </td>
                     <td>
-						<a href="/comment/get/${article.id}/1">${Load.bundle.comment_view}</a>
-                        <a href="/article/update/${article.id}">${Load.bundle.article_edit}</a>
-                        <span class="article_del" article_id="${article.id}">${Load.bundle.article_del}</span>
+                        <a class="btn btn-info" href="/comment/get/${article.id}/1">${Load.bundle.comment_view}</a>
+                        <a class="btn btn-info" href="/article/update/${article.id}">${Load.bundle.article_edit}</a>
+                        <span  class="article_del btn btn-warning"  article_id="${article.id}">
+                            ${Load.bundle.article_del}</span>
                     </td>
                 </tr>
 

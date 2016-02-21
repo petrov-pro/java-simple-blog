@@ -45,8 +45,18 @@ public class User {
 
     public String confirm;
 
+    private int groupId;
+
     public User() {
         errorMessage = "";
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
     public static String getErrorMessage() {

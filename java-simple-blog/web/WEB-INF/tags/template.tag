@@ -10,6 +10,7 @@
 
 <html>
     <head>
+        <title>${title}</title>
         <meta charset="UTF-8">
         <meta http-equiv="Cache-Control" content="no-store" />
         <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
@@ -22,18 +23,38 @@
         <link href="/static/b/css/bootstrap.min.css" rel="stylesheet">
         <script src="/static/b/js/bootstrap.min.js"></script>
 
-        <title>${title}</title>
+        <link rel="stylesheet" type="text/css" href="/static/a/asubtlegreen.css" />
         <jsp:invoke fragment="head_area"/>
     </head>
     <body>
 
-        <div class="row">
-            <div class="col-md-2"><a:auth auth="${Load}"/></div>
-            <div class="col-md-1"><a:i18n /></div>
-        </div>
 
-        <jsp:invoke fragment="navigator_area"/>
-        <jsp:invoke fragment="body_area"/>
+        <div id="page"> 
+            <div id="header">
+                <div class="title">${Load.bundle.application_title}</div>
+                <div class="subText">A design by Petroff</div>
+                <div id="auth-box">
+                <a:auth auth="${Load}"/>
+                <a:i18n />
+                </div>
+            </div>
+            <div id="bar">
+                <jsp:invoke fragment="navigator_area"/>
+            </div>
+            <div id="pageContent">
+
+                <div class="articleTitle">${title}</div>
+
+
+                <div class="articleContent">
+                    <jsp:invoke fragment="body_area"/> 
+                </div>
+
+
+            </div>
+
+        </div>
+        <div id="footer"><a href="http://www.aszx.net">web development</a> by <a href="http://www.bryantsmith.com">bryant smith</a></div>
 
     </body>
 

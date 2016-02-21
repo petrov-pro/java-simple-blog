@@ -18,7 +18,8 @@
 
                 <c:forEach items="${Load.config.langs}" var="item"> 
                     <div class="controls">
-                        ${item}    <input type="text" name="category_name[${item}]" value="${Data.category.translate.get(item)}" />
+                        <label class="control-label" for="category_name">${item}</label>
+                        <input class="form-control" type="text" name="category_name[${item}]" value="${Data.category.translate.get(item)}" />
                     </div>
                 </c:forEach>
             </div>
@@ -37,14 +38,15 @@
                 </div>
                 <label class="control-label" for="category_name">${Load.bundle.category_alias}</label>
                 <div class="controls">
-                    <input type="text" name="alias" value="${Data.category.alias}" />
+                    <input class="form-control" type="text" name="alias" value="${Data.category.alias}" />
                 </div>
                 <label class="control-label" for="category_name">${Load.bundle.category_weight}</label>
                 <div class="controls">
-                    <input type="text" name="weight" value="${Data.category.weight}" />
+                    <input class="form-control" type="text" name="weight" value="${Data.category.weight}" />
                 </div>
+                <br/>
                 <div class="controls">
-                    <input type="submit" value="${Load.bundle.user_registration_submit}"/>
+                    <input class="btn btn-default" type="submit" value="${Load.bundle.user_registration_submit}"/>
                 </div>
             </div>
         </form>

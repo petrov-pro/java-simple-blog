@@ -60,7 +60,7 @@ public class UserController extends ControllerImpl<UserController> {
 		UserModel userModel = (UserModel) Load.model.name("User");
 		userModel.navigator.setViewProfile("/navigator/user.jsp", "");
 		if (userModel.update(Load.auth.getUserId())) {
-			Http.redirect("/user/done");
+			Http.redirect("/main/done");
 		} else {
 			super.request.setAttribute("Data", userModel);
 			Load.view.name("/user/privat.jsp");
