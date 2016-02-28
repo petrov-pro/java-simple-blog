@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%@tag description="Navigator" pageEncoding="UTF-8"%>
 
 <%@tag import="blog.system.tools.Navigator" %>

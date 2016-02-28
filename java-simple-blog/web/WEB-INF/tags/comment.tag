@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <%@tag description="Comment" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@attribute name="user_name" required="true" type="String"%>

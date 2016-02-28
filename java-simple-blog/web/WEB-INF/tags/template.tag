@@ -34,8 +34,8 @@
                 <div class="title">${Load.bundle.application_title}</div>
                 <div class="subText">A design by Petroff</div>
                 <div id="auth-box">
-                <a:auth auth="${Load}"/>
-                <a:i18n />
+                    <a:auth auth="${Load}"/>
+                    <a:i18n />
                 </div>
             </div>
             <div id="bar">

@@ -34,9 +34,3 @@
     </jsp:attribute>
 
 </t:template>
-
-
-
-
-
-

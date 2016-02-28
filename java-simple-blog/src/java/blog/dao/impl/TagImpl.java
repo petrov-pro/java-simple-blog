@@ -214,22 +214,22 @@ public class TagImpl extends AbstractDaoImpl<Tag> {
                 + "                INNER JOIN blogj.content body  "
                 + "                ON t.id = body.object_id AND body.`type` = 'article_b'  "
                 + "AND body.lang = title.lang  "
-                + "                WHERE t.enable = true "
+                + "                WHERE t.enable = true AND title.lang = ? "
                 + "                 GROUP BY t.id)  "
                 + "AS a ON a.id = al.article_id "
                 + "INNER JOIN ( "
                 + "SELECT cat.*, con.text as title_category, con.lang FROM blogj.category cat   "
                 + "                INNER JOIN blogj.content con   "
                 + "                ON cat.id = con.object_id AND con.`type` = 'category'  "
-                + " WHERE enable=true  "
+                + " WHERE enable=true "
                 + ") c  "
                 + "ON c.id = a.category_id AND c.lang = a.lang "
                 + "INNER JOIN blogj.users u  "
                 + "ON t.user_id = u.id   "
-                + "WHERE t.`name` = ? AND a.lang = ?;";
+                + "WHERE t.`name` = ? ;";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, tag_name);
-            statement.setString(2, Load.lang.get());
+            statement.setString(2, tag_name);
+            statement.setString(1, Load.lang.get());
             ResultSet rs = statement.executeQuery();
             if (rs != null) {
                 while (rs.next()) {

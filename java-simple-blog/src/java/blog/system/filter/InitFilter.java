@@ -27,18 +27,28 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author petroff
  */
-@WebFilter(servletNames = "Router")
+@WebFilter("/*")
 public class InitFilter implements Filter {
 
     private ServletContext context;
+    private String encoding;
 
     public void init(FilterConfig fConfig) throws ServletException {
         this.context = fConfig.getServletContext();
+        encoding = fConfig.getInitParameter("requestEncoding");
+        if (encoding == null) {
+            encoding = "UTF-8";
+        }
     }
 
     public void doFilter(ServletRequest requestS, ServletResponse responseS, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) requestS;
         HttpServletResponse response = (HttpServletResponse) responseS;
+        if (null == request.getCharacterEncoding()) {
+            request.setCharacterEncoding(encoding);
+        }
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         Connection dbConnection = DbManager.getConnection(request.getServletContext().getInitParameter("DbConnectorName"));
         DaoFactory.setConnection(dbConnection);
         ErrorPage errorPage = new ErrorPage(request, response);

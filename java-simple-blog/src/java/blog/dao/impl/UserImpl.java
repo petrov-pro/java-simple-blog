@@ -109,13 +109,7 @@ public class UserImpl extends AbstractDaoImpl<User> {
 
     @Override
     public String queryDelete() throws PersistException {
-        return "DELETE a,c,con,g,u FROM blogj.users u "
-                + " INNER JOIN blogj.article a ON u.id = a.user_id"
-                + " INNER JOIN blogj.category c ON u.id = c.user_id"
-                + " INNER JOIN blogj.tag t ON u.id = t.user_id"
-                + " INNER JOIN blogj.content con ON u.id = con.user_id"
-                + " INNER JOIN blogj.groups g ON u.user_name = g.user_name"
-                + " INNER JOIN blogj.article_tag_link at ON at.article_id = a.id"
+        return "DELETE  FROM blogj.users u "
                 + " WHERE u.id = ?;";
     }
 
