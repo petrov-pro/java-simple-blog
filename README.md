@@ -2,7 +2,7 @@
 it is simple web platform for ability to create blog. Used java, mvc, ioc, dao and simple custom framework
 
 
-Install
+INSTALL
 
 
 1 GlassFish 4
